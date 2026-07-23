@@ -1,0 +1,52 @@
+# CI: typecheck, unit tests, admin build, docs build.
+# Adapted from gambaLabs/frontend (lint + unit-test path) without review gate.
+# Playwright e2e is omitted here (heavy browser install); run locally via `make test-e2e`.
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Typecheck, test, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            website/package-lock.json
+
+      - name: Install app dependencies
+        run: npm ci
+
+      - name: Install docs dependencies
+        run: npm ci --prefix website
+
+      - name: Typecheck
+        run: make typecheck
+
+      - name: Lint
+        run: npx oxlint .
+
+      - name: Unit tests
+        run: make test
+
+      - name: Build admin
+        run: make build
+
+      - name: Build docs
+        run: make docs-build

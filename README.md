@@ -38,6 +38,12 @@ OTP demo (user with 2FA): `sam@acp.local` / `Operator1!` → code `123456`
 - `mock/openapi.yaml` — OpenAPI for the mock API (Docusaurus API Reference)
 - `references/` — optional local clones of reference apps (gitignored; do not commit)
 
+## CI/CD
+
+GitHub Actions runs typecheck, unit tests, and builds on PRs; pushes to `main` deploy the admin `dist/` to **Cloudflare Workers**.
+
+See [`docs/ci-cd.md`](docs/ci-cd.md) for secrets (`CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`) and what was adapted from the reference frontend pipeline.
+
 ## Comparison
 
 See [`docs/comparison-xip-vs-macro.md`](docs/comparison-xip-vs-macro.md).

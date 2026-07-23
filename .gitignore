@@ -29,6 +29,7 @@ coverage/
 playwright-report/
 test-results/
 .vite/
+.wrangler/
 *.tsbuildinfo
 .env
 .env.*
