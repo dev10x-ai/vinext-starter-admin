@@ -14,7 +14,6 @@ export function AppHeader() {
     <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-[var(--color-divider)] bg-[var(--color-surface)] px-4">
       <TenantSwitcher />
       <GlobalSearch />
-      <div className="flex-1 md:hidden" />
 
       <button
         type="button"

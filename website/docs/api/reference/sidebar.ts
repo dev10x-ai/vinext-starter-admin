@@ -354,6 +354,22 @@ const sidebar: SidebarsConfig = {
         },
       ],
     },
+    {
+      type: "category",
+      label: "Search",
+      link: {
+        type: "doc",
+        id: "api/reference/search",
+      },
+      items: [
+        {
+          type: "doc",
+          id: "api/reference/global-search",
+          label: "Hybrid search (users, tenants, settings)",
+          className: "api-method get",
+        },
+      ],
+    },
   ],
 };
 

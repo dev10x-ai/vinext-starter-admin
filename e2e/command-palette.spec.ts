@@ -11,8 +11,20 @@ async function signIn(page: import('@playwright/test').Page) {
 test.describe('command palette', () => {
   test('Ctrl/Meta+K opens search and navigates to a result URL', async ({ page }) => {
     await signIn(page)
+    await expect(page.getByLabel('Search')).toBeVisible()
 
-    await page.keyboard.press('ControlOrMeta+K')
+    // Dispatch on document — Chromium may swallow real Ctrl+K for the omnibox.
+    await page.evaluate(() => {
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'k',
+          metaKey: true,
+          ctrlKey: true,
+          bubbles: true,
+          cancelable: true,
+        }),
+      )
+    })
     await expect(page.getByRole('dialog', { name: /search console/i })).toBeVisible()
     await expect(page.getByLabel('Search query')).toBeFocused()
 
