@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["title","body"],"properties":{"title":{"type":"string"},"body":{"type":"string"},"read":{"type":"boolean"},"createdAt":{"type":"string","format":"date-time"}},"title":"NotificationWrite"}}}}}

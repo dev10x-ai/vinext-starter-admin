@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"read":{"type":"boolean"},"title":{"type":"string"},"body":{"type":"string"}},"title":"NotificationPatch"},"example":{"read":true}}}}}

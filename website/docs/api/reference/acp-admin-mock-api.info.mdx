@@ -1,0 +1,64 @@
+---
+id: acp-admin-mock-api
+title: "ACP Admin Mock API"
+description: "OpenAPI for the local **json-server** mock (`mock/server.mjs` + `mock/db.json`)."
+sidebar_label: Introduction
+sidebar_position: 0
+hide_title: true
+custom_edit_url: null
+---
+
+import ApiLogo from "@theme/ApiLogo";
+import Heading from "@theme/Heading";
+import SchemaTabs from "@theme/SchemaTabs";
+import TabItem from "@theme/TabItem";
+import Export from "@theme/ApiExplorer/Export";
+
+<span
+  className={"theme-doc-version-badge badge badge--secondary"}
+  children={"Version: 0.1.0"}
+>
+</span>
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"ACP Admin Mock API"}
+>
+</Heading>
+
+
+
+OpenAPI for the local **json-server** mock (`mock/server.mjs` + `mock/db.json`).
+
+**Base URL:** `http://localhost:4001`
+
+Start the mock with `make mock` or `make dev`, then use **Try It** in the docs
+(or the curl examples below).
+
+### Demo credentials
+
+| Email | Password | Notes |
+|-------|----------|-------|
+| `admin@acp.local` | `Admin123!` | Owner, no 2FA |
+| `sam@acp.local` | `Operator1!` | Operator, 2FA → OTP `123456` |
+| `jordan@acp.local` | `Viewer123!` | Viewer |
+
+Demo OTP for passwordless login / 2FA: **`123456`**.
+
+Auth tokens are returned for the admin UI but are **not enforced** by the mock
+on collection routes (json-server CRUD is open).
+
+
+<div
+  style={{"display":"flex","flexDirection":"column","marginBottom":"var(--ifm-paragraph-margin-bottom)"}}
+>
+  <h3
+    style={{"marginBottom":"0.25rem"}}
+  >
+    Contact
+  </h3><span>
+    ACP Admin: 
+  </span>
+</div>
+      

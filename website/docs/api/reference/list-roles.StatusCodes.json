@@ -1,0 +1,1 @@
+{"responses":{"200":{"description":"Role list","content":{"application/json":{"schema":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"},"key":{"type":"string"},"description":{"type":"string"},"permissions":{"type":"array","items":{"type":"string"}}},"title":"Role"}}}}}}}

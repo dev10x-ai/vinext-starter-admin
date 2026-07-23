@@ -1,0 +1,70 @@
+---
+id: reorder-menu
+title: "Bulk reorder / reparent menu items"
+description: "Applies `parentId` + `order` patches for the hierarchical menu editor."
+sidebar_label: "Bulk reorder / reparent menu items"
+hide_title: true
+hide_table_of_contents: true
+api: eJzNVs1uGzcQfpXp5GBnu7Ys2clhT5WTFDWQxIZ/igJeAUstx9LaXHJDcu0Isq59gD5in6QYcteW/9q0QIHosuJwhjPzze8SvZg5zM7xE+kWJymahqzwldEHEjO0ZKwkGy5TlORKWzV8ixmOm0ZV5KBohCXtD2QBP0IR+AtohC/n5ODCWPBzgnlFVthyXpVCQU26BZKVN3Y71yekJdA12QVUnmrwc+GhnAs9IwmbftGwjFqEZy5apeBCCe9JkwRviV5v5xpTtPSlJef3jVxgtgzHypLEzNuWUiyN9qQ9Xwm2uww+Di4du7JEV86pFvzPLxrCDM30kkrfvRsfOkc2zzFIjWWYfEWORSL5XlZYKxaYYl3pg3g1TJ8wPa9AYooBwWe0yDVp522lZ7hKsQf/6WWKulVKTBVFEFb90/eclfY0I4ur8EuRvoq6UVGfJufHWh7TnZBr61rYBWb4mZyH/UqpSs+g1ZIsHFNjrHcgtIQua8BVU+ZwmOK1UC2tgXUeHcLhLq77gMPRHQLZcJX2XHsvc41Wk958S64x2kX7Rzs7/HmYs2eNFJ5kzMDSKEVluPn3CdIH+cW4flP0lJiSeiGufv5NMa3KaOH/lBkpkmbO9WemxigSGhlzX3l+JvQPznbsYrH3HPwH+lqoSkIjFsoI+R9gfwHempwTM3oGh9XDCusZJ/eWf7DW2E8dvTd+76nx7GHsUNp4uDCt/l4dWKX4das0kk76cj5fohJ6hhmWrVWYojOtLak7w5aDrd/g6PDkFObeN9lgoEwp1Nw4n+3t7AwHXC+DvqzzPNcAW7/Axrvo/NbpoqEMHvu/0XNK2FjmsVJytiXHSuaY5fgmxzS/S9RAGgVSUJRjtrtK77nf/hP33mqy2sg1riYp1uTnhntFY1yAO9QTPvCEcSB7TTYixMhk+CwAT4bfRxMGmSmvYHx0AJtFLa4onAsYQDxJui5eB2MYjeP7AfUhttln2uFdga41uztaV6M7qwmXvb4wIVu6JBi/O4KxrCsNnzqjuOuSddHene3h9s4TLw4b0mx+P6WD05AkbO9WhCZJopebBX8GkbhdX7ow7QNNTrdZoOBJnOsk2ReO4Oz4Y5YkUDwLZ8GMJ15YH9QGBTeVn8M6jMau4Zgyo4bWESTJqV3AgU8SqHSQl6Z0ud7snAgZ3U8ymJIyN9GyV69ewXuqDZSWJGlfCeWYfgsfalEpuIUj4dyNsRJu4bPx5OA217db8dd/1/7yLRSCUf9JlM12cLKAWyhCJIaj3R/4dHijyaagDYx+HkMUcqJ+JHIYFi9jh1GmO6VB5s/f/4DD0yMohqPdvTdvi+6RS2OleKz614puyPa644n5cx1852c43E3nqiLnQJlZpWHAujJIkl5NkgTcxq2fgzdXpB0IS2DJt5bXrz5tAgJwdgDT1geOJOEWSfrC2JJkksB0cRfoXBu9NnrBmpaR3lzLOXh3fPYeKgemId3td9xnRRn6rBb1g4wPPZLLvBZ67X6/VVd3q8gALMWairM/1t2jeljed/PvbLvtZoKnr37QKME+p7FfLbvOxpMhLOl9b5ukyPXGN8vlVDg6s2q1YvKXlniLO5/wWmaruAecc1OZkwgt5nyJV8SL3nqDv9/ink463tSixLgsqfF/y7venXnmYIrTbm2vjWQZK27YE3GDGXLjC/EJczLQ4jBrw7zE+Cb//gLQzVqs
+sidebar_class_name: "post api-method"
+info_path: api/reference/acp-admin-mock-api
+custom_edit_url: null
+show_extensions: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Bulk reorder / reparent menu items"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/menu/reorder"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Applies `parentId` + `order` patches for the hierarchical menu editor.
+Send every item that changed (typically the full flattened tree).
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./reorder-menu.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./reorder-menu.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

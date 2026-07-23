@@ -1,0 +1,1 @@
+{"responses":{"200":{"description":"Permission list","content":{"application/json":{"schema":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"key":{"type":"string"},"label":{"type":"string"},"group":{"type":"string"}},"title":"Permission"}}}}}}}

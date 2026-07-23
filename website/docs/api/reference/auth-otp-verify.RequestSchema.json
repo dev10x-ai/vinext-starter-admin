@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["email","code"],"properties":{"email":{"type":"string","format":"email"},"code":{"type":"string","example":"123456"}},"title":"OtpVerifyRequest"},"example":{"email":"admin@acp.local","code":"123456"}}}}}

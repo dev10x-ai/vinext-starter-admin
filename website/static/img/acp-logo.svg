@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" fill="none" role="img" aria-label="ACP">
+  <rect width="40" height="40" y="4" rx="10" fill="#1B4F8A"/>
+  <path d="M12 32V16h6.2c3.6 0 5.9 2.1 5.9 5.2 0 2.1-1.1 3.8-2.9 4.6L26 32h-5.2l-4.1-5.8H16.5V32H12zm4.5-9.2h1.5c1.5 0 2.4-.8 2.4-2s-.9-2-2.4-2h-1.5v4z" fill="#F4F7FB"/>
+  <path d="M28.5 32l4.8-16h5.4l4.8 16h-5l-.8-3h-3.4l-.8 3h-5zm6.2-6.6h2.2l-1.1-4.1-1.1 4.1z" fill="#F4F7FB"/>
+  <text x="52" y="33" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="700" fill="#1B4F8A" letter-spacing="1">ACP</text>
+  <text x="108" y="33" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="500" fill="#5A6B7D" letter-spacing="0.5">Admin</text>
+</svg>

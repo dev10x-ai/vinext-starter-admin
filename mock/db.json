@@ -1,0 +1,432 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Alex Admin",
+      "email": "admin@acp.local",
+      "password": "Admin123!",
+      "role": "owner",
+      "tenantId": "1",
+      "status": "active",
+      "twoFactorEnabled": false,
+      "createdAt": "2026-01-10T10:00:00Z"
+    },
+    {
+      "id": "2",
+      "name": "Sam Operator",
+      "email": "sam@acp.local",
+      "password": "Operator1!",
+      "role": "operator",
+      "tenantId": "1",
+      "status": "active",
+      "twoFactorEnabled": true,
+      "createdAt": "2026-02-01T12:00:00Z"
+    },
+    {
+      "id": "3",
+      "name": "Jordan Viewer",
+      "email": "jordan@acp.local",
+      "password": "Viewer123!",
+      "role": "viewer",
+      "tenantId": "2",
+      "status": "inactive",
+      "twoFactorEnabled": false,
+      "createdAt": "2026-03-15T09:30:00Z"
+    }
+  ],
+  "tenants": [
+    {
+      "id": "1",
+      "name": "ACP Demo",
+      "slug": "acp-demo",
+      "plan": "enterprise",
+      "status": "active",
+      "usersCount": 12,
+      "createdAt": "2025-11-01T08:00:00Z"
+    },
+    {
+      "id": "2",
+      "name": "Xip Staging",
+      "slug": "xip-staging",
+      "plan": "growth",
+      "status": "active",
+      "usersCount": 5,
+      "createdAt": "2026-01-20T11:00:00Z"
+    },
+    {
+      "id": "3",
+      "name": "Macro Labs",
+      "slug": "macro-labs",
+      "plan": "starter",
+      "status": "suspended",
+      "usersCount": 2,
+      "createdAt": "2026-04-02T14:00:00Z"
+    }
+  ],
+  "roles": [
+    {
+      "id": "1",
+      "name": "Owner",
+      "key": "owner",
+      "description": "Full platform access",
+      "permissions": [
+        "users.*",
+        "roles.*",
+        "tenants.*",
+        "settings.*",
+        "menu.*"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Operator",
+      "key": "operator",
+      "description": "Manage users and day-to-day ops",
+      "permissions": [
+        "users.read",
+        "users.write",
+        "tenants.read",
+        "menu.read"
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Viewer",
+      "key": "viewer",
+      "description": "Read-only access",
+      "permissions": [
+        "users.read",
+        "tenants.read",
+        "menu.read"
+      ]
+    }
+  ],
+  "permissions": [
+    {
+      "id": "1",
+      "key": "users.read",
+      "label": "View users",
+      "group": "Users"
+    },
+    {
+      "id": "2",
+      "key": "users.write",
+      "label": "Manage users",
+      "group": "Users"
+    },
+    {
+      "id": "3",
+      "key": "users.*",
+      "label": "All user actions",
+      "group": "Users"
+    },
+    {
+      "id": "4",
+      "key": "roles.*",
+      "label": "Manage roles",
+      "group": "Access"
+    },
+    {
+      "id": "5",
+      "key": "tenants.read",
+      "label": "View tenants",
+      "group": "Tenants"
+    },
+    {
+      "id": "6",
+      "key": "tenants.*",
+      "label": "Manage tenants",
+      "group": "Tenants"
+    },
+    {
+      "id": "7",
+      "key": "settings.*",
+      "label": "Platform settings",
+      "group": "Settings"
+    },
+    {
+      "id": "8",
+      "key": "menu.*",
+      "label": "Edit menu tree",
+      "group": "Access"
+    },
+    {
+      "id": "9",
+      "key": "menu.read",
+      "label": "View menu",
+      "group": "Access"
+    }
+  ],
+  "menu": [
+    {
+      "id": "1",
+      "label": "Dashboard",
+      "path": "/app",
+      "icon": "LayoutDashboard",
+      "parentId": null,
+      "order": 1,
+      "enabled": true
+    },
+    {
+      "id": "2",
+      "label": "Access",
+      "path": null,
+      "icon": "Shield",
+      "parentId": null,
+      "order": 2,
+      "enabled": true
+    },
+    {
+      "id": "3",
+      "label": "Users",
+      "path": "/app/access/users",
+      "icon": "Users",
+      "parentId": "2",
+      "order": 1,
+      "enabled": true
+    },
+    {
+      "id": "4",
+      "label": "Roles & Permissions",
+      "path": "/app/access/roles",
+      "icon": "KeyRound",
+      "parentId": "2",
+      "order": 2,
+      "enabled": true
+    },
+    {
+      "id": "5",
+      "label": "Menu",
+      "path": "/app/access/menu",
+      "icon": "ListTree",
+      "parentId": "2",
+      "order": 3,
+      "enabled": true
+    },
+    {
+      "id": "6",
+      "label": "Tenants",
+      "path": "/app/access/tenants",
+      "icon": "Building2",
+      "parentId": "2",
+      "order": 4,
+      "enabled": true
+    },
+    {
+      "id": "8",
+      "label": "Directory",
+      "path": null,
+      "icon": "FolderTree",
+      "parentId": "2",
+      "order": 5,
+      "enabled": true
+    },
+    {
+      "id": "9",
+      "label": "Invitations",
+      "path": "/app/access/invitations",
+      "icon": "Mail",
+      "parentId": "8",
+      "order": 1,
+      "enabled": true
+    },
+    {
+      "id": "10",
+      "label": "Audit log",
+      "path": "/app/access/audit",
+      "icon": "ScrollText",
+      "parentId": "8",
+      "order": 2,
+      "enabled": false
+    },
+    {
+      "id": "11",
+      "label": "Insights",
+      "path": null,
+      "icon": "BarChart3",
+      "parentId": null,
+      "order": 3,
+      "enabled": true
+    },
+    {
+      "id": "12",
+      "label": "Reports",
+      "path": null,
+      "icon": "FileBarChart",
+      "parentId": "11",
+      "order": 1,
+      "enabled": true
+    },
+    {
+      "id": "13",
+      "label": "Usage",
+      "path": "/app/insights/usage",
+      "icon": "Activity",
+      "parentId": "12",
+      "order": 1,
+      "enabled": true
+    },
+    {
+      "id": "14",
+      "label": "Billing",
+      "path": "/app/insights/billing",
+      "icon": "Receipt",
+      "parentId": "12",
+      "order": 2,
+      "enabled": true
+    },
+    {
+      "id": "15",
+      "label": "Alerts",
+      "path": "/app/insights/alerts",
+      "icon": "Bell",
+      "parentId": "11",
+      "order": 2,
+      "enabled": true
+    },
+    {
+      "id": "7",
+      "label": "Platform Settings",
+      "path": null,
+      "icon": "Settings",
+      "parentId": null,
+      "order": 4,
+      "enabled": true
+    },
+    {
+      "id": "16",
+      "label": "General",
+      "path": "/app/settings",
+      "icon": "SlidersHorizontal",
+      "parentId": "7",
+      "order": 1,
+      "enabled": true
+    },
+    {
+      "id": "17",
+      "label": "Integrations",
+      "path": "/app/settings/integrations",
+      "icon": "Plug",
+      "parentId": "7",
+      "order": 2,
+      "enabled": true
+    }
+  ],
+  "notifications": [
+    {
+      "id": "1",
+      "title": "Welcome to ACP Admin",
+      "body": "Your mocked workspace is ready. Explore users, tenants, and themes.",
+      "read": true,
+      "createdAt": "2026-07-23T10:00:00Z"
+    },
+    {
+      "id": "2",
+      "title": "New tenant created",
+      "body": "Macro Labs was added to the platform.",
+      "read": true,
+      "createdAt": "2026-07-22T16:20:00Z"
+    },
+    {
+      "id": "3",
+      "title": "Role updated",
+      "body": "Operator permissions were refreshed.",
+      "read": true,
+      "createdAt": "2026-07-21T09:10:00Z"
+    }
+  ],
+  "settings": [
+    {
+      "id": "ai",
+      "category": "ai",
+      "provider": "openai",
+      "apiKey": "sk-mock-****",
+      "model": "gpt-4.1-mini",
+      "enabled": true
+    },
+    {
+      "id": "email",
+      "category": "email",
+      "provider": "resend",
+      "from": "noreply@acp.local",
+      "apiKey": "re_mock_****",
+      "enabled": true
+    },
+    {
+      "id": "thirdparty",
+      "category": "thirdparty",
+      "stripeKey": "pk_test_mock",
+      "slackWebhook": "https://hooks.slack.com/mock",
+      "enabled": false
+    },
+    {
+      "id": "logs",
+      "category": "logs",
+      "retentionDays": 30,
+      "level": "info",
+      "exportEnabled": true
+    }
+  ],
+  "dashboardStats": [
+    {
+      "id": "1",
+      "label": "Active users",
+      "value": 1284,
+      "delta": 8.2,
+      "series": [
+        40,
+        55,
+        48,
+        70,
+        66,
+        90,
+        110
+      ]
+    },
+    {
+      "id": "2",
+      "label": "Tenants",
+      "value": 36,
+      "delta": 2.1,
+      "series": [
+        10,
+        12,
+        14,
+        18,
+        22,
+        30,
+        36
+      ]
+    },
+    {
+      "id": "3",
+      "label": "API calls (24h)",
+      "value": 84210,
+      "delta": -3.4,
+      "series": [
+        50,
+        62,
+        58,
+        80,
+        72,
+        68,
+        74
+      ]
+    },
+    {
+      "id": "4",
+      "label": "Error rate",
+      "value": 0.42,
+      "delta": -12,
+      "series": [
+        2.1,
+        1.8,
+        1.2,
+        0.9,
+        0.7,
+        0.5,
+        0.42
+      ]
+    }
+  ]
+}

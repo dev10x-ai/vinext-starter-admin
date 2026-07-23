@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","additionalProperties":true,"properties":{"name":{"type":"string"},"status":{"type":"string"},"role":{"type":"string"},"twoFactorEnabled":{"type":"boolean"}},"title":"UserPatch"}}}}}

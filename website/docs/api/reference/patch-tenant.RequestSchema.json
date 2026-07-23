@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","additionalProperties":true,"properties":{"name":{"type":"string"},"plan":{"type":"string"},"status":{"type":"string"},"usersCount":{"type":"integer"}},"title":"TenantPatch"}}}}}

@@ -1,0 +1,1 @@
+{"responses":{"200":{"description":"Widget","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string"},"label":{"type":"string"},"value":{"type":"number"},"delta":{"type":"number"},"series":{"type":"array","items":{"type":"number"}}},"title":"DashboardStat"}}}}}}

@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["name","key"],"properties":{"name":{"type":"string"},"key":{"type":"string"},"description":{"type":"string"},"permissions":{"type":"array","items":{"type":"string"}}},"title":"RoleWrite"}}}}}

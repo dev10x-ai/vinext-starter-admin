@@ -1,0 +1,56 @@
+---
+sidebar_position: 1
+title: API Server
+---
+
+# API Server
+
+The mock API is a **json-server** instance with custom auth routes.
+
+- Entry: `mock/server.mjs`
+- Data: `mock/db.json`
+- OpenAPI: `mock/openapi.yaml` (source of truth for [API Reference](/api/reference/acp-admin-mock-api))
+- Default port: `4001`
+- Start: `make mock` or `npm run mock`
+
+## Collections
+
+| Resource | Path | Notes |
+|----------|------|-------|
+| Users | `/users` | CRUD |
+| Tenants | `/tenants` | CRUD |
+| Roles | `/roles` | CRUD |
+| Permissions | `/permissions` | Read |
+| Menu | `/menu` | Hierarchical items (`parentId` + `order`) |
+| Menu reorder | `POST /menu/reorder` | Bulk `{ items: [{ id, parentId, order }] }` |
+| Notifications | `/notifications` | Patch `read` |
+| Settings | `/settings/:id` | `ai`, `email`, `thirdparty`, `logs` |
+| Dashboard stats | `/dashboardStats` | Widgets |
+| Hybrid search | `GET /search?q=` | Users, tenants, settings → `{ results: [{ type, id, title, subtitle?, url }] }` |
+
+## Auth routes (custom)
+
+| Method | Path | Body | Response |
+|--------|------|------|----------|
+| POST | `/auth/login` | `{ email, password }` | `{ requiresOtp, user, token }` |
+| POST | `/auth/otp/request` | `{ email }` | starts passwordless OTP login; returns `demoOtp` in mock |
+| POST | `/auth/otp` | `{ email, code }` | `{ user, token }` — verifies OTP for login **or** 2FA challenge; demo code `123456` |
+| POST | `/auth/signup` | `{ name, organizationName, email, password }` | creates tenant + owner |
+| POST | `/auth/forgot-password` | `{ email }` | message + demo OTP |
+| POST | `/auth/change-password` | `{ email, currentPassword, newPassword }` | success message |
+
+Configure the admin client with `VITE_API_URL` (defaults to `http://localhost:4001`).
+
+## Tryable docs
+
+1. Start the mock: `make mock` (or `make dev`)
+2. Open **[API Reference](/api/reference/acp-admin-mock-api)** — use **Send API Request** / Try It against `http://localhost:4001`
+3. Or copy curl from [REST examples](./rest-examples)
+
+### Regenerate after changing the OpenAPI file
+
+```bash
+make docs-gen-api   # regenerates website/docs/api/reference from mock/openapi.yaml
+```
+
+To swap in a real backend Swagger later: replace `mock/openapi.yaml` (or point `specPath` in `website/docusaurus.config.ts`) and run `make docs-gen-api` again.

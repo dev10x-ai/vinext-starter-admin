@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["name","slug","plan","status"],"properties":{"name":{"type":"string"},"slug":{"type":"string"},"plan":{"type":"string"},"status":{"type":"string"},"usersCount":{"type":"integer"},"createdAt":{"type":"string","format":"date-time"}},"title":"TenantWrite"}}}}}

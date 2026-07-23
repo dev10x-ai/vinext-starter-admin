@@ -1,0 +1,1470 @@
+openapi: 3.0.3
+info:
+  title: ACP Admin Mock API
+  version: 0.1.0
+  description: |
+    OpenAPI for the local **json-server** mock (`mock/server.mjs` + `mock/db.json`).
+
+    **Base URL:** `http://localhost:4001`
+
+    Start the mock with `make mock` or `make dev`, then use **Try It** in the docs
+    (or the curl examples below).
+
+    ### Demo credentials
+
+    | Email | Password | Notes |
+    |-------|----------|-------|
+    | `admin@acp.local` | `Admin123!` | Owner, no 2FA |
+    | `sam@acp.local` | `Operator1!` | Operator, 2FA → OTP `123456` |
+    | `jordan@acp.local` | `Viewer123!` | Viewer |
+
+    Demo OTP for passwordless login / 2FA: **`123456`**.
+
+    Auth tokens are returned for the admin UI but are **not enforced** by the mock
+    on collection routes (json-server CRUD is open).
+  contact:
+    name: ACP Admin
+servers:
+  - url: http://localhost:4001
+    description: Local mock API (`make mock` / `make dev`)
+tags:
+  - name: Auth
+    description: Custom auth routes (not standard json-server CRUD)
+  - name: Users
+    description: User collection (`/users`)
+  - name: Tenants
+    description: Tenant collection (`/tenants`)
+  - name: Roles
+    description: Roles collection (`/roles`)
+  - name: Permissions
+    description: Permissions collection (`/permissions`)
+  - name: Menu
+    description: Menu tree (`/menu`)
+  - name: Notifications
+    description: In-app notifications (`/notifications`)
+  - name: Settings
+    description: Platform settings (`/settings/:id`)
+  - name: Dashboard
+    description: Dashboard widgets (`/dashboardStats`)
+  - name: Search
+    description: Hybrid global search (`/search`) across users, tenants, and settings
+paths:
+  /search:
+    get:
+      tags: [Search]
+      operationId: globalSearch
+      summary: Hybrid search (users, tenants, settings)
+      description: |
+        Returns ranked results for the admin command palette.
+        Empty `q` returns suggested / recent-style entries (settings + sample users/tenants).
+      parameters:
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+            example: alex
+          description: Search query. Omit or leave empty for suggestions.
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+              examples:
+                queryAlex:
+                  summary: Match users by name
+                  value:
+                    query: alex
+                    results:
+                      - type: user
+                        id: '1'
+                        title: Alex Admin
+                        subtitle: admin@acp.local
+                        url: /app/access/users/1/edit
+                suggestions:
+                  summary: Empty query suggestions
+                  value:
+                    query: ''
+                    results:
+                      - type: setting
+                        id: ai
+                        title: AI settings
+                        subtitle: Providers, models, and API keys
+                        url: /app/settings/ai
+      x-codeSamples:
+        - lang: curl
+          source: |
+            curl -s 'http://localhost:4001/search?q=alex' | jq
+            curl -s 'http://localhost:4001/search' | jq
+  /auth/login:
+    post:
+      tags: [Auth]
+      operationId: authLogin
+      summary: Login with email and password
+      description: |
+        Returns a session token when 2FA is disabled.
+        If `twoFactorEnabled` is true, `requiresOtp` is true and `token` is null —
+        complete login with `POST /auth/otp` and code `123456`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            examples:
+              admin:
+                summary: Demo owner (no 2FA)
+                value:
+                  email: admin@acp.local
+                  password: Admin123!
+              operator2fa:
+                summary: Demo operator (2FA)
+                value:
+                  email: sam@acp.local
+                  password: Operator1!
+      responses:
+        '200':
+          description: Login accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+              examples:
+                no2fa:
+                  summary: Without 2FA
+                  value:
+                    requiresOtp: false
+                    user:
+                      id: '1'
+                      name: Alex Admin
+                      email: admin@acp.local
+                      role: owner
+                      tenantId: '1'
+                      status: active
+                      twoFactorEnabled: false
+                      createdAt: '2026-01-10T10:00:00Z'
+                    token: mock-token-1
+                with2fa:
+                  summary: Requires OTP
+                  value:
+                    requiresOtp: true
+                    user:
+                      id: '2'
+                      name: Sam Operator
+                      email: sam@acp.local
+                      role: operator
+                      tenantId: '1'
+                      status: active
+                      twoFactorEnabled: true
+                      createdAt: '2026-02-01T12:00:00Z'
+                    token: null
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+              example:
+                message: Invalid email or password
+      x-codeSamples:
+        - lang: curl
+          label: curl
+          source: |
+            curl -s http://localhost:4001/auth/login \
+              -H 'Content-Type: application/json' \
+              -d '{"email":"admin@acp.local","password":"Admin123!"}'
+        - lang: JavaScript
+          label: fetch
+          source: |
+            const res = await fetch('http://localhost:4001/auth/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                email: 'admin@acp.local',
+                password: 'Admin123!',
+              }),
+            });
+            console.log(await res.json());
+
+  /auth/otp/request:
+    post:
+      tags: [Auth]
+      operationId: authOtpRequest
+      summary: Request passwordless OTP
+      description: >-
+        Starts OTP login for an existing user. Mock always returns demoOtp 123456.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailRequest'
+            example:
+              email: admin@acp.local
+      responses:
+        '200':
+          description: OTP issued (demo)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtpRequestResponse'
+              example:
+                message: OTP sent
+                email: admin@acp.local
+                demoOtp: '123456'
+                purpose: login
+        '400':
+          description: Missing email
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+      x-codeSamples:
+        - lang: curl
+          source: |
+            curl -s http://localhost:4001/auth/otp/request \
+              -H 'Content-Type: application/json' \
+              -d '{"email":"admin@acp.local"}'
+
+  /auth/otp:
+    post:
+      tags: [Auth]
+      operationId: authOtpVerify
+      summary: Verify OTP (login or 2FA)
+      description: Demo code is always `123456`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OtpVerifyRequest'
+            example:
+              email: admin@acp.local
+              code: '123456'
+      responses:
+        '200':
+          description: OTP accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthSessionResponse'
+        '400':
+          description: Invalid OTP or missing email
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+      x-codeSamples:
+        - lang: curl
+          source: |
+            curl -s http://localhost:4001/auth/otp \
+              -H 'Content-Type: application/json' \
+              -d '{"email":"admin@acp.local","code":"123456"}'
+
+  /auth/signup:
+    post:
+      tags: [Auth]
+      operationId: authSignup
+      summary: Sign up (creates tenant + owner)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupRequest'
+            example:
+              name: New Owner
+              organizationName: Acme Corp
+              email: owner@acme.local
+              password: SecurePass1!
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthSessionResponse'
+        '400':
+          description: Missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '409':
+          description: Email already registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+
+  /auth/forgot-password:
+    post:
+      tags: [Auth]
+      operationId: authForgotPassword
+      summary: Forgot password
+      description: Always returns a generic message; mock includes demoOtp.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailRequest'
+            example:
+              email: admin@acp.local
+      responses:
+        '200':
+          description: Acknowledgement
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  demoOtp:
+                    type: string
+                    example: '123456'
+        '400':
+          description: Missing email
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+
+  /auth/change-password:
+    post:
+      tags: [Auth]
+      operationId: authChangePassword
+      summary: Change password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequest'
+            example:
+              email: admin@acp.local
+              currentPassword: Admin123!
+              newPassword: Admin123!
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+              example:
+                message: Password updated
+        '400':
+          description: Current password incorrect
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+
+  /users:
+    get:
+      tags: [Users]
+      operationId: listUsers
+      summary: List users
+      responses:
+        '200':
+          description: User list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+      x-codeSamples:
+        - lang: curl
+          source: |
+            curl -s http://localhost:4001/users
+    post:
+      tags: [Users]
+      operationId: createUser
+      summary: Create user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /users/{id}:
+    parameters:
+      - $ref: '#/components/parameters/ResourceId'
+    get:
+      tags: [Users]
+      operationId: getUser
+      summary: Get user by id
+      responses:
+        '200':
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Not found
+    put:
+      tags: [Users]
+      operationId: replaceUser
+      summary: Replace user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserWrite'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    patch:
+      tags: [Users]
+      operationId: patchUser
+      summary: Patch user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPatch'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      tags: [Users]
+      operationId: deleteUser
+      summary: Delete user
+      responses:
+        '200':
+          description: Deleted
+        '404':
+          description: Not found
+
+  /tenants:
+    get:
+      tags: [Tenants]
+      operationId: listTenants
+      summary: List tenants
+      responses:
+        '200':
+          description: Tenant list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tenant'
+      x-codeSamples:
+        - lang: curl
+          source: |
+            curl -s http://localhost:4001/tenants
+    post:
+      tags: [Tenants]
+      operationId: createTenant
+      summary: Create tenant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantWrite'
+            example:
+              name: Nova Org
+              slug: nova-org
+              plan: growth
+              status: active
+              usersCount: 0
+              createdAt: '2026-07-23T12:00:00Z'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+
+  /tenants/{id}:
+    parameters:
+      - $ref: '#/components/parameters/ResourceId'
+    get:
+      tags: [Tenants]
+      operationId: getTenant
+      summary: Get tenant by id
+      responses:
+        '200':
+          description: Tenant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '404':
+          description: Not found
+    put:
+      tags: [Tenants]
+      operationId: replaceTenant
+      summary: Replace tenant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantWrite'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+    patch:
+      tags: [Tenants]
+      operationId: patchTenant
+      summary: Patch tenant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantPatch'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+    delete:
+      tags: [Tenants]
+      operationId: deleteTenant
+      summary: Delete tenant
+      responses:
+        '200':
+          description: Deleted
+
+  /roles:
+    get:
+      tags: [Roles]
+      operationId: listRoles
+      summary: List roles
+      responses:
+        '200':
+          description: Role list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Role'
+      x-codeSamples:
+        - lang: curl
+          source: |
+            curl -s http://localhost:4001/roles
+    post:
+      tags: [Roles]
+      operationId: createRole
+      summary: Create role
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+
+  /roles/{id}:
+    parameters:
+      - $ref: '#/components/parameters/ResourceId'
+    get:
+      tags: [Roles]
+      operationId: getRole
+      summary: Get role by id
+      responses:
+        '200':
+          description: Role
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+    put:
+      tags: [Roles]
+      operationId: replaceRole
+      summary: Replace role
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleWrite'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+    patch:
+      tags: [Roles]
+      operationId: patchRole
+      summary: Patch role
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+    delete:
+      tags: [Roles]
+      operationId: deleteRole
+      summary: Delete role
+      responses:
+        '200':
+          description: Deleted
+
+  /permissions:
+    get:
+      tags: [Permissions]
+      operationId: listPermissions
+      summary: List permissions
+      responses:
+        '200':
+          description: Permission list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Permission'
+      x-codeSamples:
+        - lang: curl
+          source: |
+            curl -s http://localhost:4001/permissions
+
+  /permissions/{id}:
+    parameters:
+      - $ref: '#/components/parameters/ResourceId'
+    get:
+      tags: [Permissions]
+      operationId: getPermission
+      summary: Get permission by id
+      responses:
+        '200':
+          description: Permission
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Permission'
+
+  /menu:
+    get:
+      tags: [Menu]
+      operationId: listMenu
+      summary: List menu items
+      responses:
+        '200':
+          description: Menu items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MenuItem'
+      x-codeSamples:
+        - lang: curl
+          source: |
+            curl -s http://localhost:4001/menu
+    post:
+      tags: [Menu]
+      operationId: createMenuItem
+      summary: Create menu item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuItemWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuItem'
+
+  /menu/reorder:
+    post:
+      tags: [Menu]
+      operationId: reorderMenu
+      summary: Bulk reorder / reparent menu items
+      description: |
+        Applies `parentId` + `order` patches for the hierarchical menu editor.
+        Send every item that changed (typically the full flattened tree).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [items]
+              properties:
+                items:
+                  type: array
+                  minItems: 1
+                  items:
+                    type: object
+                    required: [id, order]
+                    properties:
+                      id:
+                        type: string
+                      parentId:
+                        type: string
+                        nullable: true
+                      order:
+                        type: integer
+            examples:
+              nestAndReorder:
+                summary: Nest Billing under Reports and reorder siblings
+                value:
+                  items:
+                    - id: '13'
+                      parentId: '12'
+                      order: 1
+                    - id: '14'
+                      parentId: '12'
+                      order: 2
+      responses:
+        '200':
+          description: Updated menu collection
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MenuItem'
+        '400':
+          description: Invalid payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: Menu item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+      x-codeSamples:
+        - lang: curl
+          source: |
+            curl -s -X POST http://localhost:4001/menu/reorder \
+              -H 'Content-Type: application/json' \
+              -d '{"items":[{"id":"5","parentId":"2","order":3},{"id":"6","parentId":"2","order":4}]}'
+
+  /menu/{id}:
+    parameters:
+      - $ref: '#/components/parameters/ResourceId'
+    get:
+      tags: [Menu]
+      operationId: getMenuItem
+      summary: Get menu item
+      responses:
+        '200':
+          description: Menu item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuItem'
+    put:
+      tags: [Menu]
+      operationId: replaceMenuItem
+      summary: Replace menu item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuItemWrite'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuItem'
+    patch:
+      tags: [Menu]
+      operationId: patchMenuItem
+      summary: Patch menu item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuItem'
+    delete:
+      tags: [Menu]
+      operationId: deleteMenuItem
+      summary: Delete menu item
+      responses:
+        '200':
+          description: Deleted
+
+  /notifications:
+    get:
+      tags: [Notifications]
+      operationId: listNotifications
+      summary: List notifications
+      responses:
+        '200':
+          description: Notification list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+      x-codeSamples:
+        - lang: curl
+          source: |
+            curl -s http://localhost:4001/notifications
+    post:
+      tags: [Notifications]
+      operationId: createNotification
+      summary: Create notification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationWrite'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+
+  /notifications/{id}:
+    parameters:
+      - $ref: '#/components/parameters/ResourceId'
+    get:
+      tags: [Notifications]
+      operationId: getNotification
+      summary: Get notification
+      responses:
+        '200':
+          description: Notification
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+    patch:
+      tags: [Notifications]
+      operationId: patchNotification
+      summary: Mark read / patch notification
+      description: Typical use — set read to true.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationPatch'
+            example:
+              read: true
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+      x-codeSamples:
+        - lang: curl
+          source: |
+            curl -s -X PATCH http://localhost:4001/notifications/1 \
+              -H 'Content-Type: application/json' \
+              -d '{"read":true}'
+    delete:
+      tags: [Notifications]
+      operationId: deleteNotification
+      summary: Delete notification
+      responses:
+        '200':
+          description: Deleted
+
+  /settings:
+    get:
+      tags: [Settings]
+      operationId: listSettings
+      summary: List all settings documents
+      responses:
+        '200':
+          description: Settings list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SettingsDocument'
+      x-codeSamples:
+        - lang: curl
+          source: |
+            curl -s http://localhost:4001/settings
+
+  /settings/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Settings document id (`ai`, `email`, `thirdparty`, `logs`)
+        schema:
+          type: string
+          enum: [ai, email, thirdparty, logs]
+    get:
+      tags: [Settings]
+      operationId: getSettings
+      summary: Get settings by id
+      responses:
+        '200':
+          description: Settings document
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingsDocument'
+        '404':
+          description: Not found
+    put:
+      tags: [Settings]
+      operationId: replaceSettings
+      summary: Replace settings document
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SettingsDocument'
+            example:
+              id: ai
+              category: ai
+              provider: anthropic
+              apiKey: sk-mock-****
+              model: claude-sonnet
+              enabled: true
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingsDocument'
+      x-codeSamples:
+        - lang: curl
+          source: |
+            curl -s -X PUT http://localhost:4001/settings/ai \
+              -H 'Content-Type: application/json' \
+              -d '{"id":"ai","category":"ai","provider":"anthropic","apiKey":"sk-mock-****","model":"claude-sonnet","enabled":true}'
+    patch:
+      tags: [Settings]
+      operationId: patchSettings
+      summary: Patch settings document
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingsDocument'
+
+  /dashboardStats:
+    get:
+      tags: [Dashboard]
+      operationId: listDashboardStats
+      summary: List dashboard widgets
+      responses:
+        '200':
+          description: Stats widgets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DashboardStat'
+      x-codeSamples:
+        - lang: curl
+          source: |
+            curl -s http://localhost:4001/dashboardStats
+
+  /dashboardStats/{id}:
+    parameters:
+      - $ref: '#/components/parameters/ResourceId'
+    get:
+      tags: [Dashboard]
+      operationId: getDashboardStat
+      summary: Get dashboard widget
+      responses:
+        '200':
+          description: Widget
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardStat'
+
+components:
+  parameters:
+    ResourceId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Resource id (string in the mock DB)
+
+  schemas:
+    SearchResult:
+      type: object
+      required: [type, id, title, url]
+      properties:
+        type:
+          type: string
+          enum: [user, tenant, setting]
+        id:
+          type: string
+        title:
+          type: string
+        subtitle:
+          type: string
+        url:
+          type: string
+          description: Absolute app path to navigate to (e.g. `/app/settings/ai`)
+
+    SearchResponse:
+      type: object
+      required: [query, results]
+      properties:
+        query:
+          type: string
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchResult'
+
+    ErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      required: [message]
+
+    EmailRequest:
+      type: object
+      required: [email]
+      properties:
+        email:
+          type: string
+          format: email
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+
+    OtpVerifyRequest:
+      type: object
+      required: [email, code]
+      properties:
+        email:
+          type: string
+          format: email
+        code:
+          type: string
+          example: '123456'
+
+    SignupRequest:
+      type: object
+      required: [name, organizationName, email, password]
+      properties:
+        name:
+          type: string
+        organizationName:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+
+    ChangePasswordRequest:
+      type: object
+      required: [email, currentPassword, newPassword]
+      properties:
+        email:
+          type: string
+          format: email
+        currentPassword:
+          type: string
+          format: password
+        newPassword:
+          type: string
+          format: password
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          description: Present in DB responses from json-server; stripped on auth responses.
+        role:
+          type: string
+        tenantId:
+          type: string
+        status:
+          type: string
+          enum: [active, inactive]
+        twoFactorEnabled:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+
+    UserWrite:
+      type: object
+      required: [name, email, password, role, tenantId, status]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+        role:
+          type: string
+        tenantId:
+          type: string
+        status:
+          type: string
+        twoFactorEnabled:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+
+    UserPatch:
+      type: object
+      additionalProperties: true
+      properties:
+        name:
+          type: string
+        status:
+          type: string
+        role:
+          type: string
+        twoFactorEnabled:
+          type: boolean
+
+    LoginResponse:
+      type: object
+      properties:
+        requiresOtp:
+          type: boolean
+        user:
+          $ref: '#/components/schemas/User'
+        token:
+          type: string
+          nullable: true
+
+    AuthSessionResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        token:
+          type: string
+
+    OtpRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        email:
+          type: string
+        demoOtp:
+          type: string
+        purpose:
+          type: string
+
+    Tenant:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        plan:
+          type: string
+          enum: [starter, growth, enterprise]
+        status:
+          type: string
+          enum: [active, suspended]
+        usersCount:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+
+    TenantWrite:
+      type: object
+      required: [name, slug, plan, status]
+      properties:
+        name:
+          type: string
+        slug:
+          type: string
+        plan:
+          type: string
+        status:
+          type: string
+        usersCount:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+
+    TenantPatch:
+      type: object
+      additionalProperties: true
+      properties:
+        name:
+          type: string
+        plan:
+          type: string
+        status:
+          type: string
+        usersCount:
+          type: integer
+
+    Role:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        key:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: string
+
+    RoleWrite:
+      type: object
+      required: [name, key]
+      properties:
+        name:
+          type: string
+        key:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: string
+
+    Permission:
+      type: object
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        label:
+          type: string
+        group:
+          type: string
+
+    MenuItem:
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        path:
+          type: string
+          nullable: true
+        icon:
+          type: string
+        parentId:
+          type: string
+          nullable: true
+        order:
+          type: integer
+        enabled:
+          type: boolean
+
+    MenuItemWrite:
+      type: object
+      required: [label, order, enabled]
+      properties:
+        label:
+          type: string
+        path:
+          type: string
+          nullable: true
+        icon:
+          type: string
+        parentId:
+          type: string
+          nullable: true
+        order:
+          type: integer
+        enabled:
+          type: boolean
+
+    Notification:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        body:
+          type: string
+        read:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+
+    NotificationWrite:
+      type: object
+      required: [title, body]
+      properties:
+        title:
+          type: string
+        body:
+          type: string
+        read:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+
+    NotificationPatch:
+      type: object
+      properties:
+        read:
+          type: boolean
+        title:
+          type: string
+        body:
+          type: string
+
+    SettingsDocument:
+      type: object
+      description: Shape varies by id/category (ai, email, thirdparty, logs)
+      properties:
+        id:
+          type: string
+        category:
+          type: string
+        enabled:
+          type: boolean
+      additionalProperties: true
+
+    DashboardStat:
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        value:
+          type: number
+        delta:
+          type: number
+        series:
+          type: array
+          items:
+            type: number

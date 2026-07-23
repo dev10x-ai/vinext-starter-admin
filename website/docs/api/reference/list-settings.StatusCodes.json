@@ -1,0 +1,1 @@
+{"responses":{"200":{"description":"Settings list","content":{"application/json":{"schema":{"type":"array","items":{"type":"object","description":"Shape varies by id/category (ai, email, thirdparty, logs)","properties":{"id":{"type":"string"},"category":{"type":"string"},"enabled":{"type":"boolean"}},"additionalProperties":true,"title":"SettingsDocument"}}}}}}}
