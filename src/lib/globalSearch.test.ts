@@ -51,9 +51,11 @@ const candidates: Array<SearchResult & { fields: string[] }> = [
 ]
 
 describe('scoreMatch', () => {
-  it('ranks exact > prefix > contains', () => {
+  it('ranks exact > token > prefix, and ignores short substring noise', () => {
     expect(scoreMatch('ai', ['ai'])).toBeGreaterThan(scoreMatch('ai', ['ai settings']))
-    expect(scoreMatch('ai', ['ai settings'])).toBeGreaterThan(scoreMatch('ai', ['email ai']))
+    expect(scoreMatch('ai', ['ai settings'])).toBeGreaterThan(0)
+    expect(scoreMatch('ai', ['email'])).toBe(0)
+    expect(scoreMatch('demo', ['acp-demo'])).toBeGreaterThan(0)
     expect(scoreMatch('zzz', ['alex'])).toBe(0)
   })
 

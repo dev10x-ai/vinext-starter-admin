@@ -57,13 +57,18 @@ export function scoreMatch(query: string, fields: Array<string | null | undefine
       best = Math.max(best, 80)
       continue
     }
-    if (value.includes(q)) {
-      best = Math.max(best, 60)
+    const tokens = value.split(/[^a-z0-9]+/).filter(Boolean)
+    if (tokens.some((token) => token === q)) {
+      best = Math.max(best, 75)
       continue
     }
-    const tokens = value.split(/[^a-z0-9]+/).filter(Boolean)
     if (tokens.some((token) => token.startsWith(q))) {
       best = Math.max(best, 50)
+      continue
+    }
+    // Avoid noisy substring hits for very short queries (e.g. "ai" inside "email").
+    if (q.length > 2 && value.includes(q)) {
+      best = Math.max(best, 60)
     }
   }
   return best
