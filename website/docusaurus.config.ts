@@ -16,11 +16,10 @@ const APP_ORIGIN = (process.env.DOCUSAURUS_APP_ORIGIN ?? '').replace(/\/$/, '')
 
 function appHref(path: string): string {
   const normalized = path.startsWith('/') ? path : `/${path}`
-  // Absolute origin for local DX; pathname:// bypasses baseUrl so /login ≠ /docs/login.
-  if (APP_ORIGIN) {
-    return `${APP_ORIGIN}${normalized}`
-  }
-  return `pathname://${normalized}`
+  // Always absolute so Docusaurus does not prefix baseUrl (/docs/) onto /login or /api.
+  // Local DX: DOCUSAURUS_APP_ORIGIN=http://127.0.0.1:5173 make docs
+  const origin = APP_ORIGIN || SITE_URL
+  return `${origin}${normalized}`
 }
 
 const config: Config = {
