@@ -1,21 +1,25 @@
 /**
- * Local: json-server on :4001 (make mock / make dev).
- * Production: same-origin Worker mock at `/api` (see worker/).
- * Override with VITE_API_URL when needed.
+ * Same-origin App Router mock at `/api/*` (see `src/app/api/` + `worker/`).
+ * Override with `VITE_API_URL` when pointing at standalone json-server (`make mock`).
  */
-const API_BASE =
-  import.meta.env.VITE_API_URL ??
-  (import.meta.env.PROD ? '/api' : 'http://localhost:4001')
-
+const API_BASE = import.meta.env.VITE_API_URL ?? '/api'
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  if (typeof path !== 'string' || !path.startsWith('/')) {
+    throw new Error('API path must be an absolute path starting with /')
+  }
+
   const res = await fetch(`${API_BASE}${path}`, {
     headers: { 'Content-Type': 'application/json', ...(init?.headers ?? {}) },
     ...init,
   })
   if (!res.ok) {
     const body = await res.json().catch(() => ({}))
-    throw new Error(body.message ?? `Request failed (${res.status})`)
+    throw new Error(
+      typeof body === 'object' && body && 'message' in body && typeof body.message === 'string'
+        ? body.message
+        : `Request failed (${res.status})`,
+    )
   }
   if (res.status === 204) return undefined as T
   return res.json() as Promise<T>

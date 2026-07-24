@@ -3,6 +3,25 @@ import type { Config } from '@docusaurus/types'
 import type * as Preset from '@docusaurus/preset-classic'
 import type * as OpenApiPlugin from 'docusaurus-plugin-openapi-docs'
 
+/** Production site origin (admin Worker). Override for previews via DOCUSAURUS_URL. */
+const SITE_URL = process.env.DOCUSAURUS_URL ?? 'https://vinext-starter-admin.dev10x.ai'
+/** Served under the admin Worker at /docs/*. Local `docusaurus start` uses the same path. */
+const BASE_URL = process.env.DOCUSAURUS_BASE_URL ?? '/docs/'
+/**
+ * Origin for Admin / Console / Landing links.
+ * Empty = same-origin relative paths (production + Worker preview).
+ * Local DX: DOCUSAURUS_APP_ORIGIN=http://127.0.0.1:5173 make docs
+ */
+const APP_ORIGIN = (process.env.DOCUSAURUS_APP_ORIGIN ?? '').replace(/\/$/, '')
+
+function appHref(path: string): string {
+  const normalized = path.startsWith('/') ? path : `/${path}`
+  // Always absolute so Docusaurus does not prefix baseUrl (/docs/) onto /login or /api.
+  // Local DX: DOCUSAURUS_APP_ORIGIN=http://127.0.0.1:5173 make docs
+  const origin = APP_ORIGIN || SITE_URL
+  return `${origin}${normalized}`
+}
+
 const config: Config = {
   title: 'ACP Admin Docs',
   tagline: 'Operations console documentation',
@@ -12,8 +31,8 @@ const config: Config = {
     v4: true,
   },
 
-  url: 'https://vinext-starter-admin-docs.dev10x.ai',
-  baseUrl: '/',
+  url: SITE_URL,
+  baseUrl: BASE_URL,
 
   organizationName: 'acp',
   projectName: 'acp-admin',
@@ -137,12 +156,12 @@ const config: Config = {
           position: 'right',
         },
         {
-          href: 'http://localhost:5173',
+          href: appHref('/'),
           label: 'Admin',
           position: 'right',
         },
         {
-          href: 'http://localhost:5173/login',
+          href: appHref('/login'),
           label: 'Console',
           position: 'right',
         },
@@ -163,8 +182,8 @@ const config: Config = {
         {
           title: 'App',
           items: [
-            { label: 'Landing', href: 'http://localhost:5173' },
-            { label: 'Mock API', href: 'http://localhost:4001' },
+            { label: 'Landing', href: appHref('/') },
+            { label: 'Mock API', href: appHref('/api') },
           ],
         },
       ],

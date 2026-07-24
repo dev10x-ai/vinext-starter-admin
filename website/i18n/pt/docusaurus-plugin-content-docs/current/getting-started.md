@@ -6,11 +6,13 @@ slug: /
 
 # Primeiros passos
 
-O ACP Admin é um console de operações multi-tenant com API mockada. O shell da UI segue padrões do **Macro Wallets**; o branding padrão é o tema **Default** (azul sóbrio), com packs **Ruby** e **Emerald**.
+O ACP Admin é um console de operações multi-tenant com API mockada em **vinext App Router**. O shell da UI segue padrões do **Macro Wallets**; o branding padrão é o tema **Default** (azul sóbrio), com packs **Ruby** e **Emerald**.
+
+**Produção:** [https://vinext-starter-admin.dev10x.ai](https://vinext-starter-admin.dev10x.ai) — um único Worker Cloudflare serve o app, a API mock (`/api`), os assets Vite (`/assets`) e esta documentação (`/docs`).
 
 ## Pré-requisitos
 
-- Node.js 20+
+- Node.js 22+
 - npm
 
 ## Instalar e rodar
@@ -19,18 +21,19 @@ Na raiz do repositório:
 
 ```bash
 make setup
-make dev        # admin UI :5173 + mock API :4001
-make docs       # documentação :3000
+make dev        # vinext App Router :5173 (/api no mesmo app)
+make docs       # documentação :3000/docs/
 ```
 
 Ou separadamente:
 
 ```bash
 npm install
-npm run mock    # json-server
-npm run dev     # Vite admin + landing
+npm run dev     # vinext admin + landing + /api
 cd website && npm install && npm start
 ```
+
+Mock json-server opcional (DX legado): `make mock` em `:4001`. Prefira `/api` na mesma origem com `make dev`.
 
 ## Credenciais demo
 
@@ -49,10 +52,13 @@ Login com senha + 2FA também usa a mesma tela de OTP quando `twoFactorEnabled` 
 
 ## Layout do projeto
 
-- `src/` — React admin + landing
-- `mock/` — banco json-server + rotas de auth
+- `app/` — vinext App Router (grupos de rotas, handlers `/api`)
+- `src/views/` — views client usadas por páginas server finas
+- `src/` — componentes, layouts, stores e queries compartilhados
+- `mock/` — json-server opcional + seed OpenAPI
+- `worker/` — módulos da API mock (App Router + Worker)
 - `website/` — este site Docusaurus
-- `docs/` (raiz do repo) — notas de design e comparação
+- `docs/` (raiz do repo) — notas de CI/CD + mídia do README
 
 ## Idiomas
 
@@ -63,7 +69,7 @@ Use o **seletor de idioma** na barra superior (**English** / **Português**).
 
 ## Próximos passos
 
-1. Abra a [landing page](http://localhost:5173/)
+1. Abra a [landing page](pathname:///)
 2. Entre no console
 3. Explore Users, Tenants, Roles e Platform settings
 4. Leia a documentação na ordem:
@@ -71,4 +77,4 @@ Use o **seletor de idioma** na barra superior (**English** / **Português**).
    - [Components overview](./components/overview) (EN)
    - Forms → [Lists & tables](./components/lists-and-tables) → [DataTable](./components/data-table)
    - [Menu tree](./components/menu-tree) · [Layout & chrome](./components/layout)
-5. Leia [Servidor da API](./api/server) e a [Referência da API](./api/reference/acp-admin-mock-api) (Try It → `http://localhost:4001`)
+5. Leia [Servidor da API](./api/server) e a [Referência da API](./api/reference/acp-admin-mock-api) (Try It → mesma origem `/api`, ou mock local em `:4001`)

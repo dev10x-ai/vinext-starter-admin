@@ -1,5 +1,7 @@
+'use client'
+
 import { useCallback } from 'react'
-import { useMatch, useNavigate } from 'react-router-dom'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 
 export type ModalRouteMode = 'list' | 'create' | 'edit'
 
@@ -14,34 +16,41 @@ export function useModalRoute(listPath: string) {
     throw new Error('listPath must be an absolute path starting with /')
   }
 
-  const navigate = useNavigate()
-  const createMatch = useMatch({ path: `${listPath}/new`, end: true })
-  const editMatch = useMatch({ path: `${listPath}/:entityId/edit`, end: true })
-  const entityId = editMatch?.params.entityId ?? null
+  const router = useRouter()
+  const pathname = usePathname() ?? '/'
+  const params = useParams<{ userId?: string; tenantId?: string; entityId?: string }>()
 
-  const mode: ModalRouteMode = createMatch ? 'create' : entityId ? 'edit' : 'list'
+  const createMatch = pathname === `${listPath}/new`
+  const editMatch = pathname.endsWith('/edit') && pathname.startsWith(`${listPath}/`)
+  const entityId =
+    (typeof params.entityId === 'string' && params.entityId) ||
+    (typeof params.userId === 'string' && params.userId) ||
+    (typeof params.tenantId === 'string' && params.tenantId) ||
+    null
+
+  const mode: ModalRouteMode = createMatch ? 'create' : editMatch && entityId ? 'edit' : 'list'
 
   const openCreate = useCallback(() => {
-    void navigate(`${listPath}/new`)
-  }, [navigate, listPath])
+    router.push(`${listPath}/new`)
+  }, [router, listPath])
 
   const openEdit = useCallback(
     (id: string) => {
       if (typeof id !== 'string' || id.trim() === '') {
         throw new Error('entity id is required')
       }
-      void navigate(`${listPath}/${id}/edit`)
+      router.push(`${listPath}/${id}/edit`)
     },
-    [navigate, listPath],
+    [router, listPath],
   )
 
   const close = useCallback(() => {
-    void navigate(listPath)
-  }, [navigate, listPath])
+    router.push(listPath)
+  }, [router, listPath])
 
   return {
     mode,
-    entityId,
+    entityId: mode === 'edit' ? entityId : null,
     open: mode !== 'list',
     openCreate,
     openEdit,

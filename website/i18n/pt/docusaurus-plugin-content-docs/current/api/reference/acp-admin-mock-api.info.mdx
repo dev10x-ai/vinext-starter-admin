@@ -27,12 +27,13 @@ import Export from "@theme/ApiExplorer/Export";
 >
 </Heading>
 
-OpenAPI do mock local **json-server** (`mock/server.mjs` + `mock/db.json`).
+OpenAPI da API mock do ACP Admin (`worker/` + `mock/server.mjs` opcional).
 
-**URL base:** `http://localhost:4001`
+**URLs base:**
+- Produção / preview no Worker: `/api` na mesma origem
+- Mock local standalone: `http://localhost:4001` (`make mock`)
 
-Suba o mock com `make mock` ou `make dev` e use **Try It** nestes docs
-(ou os exemplos curl em [Exemplos REST](../rest-examples)).
+Use **Try It** nestes docs (ou os exemplos curl em [Exemplos REST](../rest-examples)).
 
 ### Credenciais demo
 

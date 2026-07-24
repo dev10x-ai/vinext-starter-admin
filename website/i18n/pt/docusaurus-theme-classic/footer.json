@@ -25,11 +25,11 @@
   },
   "link.item.label.Landing": {
     "message": "Landing",
-    "description": "The label of footer link with label=Landing linking to http://localhost:5173"
+    "description": "The label of footer link with label=Landing linking to /"
   },
   "link.item.label.Mock API": {
     "message": "API mock",
-    "description": "The label of footer link with label=Mock API linking to http://localhost:4001"
+    "description": "The label of footer link with label=Mock API linking to /api"
   },
   "copyright": {
     "message": "Copyright © 2026 ACP Admin.",

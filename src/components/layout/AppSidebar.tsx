@@ -1,4 +1,5 @@
-import { NavLink } from 'react-router-dom'
+'use client'
+
 import {
   Building2,
   FormInput,
@@ -13,6 +14,7 @@ import {
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { AcpLogo } from '@/components/brand/AcpLogo'
+import { AppNavLink } from '@/components/navigation/AppNavLink'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/cn'
 import styles from '@/layouts/AppShell.module.css'
@@ -60,12 +62,12 @@ function renderNavLink(
   onMobileClose: () => void,
 ) {
   return (
-    <NavLink
+    <AppNavLink
       key={item.to}
-      to={item.to}
+      href={item.to}
       end={item.end}
       onClick={onMobileClose}
-      className={({ isActive }) =>
+      className={({ isActive }: { isActive: boolean }) =>
         cn(
           styles.navLink,
           isActive && styles.navLinkActive,
@@ -76,7 +78,7 @@ function renderNavLink(
     >
       <item.icon size={18} aria-hidden />
       {showLabels ? item.label : null}
-    </NavLink>
+    </AppNavLink>
   )
 }
 

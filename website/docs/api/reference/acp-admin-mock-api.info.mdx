@@ -1,7 +1,7 @@
 ---
 id: acp-admin-mock-api
 title: "ACP Admin Mock API"
-description: "OpenAPI for the local **json-server** mock (`mock/server.mjs` + `mock/db.json`)."
+description: "OpenAPI for the ACP Admin mock API (`worker/` + optional `mock/server.mjs`)."
 sidebar_label: Introduction
 sidebar_position: 0
 hide_title: true
@@ -29,12 +29,13 @@ import Export from "@theme/ApiExplorer/Export";
 
 
 
-OpenAPI for the local **json-server** mock (`mock/server.mjs` + `mock/db.json`).
+OpenAPI for the ACP Admin mock API (`worker/` + optional `mock/server.mjs`).
 
-**Base URL:** `http://localhost:4001`
+**Base URLs:**
+- Production / Worker preview: same-origin `/api`
+- Local standalone mock: `http://localhost:4001` (`make mock`)
 
-Start the mock with `make mock` or `make dev`, then use **Try It** in the docs
-(or the curl examples below).
+Use **Try It** in the docs (or the curl examples below).
 
 ### Demo credentials
 
