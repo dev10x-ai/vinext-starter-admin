@@ -1,8 +1,11 @@
-import { useEffect, useState } from 'react'
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
+'use client'
+
+import { useEffect, useState, type ReactNode } from 'react'
+import { usePathname } from 'next/navigation'
 import { AppSidebar } from '@/components/layout/AppSidebar'
 import { AppHeader } from '@/components/layout/AppHeader'
 import { NotificationsDrawer } from '@/components/notifications/NotificationsDrawer'
+import { ClientRedirect } from '@/components/navigation/ClientRedirect'
 import { Toaster } from '@/components/ui/Toaster'
 import { useAuthStore } from '@/store/auth'
 import { useUiStore } from '@/store/ui'
@@ -11,7 +14,23 @@ import { useIsDesktop } from '@/hooks/useMediaQuery'
 import { cn } from '@/lib/cn'
 import styles from './AppShell.module.css'
 
-export function AppLayout() {
+function useAuthHydrated() {
+  const [hydrated, setHydrated] = useState(() => useAuthStore.persist.hasHydrated())
+
+  useEffect(() => {
+    if (useAuthStore.persist.hasHydrated()) {
+      setHydrated(true)
+      return
+    }
+    return useAuthStore.persist.onFinishHydration(() => setHydrated(true))
+  }, [])
+
+  return hydrated
+}
+
+/** Client auth-guard + shell. Auth stays in Zustand persist — no cookie/server session. */
+export function AppLayout({ children }: { children: ReactNode }) {
+  const hydrated = useAuthHydrated()
   const user = useAuthStore((s) => s.user)
   const tenantId = useUiStore((s) => s.tenantId)
   const setTenantId = useUiStore((s) => s.setTenantId)
@@ -19,7 +38,7 @@ export function AppLayout() {
   const [collapsed, setCollapsed] = useState(false)
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const isDesktop = useIsDesktop()
-  const location = useLocation()
+  const pathname = usePathname()
 
   useEffect(() => {
     if (!tenants?.length) return
@@ -30,7 +49,7 @@ export function AppLayout() {
 
   useEffect(() => {
     setMobileNavOpen(false)
-  }, [location.pathname])
+  }, [pathname])
 
   useEffect(() => {
     if (isDesktop) setMobileNavOpen(false)
@@ -54,7 +73,8 @@ export function AppLayout() {
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [mobileNavOpen, isDesktop])
 
-  if (!user) return <Navigate to="/login" replace />
+  if (!hydrated) return null
+  if (!user) return <ClientRedirect href="/login" />
 
   const desktopCollapsed = isDesktop && collapsed
 
@@ -85,9 +105,7 @@ export function AppLayout() {
           mobileNavOpen={mobileNavOpen}
           onOpenMobileNav={() => setMobileNavOpen(true)}
         />
-        <main className={styles.main}>
-          <Outlet />
-        </main>
+        <main className={styles.main}>{children}</main>
       </div>
       <NotificationsDrawer />
       <Toaster />

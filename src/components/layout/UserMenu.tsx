@@ -1,6 +1,9 @@
+'use client'
+
+import Link from 'next/link'
+
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { Link } from 'react-router-dom'
 import { LogOut, Monitor, Moon, Paintbrush, Palette, Settings, Sun, User } from 'lucide-react'
 import { useAuthStore } from '@/store/auth'
 import { useThemeStore } from '@/store/theme'
@@ -107,7 +110,7 @@ export function UserMenu() {
             }}
           >
             <Link
-              to="/app/profile"
+              href="/app/profile"
               role="menuitem"
               className="flex w-full items-center gap-3 rounded-md bg-[var(--color-accent)] px-3 py-3 hover:opacity-90"
               onClick={() => setOpen(false)}
@@ -129,7 +132,7 @@ export function UserMenu() {
 
             <div className="mt-2 grid grid-cols-2 gap-1">
               <Link
-                to="/app/profile"
+                href="/app/profile"
                 role="menuitem"
                 className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-[var(--color-accent)]"
                 onClick={() => setOpen(false)}
@@ -138,7 +141,7 @@ export function UserMenu() {
                 Profile
               </Link>
               <Link
-                to="/app/settings"
+                href="/app/settings"
                 role="menuitem"
                 className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-[var(--color-accent)]"
                 onClick={() => setOpen(false)}

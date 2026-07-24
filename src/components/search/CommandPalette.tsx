@@ -1,5 +1,8 @@
+'use client'
+
+import { useRouter } from 'next/navigation'
+
 import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Building2, CornerDownLeft, FileCog, Loader2, Search, User, X } from 'lucide-react'
 import { useSearchQuery } from '@/queries'
 import { useDebouncedValue } from '@/hooks/useDebouncedValue'
@@ -26,7 +29,7 @@ export function CommandPalette({
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
-  const navigate = useNavigate()
+  const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
   const listRef = useRef<HTMLDivElement>(null)
   const listboxId = useId()
@@ -73,7 +76,7 @@ export function CommandPalette({
       throw new Error('Search result url must be an absolute app path')
     }
     onOpenChange(false)
-    void navigate(result.url)
+    void router.push(result.url)
   }
 
   const onInputKeyDown = (event: ReactKeyboardEvent<HTMLInputElement>) => {
