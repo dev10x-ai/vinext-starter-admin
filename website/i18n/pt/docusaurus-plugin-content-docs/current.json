@@ -1,0 +1,254 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.docs.category.Components": {
+    "message": "Componentes",
+    "description": "The label for category 'Components' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.Forms": {
+    "message": "Formulários",
+    "description": "The label for category 'Forms' in sidebar 'docs'"
+  },
+  "sidebar.docs.doc.Form fields": {
+    "message": "Campos de formulário",
+    "description": "The label for the doc item 'Form fields' in sidebar 'docs', linking to the doc components/form-fields"
+  },
+  "sidebar.docs.doc.Form patterns": {
+    "message": "Padrões de formulário",
+    "description": "The label for the doc item 'Form patterns' in sidebar 'docs', linking to the doc components/form-patterns"
+  },
+  "sidebar.docs.doc.Typography": {
+    "message": "Tipografia",
+    "description": "The label for the doc item 'Typography' in sidebar 'docs', linking to the doc components/typography"
+  },
+  "sidebar.docs.category.Lists & tables": {
+    "message": "Listas e tabelas",
+    "description": "The label for category 'Lists & tables' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.API": {
+    "message": "API",
+    "description": "The label for category 'API' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.API Reference": {
+    "message": "Referência da API",
+    "description": "The label for category 'API Reference' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.Auth": {
+    "message": "Auth",
+    "description": "The label for category 'Auth' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.Users": {
+    "message": "Usuários",
+    "description": "The label for category 'Users' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.Tenants": {
+    "message": "Tenants",
+    "description": "The label for category 'Tenants' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.Roles": {
+    "message": "Papéis",
+    "description": "The label for category 'Roles' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.Permissions": {
+    "message": "Permissões",
+    "description": "The label for category 'Permissions' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.Menu": {
+    "message": "Menu",
+    "description": "The label for category 'Menu' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.Notifications": {
+    "message": "Notificações",
+    "description": "The label for category 'Notifications' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.Settings": {
+    "message": "Configurações",
+    "description": "The label for category 'Settings' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.Dashboard": {
+    "message": "Dashboard",
+    "description": "The label for category 'Dashboard' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.Search": {
+    "message": "Busca",
+    "description": "The label for category 'Search' in sidebar 'docs'"
+  },
+  "sidebar.docs.doc.Login with email and password": {
+    "message": "Login com e-mail e senha",
+    "description": "The label for the doc item 'Login with email and password' in sidebar 'docs', linking to the doc api/reference/auth-login"
+  },
+  "sidebar.docs.doc.Request passwordless OTP": {
+    "message": "Solicitar OTP sem senha",
+    "description": "The label for the doc item 'Request passwordless OTP' in sidebar 'docs', linking to the doc api/reference/auth-otp-request"
+  },
+  "sidebar.docs.doc.Verify OTP (login or 2FA)": {
+    "message": "Verificar OTP (login ou 2FA)",
+    "description": "The label for the doc item 'Verify OTP (login or 2FA)' in sidebar 'docs', linking to the doc api/reference/auth-otp-verify"
+  },
+  "sidebar.docs.doc.Sign up (creates tenant + owner)": {
+    "message": "Cadastro (cria tenant + owner)",
+    "description": "The label for the doc item 'Sign up (creates tenant + owner)' in sidebar 'docs', linking to the doc api/reference/auth-signup"
+  },
+  "sidebar.docs.doc.Forgot password": {
+    "message": "Esqueci a senha",
+    "description": "The label for the doc item 'Forgot password' in sidebar 'docs', linking to the doc api/reference/auth-forgot-password"
+  },
+  "sidebar.docs.doc.Change password": {
+    "message": "Alterar senha",
+    "description": "The label for the doc item 'Change password' in sidebar 'docs', linking to the doc api/reference/auth-change-password"
+  },
+  "sidebar.docs.doc.List users": {
+    "message": "Listar usuários",
+    "description": "The label for the doc item 'List users' in sidebar 'docs', linking to the doc api/reference/list-users"
+  },
+  "sidebar.docs.doc.Create user": {
+    "message": "Criar usuário",
+    "description": "The label for the doc item 'Create user' in sidebar 'docs', linking to the doc api/reference/create-user"
+  },
+  "sidebar.docs.doc.Get user by id": {
+    "message": "Obter usuário por id",
+    "description": "The label for the doc item 'Get user by id' in sidebar 'docs', linking to the doc api/reference/get-user"
+  },
+  "sidebar.docs.doc.Replace user": {
+    "message": "Substituir usuário",
+    "description": "The label for the doc item 'Replace user' in sidebar 'docs', linking to the doc api/reference/replace-user"
+  },
+  "sidebar.docs.doc.Patch user": {
+    "message": "Atualizar usuário (patch)",
+    "description": "The label for the doc item 'Patch user' in sidebar 'docs', linking to the doc api/reference/patch-user"
+  },
+  "sidebar.docs.doc.Delete user": {
+    "message": "Excluir usuário",
+    "description": "The label for the doc item 'Delete user' in sidebar 'docs', linking to the doc api/reference/delete-user"
+  },
+  "sidebar.docs.doc.List tenants": {
+    "message": "Listar tenants",
+    "description": "The label for the doc item 'List tenants' in sidebar 'docs', linking to the doc api/reference/list-tenants"
+  },
+  "sidebar.docs.doc.Create tenant": {
+    "message": "Criar tenant",
+    "description": "The label for the doc item 'Create tenant' in sidebar 'docs', linking to the doc api/reference/create-tenant"
+  },
+  "sidebar.docs.doc.Get tenant by id": {
+    "message": "Obter tenant por id",
+    "description": "The label for the doc item 'Get tenant by id' in sidebar 'docs', linking to the doc api/reference/get-tenant"
+  },
+  "sidebar.docs.doc.Replace tenant": {
+    "message": "Substituir tenant",
+    "description": "The label for the doc item 'Replace tenant' in sidebar 'docs', linking to the doc api/reference/replace-tenant"
+  },
+  "sidebar.docs.doc.Patch tenant": {
+    "message": "Atualizar tenant (patch)",
+    "description": "The label for the doc item 'Patch tenant' in sidebar 'docs', linking to the doc api/reference/patch-tenant"
+  },
+  "sidebar.docs.doc.Delete tenant": {
+    "message": "Excluir tenant",
+    "description": "The label for the doc item 'Delete tenant' in sidebar 'docs', linking to the doc api/reference/delete-tenant"
+  },
+  "sidebar.docs.doc.List roles": {
+    "message": "Listar papéis",
+    "description": "The label for the doc item 'List roles' in sidebar 'docs', linking to the doc api/reference/list-roles"
+  },
+  "sidebar.docs.doc.Create role": {
+    "message": "Criar papel",
+    "description": "The label for the doc item 'Create role' in sidebar 'docs', linking to the doc api/reference/create-role"
+  },
+  "sidebar.docs.doc.Get role by id": {
+    "message": "Obter papel por id",
+    "description": "The label for the doc item 'Get role by id' in sidebar 'docs', linking to the doc api/reference/get-role"
+  },
+  "sidebar.docs.doc.Replace role": {
+    "message": "Substituir papel",
+    "description": "The label for the doc item 'Replace role' in sidebar 'docs', linking to the doc api/reference/replace-role"
+  },
+  "sidebar.docs.doc.Patch role": {
+    "message": "Atualizar papel (patch)",
+    "description": "The label for the doc item 'Patch role' in sidebar 'docs', linking to the doc api/reference/patch-role"
+  },
+  "sidebar.docs.doc.Delete role": {
+    "message": "Excluir papel",
+    "description": "The label for the doc item 'Delete role' in sidebar 'docs', linking to the doc api/reference/delete-role"
+  },
+  "sidebar.docs.doc.List permissions": {
+    "message": "Listar permissões",
+    "description": "The label for the doc item 'List permissions' in sidebar 'docs', linking to the doc api/reference/list-permissions"
+  },
+  "sidebar.docs.doc.Get permission by id": {
+    "message": "Obter permissão por id",
+    "description": "The label for the doc item 'Get permission by id' in sidebar 'docs', linking to the doc api/reference/get-permission"
+  },
+  "sidebar.docs.doc.List menu items": {
+    "message": "Listar itens do menu",
+    "description": "The label for the doc item 'List menu items' in sidebar 'docs', linking to the doc api/reference/list-menu"
+  },
+  "sidebar.docs.doc.Create menu item": {
+    "message": "Criar item do menu",
+    "description": "The label for the doc item 'Create menu item' in sidebar 'docs', linking to the doc api/reference/create-menu-item"
+  },
+  "sidebar.docs.doc.Get menu item": {
+    "message": "Obter item do menu",
+    "description": "The label for the doc item 'Get menu item' in sidebar 'docs', linking to the doc api/reference/get-menu-item"
+  },
+  "sidebar.docs.doc.Replace menu item": {
+    "message": "Substituir item do menu",
+    "description": "The label for the doc item 'Replace menu item' in sidebar 'docs', linking to the doc api/reference/replace-menu-item"
+  },
+  "sidebar.docs.doc.Patch menu item": {
+    "message": "Atualizar item do menu (patch)",
+    "description": "The label for the doc item 'Patch menu item' in sidebar 'docs', linking to the doc api/reference/patch-menu-item"
+  },
+  "sidebar.docs.doc.Delete menu item": {
+    "message": "Excluir item do menu",
+    "description": "The label for the doc item 'Delete menu item' in sidebar 'docs', linking to the doc api/reference/delete-menu-item"
+  },
+  "sidebar.docs.doc.List notifications": {
+    "message": "Listar notificações",
+    "description": "The label for the doc item 'List notifications' in sidebar 'docs', linking to the doc api/reference/list-notifications"
+  },
+  "sidebar.docs.doc.Create notification": {
+    "message": "Criar notificação",
+    "description": "The label for the doc item 'Create notification' in sidebar 'docs', linking to the doc api/reference/create-notification"
+  },
+  "sidebar.docs.doc.Get notification": {
+    "message": "Obter notificação",
+    "description": "The label for the doc item 'Get notification' in sidebar 'docs', linking to the doc api/reference/get-notification"
+  },
+  "sidebar.docs.doc.Mark read / patch notification": {
+    "message": "Marcar como lida / patch",
+    "description": "The label for the doc item 'Mark read / patch notification' in sidebar 'docs', linking to the doc api/reference/patch-notification"
+  },
+  "sidebar.docs.doc.Delete notification": {
+    "message": "Excluir notificação",
+    "description": "The label for the doc item 'Delete notification' in sidebar 'docs', linking to the doc api/reference/delete-notification"
+  },
+  "sidebar.docs.doc.List all settings documents": {
+    "message": "Listar documentos de settings",
+    "description": "The label for the doc item 'List all settings documents' in sidebar 'docs', linking to the doc api/reference/list-settings"
+  },
+  "sidebar.docs.doc.Get settings by id": {
+    "message": "Obter settings por id",
+    "description": "The label for the doc item 'Get settings by id' in sidebar 'docs', linking to the doc api/reference/get-settings"
+  },
+  "sidebar.docs.doc.Replace settings document": {
+    "message": "Substituir documento de settings",
+    "description": "The label for the doc item 'Replace settings document' in sidebar 'docs', linking to the doc api/reference/replace-settings"
+  },
+  "sidebar.docs.doc.Patch settings document": {
+    "message": "Atualizar settings (patch)",
+    "description": "The label for the doc item 'Patch settings document' in sidebar 'docs', linking to the doc api/reference/patch-settings"
+  },
+  "sidebar.docs.doc.List dashboard widgets": {
+    "message": "Listar widgets do dashboard",
+    "description": "The label for the doc item 'List dashboard widgets' in sidebar 'docs', linking to the doc api/reference/list-dashboard-stats"
+  },
+  "sidebar.docs.doc.Get dashboard widget": {
+    "message": "Obter widget do dashboard",
+    "description": "The label for the doc item 'Get dashboard widget' in sidebar 'docs', linking to the doc api/reference/get-dashboard-stat"
+  },
+  "sidebar.docs.doc.Hybrid search (users, tenants, settings)": {
+    "message": "Busca híbrida (usuários, tenants, settings)",
+    "description": "The label for the doc item 'Hybrid search (users, tenants, settings)' in sidebar 'docs', linking to the doc api/reference/global-search"
+  }
+}

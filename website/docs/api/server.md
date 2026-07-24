@@ -9,7 +9,7 @@ The mock API is a **json-server** instance with custom auth routes.
 
 - Entry: `mock/server.mjs`
 - Data: `mock/db.json`
-- OpenAPI: `mock/openapi.yaml` (source of truth for [API Reference](/api/reference/acp-admin-mock-api))
+- OpenAPI: `mock/openapi.yaml` (source of truth for [API Reference](./reference/acp-admin-mock-api))
 - Default port: `4001`
 - Start: `make mock` or `npm run mock`
 
@@ -44,7 +44,7 @@ Configure the admin client with `VITE_API_URL` (defaults to `http://localhost:40
 ## Tryable docs
 
 1. Start the mock: `make mock` (or `make dev`)
-2. Open **[API Reference](/api/reference/acp-admin-mock-api)** — use **Send API Request** / Try It against `http://localhost:4001`
+2. Open **[API Reference](./reference/acp-admin-mock-api)** — use **Send API Request** / Try It against `http://localhost:4001`
 3. Or copy curl from [REST examples](./rest-examples)
 
 ### Regenerate after changing the OpenAPI file
@@ -54,3 +54,12 @@ make docs-gen-api   # regenerates website/docs/api/reference from mock/openapi.y
 ```
 
 To swap in a real backend Swagger later: replace `mock/openapi.yaml` (or point `specPath` in `website/docusaurus.config.ts`) and run `make docs-gen-api` again.
+
+## Languages
+
+Docs ship in **English** (default) and **Português** (`/pt/...`). Use the navbar locale switcher. Hand-written API pages are fully translated; OpenAPI operation pages (Try It) keep English summaries from `mock/openapi.yaml`.
+
+## Next steps
+
+1. [REST examples](./rest-examples) — curl / HTTP snippets against `:4001`  
+2. [API Reference](./reference/acp-admin-mock-api) — interactive OpenAPI (Try It)

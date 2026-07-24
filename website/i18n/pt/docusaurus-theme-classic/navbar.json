@@ -1,0 +1,22 @@
+{
+  "title": {
+    "message": "ACP Docs",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "ACP",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Documentation": {
+    "message": "Documentação",
+    "description": "Navbar item with label Documentation"
+  },
+  "item.label.Admin": {
+    "message": "Admin",
+    "description": "Navbar item with label Admin"
+  },
+  "item.label.Console": {
+    "message": "Console",
+    "description": "Navbar item with label Console"
+  }
+}

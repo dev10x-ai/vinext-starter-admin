@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom'
+import { AcpLogo } from '@/components/brand/AcpLogo'
+import { AcpShieldMark } from '@/components/brand/AcpShieldMark'
 import { Button } from '@/components/ui/Button'
 import { ArrowRight, Gauge, Layers, ShieldCheck } from 'lucide-react'
 
@@ -17,9 +19,9 @@ export function LandingPage() {
               'radial-gradient(1200px 500px at 80% -10%, var(--hero-glow), transparent), linear-gradient(180deg, var(--color-surface), var(--color-background))',
           }}
         />
-        <div className="relative mx-auto grid min-h-[calc(100vh-4rem)] max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:px-6">
+        <div className="relative mx-auto grid min-h-[calc(100vh-4rem)] max-w-6xl items-center gap-10 px-4 py-12 sm:py-16 md:grid-cols-2 md:px-6">
           <div className="animate-fade-up">
-            <img src="/branding/acp-logo.svg" alt="ACP" className="mb-8 h-12 md:h-14" />
+            <AcpLogo className="mb-8" markClassName="h-12 w-12 md:h-14 md:w-14" />
             <h1 className="max-w-xl font-[family-name:var(--font-display)] text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
               Operations console for multi-tenant platforms
             </h1>
@@ -42,9 +44,8 @@ export function LandingPage() {
           <div className="animate-fade-up-delay relative hidden md:block">
             <div className="absolute inset-0 rounded-2xl bg-[var(--hero-glow)] blur-2xl" />
             <div className="relative overflow-hidden rounded-2xl border border-[var(--color-divider)] bg-[var(--color-surface)] shadow-2xl">
-              <img
-                src="/branding/acp-mark.svg"
-                alt=""
+              <AcpShieldMark
+                title=""
                 className="absolute -right-6 -top-6 h-40 w-40 opacity-10"
               />
               <div className="space-y-4 p-8">

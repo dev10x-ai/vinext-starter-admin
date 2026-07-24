@@ -26,6 +26,11 @@ body,
   min-height: 100%;
 }
 
+/* Prevent accidental horizontal scroll from wide admin tables/toolbars */
+html {
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   font-family: var(--font-body);

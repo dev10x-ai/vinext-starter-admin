@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
+import { Switch } from '@/components/ui/Switch'
 import { useAuthStore } from '@/store/auth'
 import { useUpdateUserMutation } from '@/queries'
 
@@ -63,23 +64,23 @@ export function ProfilePage() {
             When enabled, password login requires OTP <code>123456</code> (mocked). OTP-only login still works
             without enabling 2FA.
           </p>
-          <div className="mt-4 flex items-center gap-3">
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Badge tone={user.twoFactorEnabled ? 'success' : 'neutral'}>
               {user.twoFactorEnabled ? 'Enabled' : 'Disabled'}
             </Badge>
-            <Button
-              variant="secondary"
+            <Switch
+              label={user.twoFactorEnabled ? '2FA on' : '2FA off'}
+              checked={user.twoFactorEnabled}
               disabled={updateUser.isPending}
-              onClick={async () => {
+              onChange={async (event) => {
+                const enabled = event.target.checked
                 const updated = await updateUser.mutateAsync({
                   id: user.id,
-                  body: { twoFactorEnabled: !user.twoFactorEnabled },
+                  body: { twoFactorEnabled: enabled },
                 })
                 setUser({ ...user, ...updated })
               }}
-            >
-              {user.twoFactorEnabled ? 'Disable 2FA' : 'Activate 2FA'}
-            </Button>
+            />
           </div>
         </Card>
       </div>

@@ -180,6 +180,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '@/components/ui/Input'
+import { Checkbox } from '@/components/ui/Checkbox'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 
@@ -200,10 +201,7 @@ export function BooleanCheckboxPattern() {
     <Card className="space-y-3">
       <form className="space-y-3" onSubmit={form.handleSubmit(console.log)}>
         <Input label="Model" {...form.register('model')} />
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" {...form.register('enabled')} />
-          Enabled
-        </label>
+        <Checkbox label="Enabled" {...form.register('enabled')} />
         <Button type="submit">Save</Button>
       </form>
     </Card>
@@ -220,6 +218,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '@/components/ui/Input'
+import { Checkbox } from '@/components/ui/Checkbox'
 import { Button } from '@/components/ui/Button'
 
 const schema = z.object({
@@ -251,14 +250,12 @@ export function PermissionCheckboxesPattern() {
     <form className="space-y-4" onSubmit={form.handleSubmit(console.log)}>
       <Input label="Role name" error={form.formState.errors.name?.message} {...form.register('name')} />
       {ALL_PERMS.map((p) => (
-        <label key={p.key} className="flex items-center gap-2 text-sm">
-          <input
-            type="checkbox"
-            checked={watched.includes(p.key)}
-            onChange={() => togglePerm(p.key)}
-          />
-          {p.label}
-        </label>
+        <Checkbox
+          key={p.key}
+          label={p.label}
+          checked={watched.includes(p.key)}
+          onChange={() => togglePerm(p.key)}
+        />
       ))}
       <Button type="submit">Save role</Button>
     </form>
@@ -373,25 +370,32 @@ const form = useForm<Form>({
 })
 ```
 
-## 2FA toggle without Switch
+## 2FA with Switch
 
-There is no `Switch` component. Profile uses `Badge` + `Button`:
+Profile pairs `Badge` status with a `Switch`:
 
 ```tsx
 import { Badge } from '@/components/ui/Badge'
-import { Button } from '@/components/ui/Button'
+import { Switch } from '@/components/ui/Switch'
 
 <div className="flex items-center gap-3">
   <Badge tone={enabled ? 'success' : 'neutral'}>
     {enabled ? 'Enabled' : 'Disabled'}
   </Badge>
-  <Button variant="secondary" onClick={() => toggle()}>
-    {enabled ? 'Disable 2FA' : 'Activate 2FA'}
-  </Button>
+  <Switch
+    label={enabled ? '2FA on' : '2FA off'}
+    checked={enabled}
+    onChange={(e) => void toggle(e.target.checked)}
+  />
 </div>
 ```
 
-## Related
+## Next steps
 
-- [Form fields](./form-fields) — props tables
-- [DataTable](./data-table) — list pages that host these modals
+Forms usually sit beside a list page. Continue in reading order:
+
+1. [Typography](./typography) — `Prose` for semantic HTML content  
+2. [Lists & tables](./lists-and-tables) — Filament-inspired index mental model  
+3. [DataTable](./data-table) — search, filters, columns, full list-page skeleton  
+
+Related: [Form fields](./form-fields) for props tables.

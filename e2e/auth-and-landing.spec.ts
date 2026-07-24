@@ -1,9 +1,10 @@
 import { expect, test } from '@playwright/test'
+import { signIn } from './helpers/auth'
 
 test.describe('landing + auth', () => {
   test('landing is brand-first and links to auth', async ({ page }) => {
     await page.goto('/')
-    await expect(page.getByRole('img', { name: 'ACP' }).first()).toBeVisible()
+    await expect(page.getByLabel('ACP').first()).toBeVisible()
     await expect(page.getByRole('heading', { name: /operations console/i })).toBeVisible()
     await page.getByRole('link', { name: /open console/i }).click()
     await expect(page).toHaveURL(/\/login/)
@@ -20,14 +21,19 @@ test.describe('landing + auth', () => {
   test('signup page is available', async ({ page }) => {
     await page.goto('/signup')
     await expect(page.getByRole('heading', { name: /create your account/i })).toBeVisible()
+    await expect(page.getByLabel('Email')).toBeVisible()
+  })
+
+  test('forgot password smoke', async ({ page }) => {
+    await page.goto('/forgot-password')
+    await expect(page.getByRole('heading', { name: /forgot password/i })).toBeVisible()
+    await page.getByLabel('Email').fill('admin@acp.local')
+    await page.getByRole('button', { name: /send reset code/i }).click()
+    await expect(page.getByText(/demo otp/i)).toBeVisible()
   })
 
   test('login reaches dashboard', async ({ page }) => {
-    await page.goto('/login')
-    await page.getByLabel('Email').fill('admin@acp.local')
-    await page.getByLabel('Password').fill('Admin123!')
-    await page.getByRole('button', { name: /^sign in$/i }).click()
-    await expect(page).toHaveURL(/\/app/)
+    await signIn(page)
     await expect(page.getByRole('heading', { name: /dashboard/i })).toBeVisible()
     await expect(page.getByLabel('Search')).toBeVisible()
     await expect(page.getByLabel('Tenant')).toBeVisible()
@@ -46,11 +52,7 @@ test.describe('landing + auth', () => {
   })
 
   test('user menu switches brand theme and appearance', async ({ page }) => {
-    await page.goto('/login')
-    await page.getByLabel('Email').fill('admin@acp.local')
-    await page.getByLabel('Password').fill('Admin123!')
-    await page.getByRole('button', { name: /^sign in$/i }).click()
-    await expect(page).toHaveURL(/\/app/)
+    await signIn(page)
 
     await expect(page.getByLabel('Theme')).toHaveCount(0)
     await expect(page.getByLabel('Toggle night mode')).toHaveCount(0)

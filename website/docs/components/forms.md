@@ -5,34 +5,40 @@ title: Forms
 
 # Forms
 
-Auth and CRUD screens in ACP Admin use **React Hook Form** + **Zod** (`zodResolver`). Field UI comes from thin wrappers under `src/components/ui/`.
+Auth and CRUD screens in ACP Admin use **React Hook Form** + **Zod** (`zodResolver`). Field UI comes from thin wrappers under `src/components/ui/` (also re-exported from `src/components/ui/index.ts`).
+
+**Showcase:** `/app/design-system/forms` (sidebar → **Design System → Forms**)
 
 ## Stack
 
 | Piece | Package / path |
 |-------|----------------|
-| Form state | `react-hook-form` (`useForm`, `register`, `handleSubmit`, `watch`, `setValue`) |
+| Form state | `react-hook-form` (`useForm`, `register`, `handleSubmit`, `watch`, `setValue`, `Controller`) |
 | Schema | `zod` + `@hookform/resolvers/zod` |
 | Text / select | `@/components/ui/Input`, `@/components/ui/Select` |
+| Boolean / multi | `@/components/ui/Checkbox`, `@/components/ui/Switch` |
+| Long text / date / file | `@/components/ui/Textarea`, `@/components/ui/DatePicker`, `@/components/ui/FileUpload` |
+| OTP digits | `@/components/ui/InputOTP` |
 | Actions | `@/components/ui/Button` |
 | Dialogs | `@/components/ui/Modal` |
 | Sections | `@/components/ui/Card`, `@/components/ui/PageHeader` |
 
 Server reads/writes use **TanStack Query** hooks under `src/queries/`. Session and UI prefs live in **Zustand**.
 
-## What exists vs planned
+## Control inventory
 
-| Control | Status | How the app uses it today |
-|---------|--------|---------------------------|
-| `Input` | **Exported** | Text, email, password, OTP code, numbers via native `type` / `inputMode` |
+| Control | Status | Typical usage |
+|---------|--------|---------------|
+| `Input` | **Exported** | Text, email, password, numbers via native `type` / `inputMode` |
 | `Select` | **Exported** | Status, role, plan, provider dropdowns |
+| `Checkbox` | **Exported** | Menu enabled, AI/integrations toggles, role permissions |
+| `Switch` | **Exported** | Profile 2FA, logs export toggle |
+| `Textarea` | **Exported** | Role description |
+| `DatePicker` | **Exported** | Logs purge-before date |
+| `FileUpload` | **Exported** | Logs import filter config (filename stored in mock) |
+| `InputOTP` | **Exported** | OTP verify page (`Controller` + 6 digits) |
 | `Button` | **Exported** | Submit / secondary / danger actions |
 | `Modal` | **Exported** | Create/edit forms (Users, Tenants) |
-| Checkbox | **Native only** | `<input type="checkbox">` + RHF `register` or controlled `setValue` |
-| Switch / Toggle | **Not exported** | 2FA uses `Button` + `Badge`, not a switch primitive |
-| Textarea | **Not exported** | Use native `<textarea>` if needed |
-| Date / File | **Not exported** | Not used in current screens |
-| Dedicated OTP digits | **Not exported** | Single `Input` with `inputMode="numeric"` |
 
 See [Form fields](./form-fields) for props and copy-paste examples, and [Form patterns](./form-patterns) for full screen recipes.
 
@@ -40,10 +46,11 @@ See [Form fields](./form-fields) for props and copy-paste examples, and [Form pa
 
 1. Define a Zod schema, then `type Form = z.infer<typeof schema>`.
 2. Wire `useForm` with `resolver: zodResolver(schema)` and `defaultValues`.
-3. Pass field errors into `Input` / `Select` via the `error` prop from `form.formState.errors`.
+3. Pass field errors into field components via the `error` prop from `form.formState.errors`.
 4. Prefer `form.handleSubmit` for async mutations.
-5. For booleans, use native checkbox + `register('enabled')` (Zod `z.boolean()`).
-6. For permission arrays, control checkboxes with `watch` + `setValue` (see Roles).
+5. For booleans, use `Checkbox` / `Switch` with `register('enabled')` (Zod `z.boolean()`).
+6. For permission arrays, control `Checkbox` with `watch` + `setValue` (see Roles).
+7. For OTP digit groups, prefer `Controller` + `InputOTP` (`value` / `onChange` string API).
 
 ## Minimal example
 
@@ -93,10 +100,11 @@ export function LoginSnippet() {
 
 ## Screens that use this pattern
 
-Login (password + OTP request), OTP verify, Signup, Forgot password, Change password, Users/Tenants modals, Roles, Menu editor, Profile, Platform settings panels.
+Login (password + OTP request), OTP verify (`InputOTP`), Signup, Forgot password, Change password, Users/Tenants modals, Roles (`Checkbox` + `Textarea`), Menu editor, Profile (`Switch` for 2FA), Platform settings panels (`Checkbox`, `Switch`, `DatePicker`, `FileUpload`).
 
-## Next
+## Next steps
 
-- [Form fields](./form-fields) — `Input`, `Select`, `Button`, layout helpers
-- [Form patterns](./form-patterns) — OTP, checkboxes, password strength, modal CRUD
-- [DataTable](./data-table) — Filament-inspired list tooling
+1. [Form fields](./form-fields) — props and copy-paste for every control  
+2. [Form patterns](./form-patterns) — OTP, checkboxes, password strength, modal CRUD  
+3. [Typography](./typography) — `Prose` for semantic HTML content  
+4. Then [Lists & tables](./lists-and-tables) → [DataTable](./data-table) for index pages that host these forms

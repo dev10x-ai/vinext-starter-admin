@@ -22,6 +22,8 @@ import {
   ThirdPartySettingsPage,
 } from '@/pages/settings/SettingsPanels'
 import { SettingsLayout } from '@/pages/settings/SettingsPage'
+import { FormsPage } from '@/pages/design-system/FormsPage'
+import { TypographyPage } from '@/pages/design-system/TypographyPage'
 
 export default function App() {
   return (
@@ -42,14 +44,16 @@ export default function App() {
 
         <Route path="app" element={<AppLayout />}>
           <Route index element={<DashboardPage />} />
-        <Route path="access/users" element={<UsersPage />} />
-        <Route path="access/users/new" element={<UsersPage />} />
-        <Route path="access/users/:userId/edit" element={<UsersPage />} />
-        <Route path="access/roles" element={<RolesPage />} />
-        <Route path="access/menu" element={<MenuPage />} />
-        <Route path="access/tenants" element={<TenantsPage />} />
-        <Route path="access/tenants/new" element={<TenantsPage />} />
-        <Route path="access/tenants/:tenantId/edit" element={<TenantsPage />} />
+          <Route path="access/users" element={<UsersPage />} />
+          <Route path="access/users/new" element={<UsersPage />} />
+          <Route path="access/users/:userId/edit" element={<UsersPage />} />
+          <Route path="access/roles" element={<RolesPage />} />
+          <Route path="access/menu" element={<MenuPage />} />
+          <Route path="access/tenants" element={<TenantsPage />} />
+          <Route path="access/tenants/new" element={<TenantsPage />} />
+          <Route path="access/tenants/:tenantId/edit" element={<TenantsPage />} />
+          <Route path="design-system/forms" element={<FormsPage />} />
+          <Route path="design-system/typography" element={<TypographyPage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="settings" element={<SettingsLayout />}>
             <Route index element={<Navigate to="ai" replace />} />

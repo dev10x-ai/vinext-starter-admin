@@ -107,11 +107,13 @@ export function TenantSwitcher() {
   }
 
   return (
-    <div className="relative shrink-0" ref={rootRef}>
+    <div className="relative min-w-0" ref={rootRef}>
       <button
         type="button"
         className={cn(
-          'flex max-w-[180px] items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium transition-colors',
+          // Mobile: icon-only so header keeps room for notifications + user menu.
+          'flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium transition-colors',
+          'max-w-[2.75rem] sm:max-w-[140px] sm:justify-start md:max-w-[180px]',
           'text-[var(--color-text)] hover:bg-[var(--color-accent)]',
           open && 'bg-[var(--color-accent)]',
         )}
@@ -123,11 +125,11 @@ export function TenantSwitcher() {
         onKeyDown={onTriggerKeyDown}
       >
         <Building2 size={16} className="shrink-0 text-[var(--color-text-muted)]" aria-hidden />
-        <span className="truncate">{displayName}</span>
+        <span className="hidden min-w-0 truncate sm:inline">{displayName}</span>
         <ChevronDown
           size={14}
           className={cn(
-            'shrink-0 text-[var(--color-text-muted)] transition-transform',
+            'hidden shrink-0 text-[var(--color-text-muted)] transition-transform sm:inline',
             open && 'rotate-180',
           )}
           aria-hidden

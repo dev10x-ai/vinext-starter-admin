@@ -6,11 +6,14 @@ import { PageHeader } from '@/components/ui/PageHeader'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
+import { Textarea } from '@/components/ui/Textarea'
+import { Checkbox } from '@/components/ui/Checkbox'
 import { usePermissionsQuery, useRolesQuery, useUpdateRoleMutation } from '@/queries'
 import type { Role } from '@/types'
 
 const schema = z.object({
   name: z.string().min(2, 'Role name is required'),
+  description: z.string().min(1, 'Description is required'),
   permissions: z.array(z.string()),
 })
 
@@ -29,12 +32,16 @@ export function RolesPage() {
 
   const form = useForm<Form>({
     resolver: zodResolver(schema),
-    defaultValues: { name: '', permissions: [] },
+    defaultValues: { name: '', description: '', permissions: [] },
   })
 
   useEffect(() => {
     if (!selected) return
-    form.reset({ name: selected.name, permissions: selected.permissions })
+    form.reset({
+      name: selected.name,
+      description: selected.description,
+      permissions: selected.permissions,
+    })
   }, [selected, form])
 
   const groups = [...new Set(permissions.map((p) => p.group))]
@@ -80,14 +87,19 @@ export function RolesPage() {
                   body: {
                     name: values.name,
                     permissions: values.permissions,
-                    description: selected.description,
+                    description: values.description,
                     key: selected.key,
                   },
                 })
               })}
             >
               <Input label="Role name" error={form.formState.errors.name?.message} {...form.register('name')} />
-              <p className="text-sm text-[var(--color-text-muted)]">{selected.description}</p>
+              <Textarea
+                label="Description"
+                hint="Shown to operators when assigning this role"
+                error={form.formState.errors.description?.message}
+                {...form.register('description')}
+              />
               <div className="space-y-4">
                 {groups.map((g) => (
                   <div key={g}>
@@ -96,14 +108,12 @@ export function RolesPage() {
                       {permissions
                         .filter((p) => p.group === g)
                         .map((p) => (
-                          <label key={p.id} className="flex items-center gap-2 text-sm">
-                            <input
-                              type="checkbox"
-                              checked={watchedPermissions.includes(p.key)}
-                              onChange={() => togglePerm(p.key)}
-                            />
-                            {p.label} <span className="text-[var(--color-text-muted)]">({p.key})</span>
-                          </label>
+                          <Checkbox
+                            key={p.id}
+                            label={`${p.label} (${p.key})`}
+                            checked={watchedPermissions.includes(p.key)}
+                            onChange={() => togglePerm(p.key)}
+                          />
                         ))}
                     </div>
                   </div>

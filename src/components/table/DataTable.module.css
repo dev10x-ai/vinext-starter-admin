@@ -1,0 +1,77 @@
+.root {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toolbarSearch {
+  flex: 1 1 100%;
+  min-width: 0;
+}
+
+@media (min-width: 480px) {
+  .toolbarSearch {
+    flex: 1 1 14rem;
+    min-width: 12rem;
+  }
+}
+
+.toolbarActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.scroll {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+.table {
+  width: 100%;
+  min-width: 36rem;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-top: 1px solid var(--color-divider);
+  padding-top: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.footerControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+@media (max-width: 479px) {
+  .footer {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .footerControls {
+    width: 100%;
+    justify-content: center;
+  }
+}

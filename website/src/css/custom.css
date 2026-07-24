@@ -1,23 +1,465 @@
+/**
+ * Docs theme aligned with admin `src/config/themes` (Default / Ruby / Emerald).
+ *
+ * - Light/dark: Docusaurus `data-theme` ("light" | "dark")
+ * - Brand pack: `data-brand` ("default" | "ruby" | "emerald") — optional switcher
+ * - Fonts: DM Sans (body) + Source Serif 4 (headings, Default brand only)
+ */
+
+/* -------------------------------------------------------------------------- */
+/* Shared admin font stacks                                                    */
+/* -------------------------------------------------------------------------- */
+
 :root {
-  --ifm-color-primary: #1b4f8a;
+  --acp-font-display: 'Source Serif 4', Georgia, serif;
+  --acp-font-body: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+
+  --ifm-font-family-base: var(--acp-font-body);
+  --ifm-heading-font-family: var(--acp-font-display);
+  --ifm-font-family-monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+  --ifm-code-font-size: 95%;
+
+  --ifm-heading-font-weight: 600;
+  --ifm-font-weight-semibold: 600;
+  --ifm-global-radius: 0.5rem;
+  --ifm-button-border-radius: 0.5rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Default brand — light (admin themes.default.light)                          */
+/* -------------------------------------------------------------------------- */
+
+:root,
+html[data-brand='default'] {
+  --acp-color-primary: #1b4f8a;
+  --acp-color-primary-hover: #163f6e;
+  --acp-color-secondary: #3d7ab5;
+  --acp-color-accent: #e8eef5;
+  --acp-color-surface: #ffffff;
+  --acp-color-background: #f3f6fa;
+  --acp-color-divider: #d5dee8;
+  --acp-color-card: #ffffff;
+  --acp-color-text: #152033;
+  --acp-color-text-muted: #5a6b7d;
+  --acp-color-success: #0f8a5f;
+  --acp-color-warning: #c98512;
+  --acp-color-danger: #c23b2a;
+  --acp-font-display: 'Source Serif 4', Georgia, serif;
+  --acp-font-body: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --acp-hero-glow: rgba(27, 79, 138, 0.18);
+
+  --ifm-color-primary: var(--acp-color-primary);
   --ifm-color-primary-dark: #163f6e;
   --ifm-color-primary-darker: #13365e;
   --ifm-color-primary-darkest: #0f2a49;
   --ifm-color-primary-light: #3d7ab5;
   --ifm-color-primary-lighter: #5b9bd5;
   --ifm-color-primary-lightest: #8ab8e2;
-  --ifm-code-font-size: 95%;
-  --ifm-font-family-base: 'DM Sans', system-ui, sans-serif;
+
+  --ifm-color-success: var(--acp-color-success);
+  --ifm-color-warning: var(--acp-color-warning);
+  --ifm-color-danger: var(--acp-color-danger);
+
+  --ifm-background-color: var(--acp-color-background);
+  --ifm-background-surface-color: var(--acp-color-surface);
+  --ifm-navbar-background-color: var(--acp-color-surface);
+  --ifm-footer-background-color: #121a24;
+  --ifm-font-color-base: var(--acp-color-text);
+  --ifm-font-color-secondary: var(--acp-color-text-muted);
+  --ifm-color-content: var(--acp-color-text);
+  --ifm-color-content-secondary: var(--acp-color-text-muted);
+  --ifm-toc-border-color: var(--acp-color-divider);
+  --ifm-hr-background-color: var(--acp-color-divider);
+  --ifm-table-border-color: var(--acp-color-divider);
+  --ifm-color-emphasis-200: var(--acp-color-divider);
+  --ifm-color-emphasis-300: var(--acp-color-divider);
+  --ifm-hover-overlay: var(--acp-color-accent);
+  --ifm-menu-color: var(--acp-color-text);
+  --ifm-menu-color-active: var(--acp-color-primary);
+  --ifm-link-color: var(--acp-color-primary);
+  --ifm-link-hover-color: var(--acp-color-primary-hover);
+  --ifm-breadcrumb-color-active: var(--acp-color-primary);
+  --ifm-navbar-link-hover-color: var(--acp-color-primary);
+  --ifm-tabs-color-active: var(--acp-color-primary);
+  --ifm-tabs-color-active-border: var(--acp-color-primary);
+
+  --ifm-heading-font-family: var(--acp-font-display);
+  --ifm-font-family-base: var(--acp-font-body);
+
   --docusaurus-highlighted-code-line-bg: rgba(27, 79, 138, 0.08);
+  --openapi-code-block-background-color: var(--acp-color-card);
 }
 
-[data-theme='dark'] {
-  --ifm-color-primary: #5b9bd5;
+/* -------------------------------------------------------------------------- */
+/* Default brand — dark (admin themes.default.dark)                            */
+/* -------------------------------------------------------------------------- */
+
+[data-theme='dark'],
+html[data-brand='default'][data-theme='dark'] {
+  --acp-color-primary: #5b9bd5;
+  --acp-color-primary-hover: #7bb0e0;
+  --acp-color-secondary: #3d7ab5;
+  --acp-color-accent: #1a2433;
+  --acp-color-surface: #121a24;
+  --acp-color-background: #0b1118;
+  --acp-color-divider: #2a3545;
+  --acp-color-card: #162131;
+  --acp-color-text: #e8eef5;
+  --acp-color-text-muted: #9aabc0;
+  --acp-color-success: #2bb98a;
+  --acp-color-warning: #e0a93a;
+  --acp-color-danger: #e06a5a;
+  --acp-font-display: 'Source Serif 4', Georgia, serif;
+  --acp-font-body: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --acp-hero-glow: rgba(91, 155, 213, 0.15);
+
+  --ifm-color-primary: var(--acp-color-primary);
   --ifm-color-primary-dark: #3d7ab5;
   --ifm-color-primary-darker: #1b4f8a;
   --ifm-color-primary-darkest: #163f6e;
   --ifm-color-primary-light: #7bb0e0;
   --ifm-color-primary-lighter: #8ab8e2;
   --ifm-color-primary-lightest: #a8c5e2;
+
+  --ifm-color-success: var(--acp-color-success);
+  --ifm-color-warning: var(--acp-color-warning);
+  --ifm-color-danger: var(--acp-color-danger);
+
+  --ifm-background-color: var(--acp-color-background);
+  --ifm-background-surface-color: var(--acp-color-surface);
+  --ifm-navbar-background-color: var(--acp-color-surface);
+  --ifm-footer-background-color: #0b1118;
+  --ifm-font-color-base: var(--acp-color-text);
+  --ifm-font-color-secondary: var(--acp-color-text-muted);
+  --ifm-color-content: var(--acp-color-text);
+  --ifm-color-content-secondary: var(--acp-color-text-muted);
+  --ifm-toc-border-color: var(--acp-color-divider);
+  --ifm-hr-background-color: var(--acp-color-divider);
+  --ifm-table-border-color: var(--acp-color-divider);
+  --ifm-color-emphasis-200: var(--acp-color-divider);
+  --ifm-color-emphasis-300: var(--acp-color-divider);
+  --ifm-hover-overlay: var(--acp-color-accent);
+  --ifm-menu-color: var(--acp-color-text);
+  --ifm-menu-color-active: var(--acp-color-primary);
+  --ifm-link-color: var(--acp-color-primary);
+  --ifm-link-hover-color: var(--acp-color-primary-hover);
+  --ifm-breadcrumb-color-active: var(--acp-color-primary);
+  --ifm-navbar-link-hover-color: var(--acp-color-primary);
+  --ifm-tabs-color-active: var(--acp-color-primary);
+  --ifm-tabs-color-active-border: var(--acp-color-primary);
+
   --docusaurus-highlighted-code-line-bg: rgba(91, 155, 213, 0.15);
+  --openapi-code-block-background-color: var(--acp-color-card);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Ruby brand — light / dark (admin themes.ruby)                               */
+/* -------------------------------------------------------------------------- */
+
+html[data-brand='ruby'] {
+  --acp-color-primary: #b91c1c;
+  --acp-color-primary-hover: #991b1b;
+  --acp-color-secondary: #171717;
+  --acp-color-accent: #fef2f2;
+  --acp-color-surface: #ffffff;
+  --acp-color-background: #fafafa;
+  --acp-color-divider: #e5e5e5;
+  --acp-color-card: #ffffff;
+  --acp-color-text: #0a0a0a;
+  --acp-color-text-muted: #525252;
+  --acp-color-success: #15803d;
+  --acp-color-warning: #c2410c;
+  --acp-color-danger: #dc2626;
+  --acp-font-display: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --acp-font-body: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --acp-hero-glow: rgba(185, 28, 28, 0.16);
+
+  --ifm-color-primary: var(--acp-color-primary);
+  --ifm-color-primary-dark: #991b1b;
+  --ifm-color-primary-darker: #7f1d1d;
+  --ifm-color-primary-darkest: #450a0a;
+  --ifm-color-primary-light: #dc2626;
+  --ifm-color-primary-lighter: #ef4444;
+  --ifm-color-primary-lightest: #fca5a5;
+
+  --ifm-color-success: var(--acp-color-success);
+  --ifm-color-warning: var(--acp-color-warning);
+  --ifm-color-danger: var(--acp-color-danger);
+
+  --ifm-background-color: var(--acp-color-background);
+  --ifm-background-surface-color: var(--acp-color-surface);
+  --ifm-navbar-background-color: var(--acp-color-surface);
+  --ifm-footer-background-color: #0c0c0c;
+  --ifm-font-color-base: var(--acp-color-text);
+  --ifm-font-color-secondary: var(--acp-color-text-muted);
+  --ifm-color-content: var(--acp-color-text);
+  --ifm-color-content-secondary: var(--acp-color-text-muted);
+  --ifm-toc-border-color: var(--acp-color-divider);
+  --ifm-hr-background-color: var(--acp-color-divider);
+  --ifm-table-border-color: var(--acp-color-divider);
+  --ifm-color-emphasis-200: var(--acp-color-divider);
+  --ifm-color-emphasis-300: var(--acp-color-divider);
+  --ifm-hover-overlay: var(--acp-color-accent);
+  --ifm-menu-color: var(--acp-color-text);
+  --ifm-menu-color-active: var(--acp-color-primary);
+  --ifm-link-color: var(--acp-color-primary);
+  --ifm-link-hover-color: var(--acp-color-primary-hover);
+  --ifm-breadcrumb-color-active: var(--acp-color-primary);
+  --ifm-navbar-link-hover-color: var(--acp-color-primary);
+  --ifm-tabs-color-active: var(--acp-color-primary);
+  --ifm-tabs-color-active-border: var(--acp-color-primary);
+
+  --ifm-heading-font-family: var(--acp-font-display);
+  --ifm-font-family-base: var(--acp-font-body);
+
+  --docusaurus-highlighted-code-line-bg: rgba(185, 28, 28, 0.08);
+}
+
+html[data-brand='ruby'][data-theme='dark'] {
+  --acp-color-primary: #ef4444;
+  --acp-color-primary-hover: #f87171;
+  --acp-color-secondary: #7f1d1d;
+  --acp-color-accent: #1c0a0a;
+  --acp-color-surface: #0c0c0c;
+  --acp-color-background: #000000;
+  --acp-color-divider: #262626;
+  --acp-color-card: #141414;
+  --acp-color-text: #fafafa;
+  --acp-color-text-muted: #a3a3a3;
+  --acp-color-success: #22c55e;
+  --acp-color-warning: #f59e0b;
+  --acp-color-danger: #f87171;
+  --acp-font-display: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --acp-font-body: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --acp-hero-glow: rgba(239, 68, 68, 0.18);
+
+  --ifm-color-primary: var(--acp-color-primary);
+  --ifm-color-primary-dark: #dc2626;
+  --ifm-color-primary-darker: #b91c1c;
+  --ifm-color-primary-darkest: #7f1d1d;
+  --ifm-color-primary-light: #f87171;
+  --ifm-color-primary-lighter: #fca5a5;
+  --ifm-color-primary-lightest: #fecaca;
+
+  --ifm-color-success: var(--acp-color-success);
+  --ifm-color-warning: var(--acp-color-warning);
+  --ifm-color-danger: var(--acp-color-danger);
+
+  --ifm-background-color: var(--acp-color-background);
+  --ifm-background-surface-color: var(--acp-color-surface);
+  --ifm-navbar-background-color: var(--acp-color-surface);
+  --ifm-footer-background-color: #000000;
+  --ifm-font-color-base: var(--acp-color-text);
+  --ifm-font-color-secondary: var(--acp-color-text-muted);
+  --ifm-color-content: var(--acp-color-text);
+  --ifm-color-content-secondary: var(--acp-color-text-muted);
+  --ifm-toc-border-color: var(--acp-color-divider);
+  --ifm-hr-background-color: var(--acp-color-divider);
+  --ifm-table-border-color: var(--acp-color-divider);
+  --ifm-color-emphasis-200: var(--acp-color-divider);
+  --ifm-color-emphasis-300: var(--acp-color-divider);
+  --ifm-hover-overlay: var(--acp-color-accent);
+  --ifm-menu-color: var(--acp-color-text);
+  --ifm-menu-color-active: var(--acp-color-primary);
+  --ifm-link-color: var(--acp-color-primary);
+  --ifm-link-hover-color: var(--acp-color-primary-hover);
+  --ifm-breadcrumb-color-active: var(--acp-color-primary);
+  --ifm-navbar-link-hover-color: var(--acp-color-primary);
+  --ifm-tabs-color-active: var(--acp-color-primary);
+  --ifm-tabs-color-active-border: var(--acp-color-primary);
+
+  --docusaurus-highlighted-code-line-bg: rgba(239, 68, 68, 0.15);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Emerald brand — light / dark (admin themes.emerald)                         */
+/* -------------------------------------------------------------------------- */
+
+html[data-brand='emerald'] {
+  --acp-color-primary: #16a34a;
+  --acp-color-primary-hover: #15803d;
+  --acp-color-secondary: #368bc9;
+  --acp-color-accent: #f7f9fb;
+  --acp-color-surface: #ffffff;
+  --acp-color-background: #f9fafb;
+  --acp-color-divider: #e1e4eb;
+  --acp-color-card: #ffffff;
+  --acp-color-text: #111827;
+  --acp-color-text-muted: #6b7280;
+  --acp-color-success: #00b58c;
+  --acp-color-warning: #f7c948;
+  --acp-color-danger: #f04438;
+  --acp-font-display: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --acp-font-body: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --acp-hero-glow: rgba(22, 163, 74, 0.14);
+
+  --ifm-color-primary: var(--acp-color-primary);
+  --ifm-color-primary-dark: #15803d;
+  --ifm-color-primary-darker: #166534;
+  --ifm-color-primary-darkest: #14532d;
+  --ifm-color-primary-light: #22c55e;
+  --ifm-color-primary-lighter: #4ade80;
+  --ifm-color-primary-lightest: #86efac;
+
+  --ifm-color-success: var(--acp-color-success);
+  --ifm-color-warning: var(--acp-color-warning);
+  --ifm-color-danger: var(--acp-color-danger);
+
+  --ifm-background-color: var(--acp-color-background);
+  --ifm-background-surface-color: var(--acp-color-surface);
+  --ifm-navbar-background-color: var(--acp-color-surface);
+  --ifm-footer-background-color: #1b1e25;
+  --ifm-font-color-base: var(--acp-color-text);
+  --ifm-font-color-secondary: var(--acp-color-text-muted);
+  --ifm-color-content: var(--acp-color-text);
+  --ifm-color-content-secondary: var(--acp-color-text-muted);
+  --ifm-toc-border-color: var(--acp-color-divider);
+  --ifm-hr-background-color: var(--acp-color-divider);
+  --ifm-table-border-color: var(--acp-color-divider);
+  --ifm-color-emphasis-200: var(--acp-color-divider);
+  --ifm-color-emphasis-300: var(--acp-color-divider);
+  --ifm-hover-overlay: var(--acp-color-accent);
+  --ifm-menu-color: var(--acp-color-text);
+  --ifm-menu-color-active: var(--acp-color-primary);
+  --ifm-link-color: var(--acp-color-primary);
+  --ifm-link-hover-color: var(--acp-color-primary-hover);
+  --ifm-breadcrumb-color-active: var(--acp-color-primary);
+  --ifm-navbar-link-hover-color: var(--acp-color-primary);
+  --ifm-tabs-color-active: var(--acp-color-primary);
+  --ifm-tabs-color-active-border: var(--acp-color-primary);
+
+  --ifm-heading-font-family: var(--acp-font-display);
+  --ifm-font-family-base: var(--acp-font-body);
+
+  --docusaurus-highlighted-code-line-bg: rgba(22, 163, 74, 0.08);
+}
+
+html[data-brand='emerald'][data-theme='dark'] {
+  --acp-color-primary: #22c55e;
+  --acp-color-primary-hover: #5ee349;
+  --acp-color-secondary: #368bc9;
+  --acp-color-accent: #2b2f37;
+  --acp-color-surface: #1b1e25;
+  --acp-color-background: #111318;
+  --acp-color-divider: #3f434c;
+  --acp-color-card: #212632;
+  --acp-color-text: #f2f4f8;
+  --acp-color-text-muted: #9ca0af;
+  --acp-color-success: #00b58c;
+  --acp-color-warning: #f7c948;
+  --acp-color-danger: #f04438;
+  --acp-font-display: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --acp-font-body: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --acp-hero-glow: rgba(34, 197, 94, 0.12);
+
+  --ifm-color-primary: var(--acp-color-primary);
+  --ifm-color-primary-dark: #16a34a;
+  --ifm-color-primary-darker: #15803d;
+  --ifm-color-primary-darkest: #166534;
+  --ifm-color-primary-light: #4ade80;
+  --ifm-color-primary-lighter: #86efac;
+  --ifm-color-primary-lightest: #bbf7d0;
+
+  --ifm-color-success: var(--acp-color-success);
+  --ifm-color-warning: var(--acp-color-warning);
+  --ifm-color-danger: var(--acp-color-danger);
+
+  --ifm-background-color: var(--acp-color-background);
+  --ifm-background-surface-color: var(--acp-color-surface);
+  --ifm-navbar-background-color: var(--acp-color-surface);
+  --ifm-footer-background-color: #111318;
+  --ifm-font-color-base: var(--acp-color-text);
+  --ifm-font-color-secondary: var(--acp-color-text-muted);
+  --ifm-color-content: var(--acp-color-text);
+  --ifm-color-content-secondary: var(--acp-color-text-muted);
+  --ifm-toc-border-color: var(--acp-color-divider);
+  --ifm-hr-background-color: var(--acp-color-divider);
+  --ifm-table-border-color: var(--acp-color-divider);
+  --ifm-color-emphasis-200: var(--acp-color-divider);
+  --ifm-color-emphasis-300: var(--acp-color-divider);
+  --ifm-hover-overlay: var(--acp-color-accent);
+  --ifm-menu-color: var(--acp-color-text);
+  --ifm-menu-color-active: var(--acp-color-primary);
+  --ifm-link-color: var(--acp-color-primary);
+  --ifm-link-hover-color: var(--acp-color-primary-hover);
+  --ifm-breadcrumb-color-active: var(--acp-color-primary);
+  --ifm-navbar-link-hover-color: var(--acp-color-primary);
+  --ifm-tabs-color-active: var(--acp-color-primary);
+  --ifm-tabs-color-active-border: var(--acp-color-primary);
+
+  --docusaurus-highlighted-code-line-bg: rgba(34, 197, 94, 0.15);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Typography + surfaces                                                       */
+/* -------------------------------------------------------------------------- */
+
+html {
+  font-family: var(--ifm-font-family-base);
+  background: var(--ifm-background-color);
+}
+
+body {
+  font-family: var(--ifm-font-family-base);
+  color: var(--ifm-font-color-base);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6,
+.navbar__title,
+.hero__title {
+  font-family: var(--ifm-heading-font-family);
+  letter-spacing: -0.01em;
+}
+
+.navbar {
+  box-shadow: none;
+  border-bottom: 1px solid var(--acp-color-divider);
+}
+
+.footer {
+  border-top: 1px solid var(--acp-color-divider);
+}
+
+.card,
+.theme-doc-markdown .card {
+  background: var(--acp-color-card);
+  border-color: var(--acp-color-divider);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Navbar logo: mask + primary (theme-aware)                                   */
+/* -------------------------------------------------------------------------- */
+
+.navbar__brand .navbar__logo {
+  width: 32px;
+  height: 32px;
+  margin-right: 0.5rem;
+  background-color: var(--ifm-color-primary);
+  -webkit-mask-image: url('/img/acp-shield-mono.svg');
+  mask-image: url('/img/acp-shield-mono.svg');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.navbar__brand .navbar__logo img {
+  opacity: 0;
+  width: 32px !important;
+  height: 32px !important;
 }

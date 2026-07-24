@@ -1,23 +1,23 @@
 ---
 sidebar_position: 2
-title: Exemplos de documentação de API REST
+title: REST examples
 ---
 
-# Exemplos de documentação de API REST
+# REST examples
 
-Exemplos práticos contra o mock local (`http://localhost:4001`).
+Practical examples against the local mock (`http://localhost:4001`).
 
-Pré-requisito: `make mock` ou `make dev` (mock na porta **4001**).
+Prerequisite: `make mock` or `make dev` (mock on port **4001**).
 
-Para a referência completa com **Try It** no browser, veja [API Reference](/api/reference/acp-admin-mock-api) (gerada a partir de `mock/openapi.yaml`).
+For the full interactive reference with **Try It**, see [API Reference](./reference/acp-admin-mock-api) (generated from `mock/openapi.yaml`).
 
-## Credenciais demo
+## Demo credentials
 
-| Email | Password | Notas |
+| Email | Password | Notes |
 |-------|----------|-------|
-| `admin@acp.local` | `Admin123!` | Owner, sem 2FA |
+| `admin@acp.local` | `Admin123!` | Owner, no 2FA |
 | `sam@acp.local` | `Operator1!` | Operator, 2FA → OTP `123456` |
-| OTP demo | `123456` | Login passwordless / 2FA |
+| Demo OTP | `123456` | Passwordless login / 2FA |
 
 ## Login
 
@@ -37,7 +37,7 @@ curl -s http://localhost:4001/auth/login \
   -d '{"email":"admin@acp.local","password":"Admin123!"}' | jq
 ```
 
-Resposta (sem 2FA):
+Response (no 2FA):
 
 ```json
 {
@@ -47,7 +47,7 @@ Resposta (sem 2FA):
 }
 ```
 
-## Login com OTP (passwordless)
+## Login with OTP (passwordless)
 
 ```http
 POST /auth/otp/request
@@ -64,7 +64,7 @@ curl -s http://localhost:4001/auth/otp/request \
   -d '{"email":"admin@acp.local"}' | jq
 ```
 
-Depois verifique o código:
+Then verify the code:
 
 ```bash
 curl -s http://localhost:4001/auth/otp \
@@ -72,7 +72,7 @@ curl -s http://localhost:4001/auth/otp \
   -d '{"email":"admin@acp.local","code":"123456"}' | jq
 ```
 
-## Listar usuários
+## List users
 
 ```http
 GET /users
@@ -82,15 +82,15 @@ GET /users
 curl -s http://localhost:4001/users | jq
 ```
 
-## Criar tenant
+## Create tenant
 
 ```http
 POST /tenants
 Content-Type: application/json
 
 {
-  "name": "Nova Org",
-  "slug": "nova-org",
+  "name": "New Org",
+  "slug": "new-org",
   "plan": "growth",
   "status": "active",
   "usersCount": 0,
@@ -101,10 +101,10 @@ Content-Type: application/json
 ```bash
 curl -s http://localhost:4001/tenants \
   -H 'Content-Type: application/json' \
-  -d '{"name":"Nova Org","slug":"nova-org","plan":"growth","status":"active","usersCount":0,"createdAt":"2026-07-23T12:00:00Z"}' | jq
+  -d '{"name":"New Org","slug":"new-org","plan":"growth","status":"active","usersCount":0,"createdAt":"2026-07-23T12:00:00Z"}' | jq
 ```
 
-## Marcar notificação como lida
+## Mark notification as read
 
 ```http
 PATCH /notifications/1
@@ -119,7 +119,7 @@ curl -s -X PATCH http://localhost:4001/notifications/1 \
   -d '{"read":true}' | jq
 ```
 
-## Atualizar settings de AI
+## Update AI settings
 
 ```http
 PUT /settings/ai
@@ -141,7 +141,7 @@ curl -s -X PUT http://localhost:4001/settings/ai \
   -d '{"id":"ai","category":"ai","provider":"anthropic","apiKey":"sk-mock-****","model":"claude-sonnet","enabled":true}' | jq
 ```
 
-## Reordenar menu (árvore)
+## Reorder menu (tree)
 
 ```http
 POST /menu/reorder
@@ -161,7 +161,7 @@ curl -s -X POST http://localhost:4001/menu/reorder \
   -d '{"items":[{"id":"5","parentId":"2","order":3},{"id":"6","parentId":"2","order":4}]}' | jq
 ```
 
-## Busca híbrida (command palette)
+## Hybrid search (command palette)
 
 ```http
 GET /search?q=alex
@@ -170,10 +170,10 @@ GET /search?q=alex
 ```bash
 curl -s 'http://localhost:4001/search?q=alex' | jq
 curl -s 'http://localhost:4001/search?q=ai' | jq
-curl -s 'http://localhost:4001/search' | jq   # sugestões (q vazio)
+curl -s 'http://localhost:4001/search' | jq   # suggestions (empty q)
 ```
 
-Resposta:
+Response:
 
 ```json
 {
@@ -190,7 +190,7 @@ Resposta:
 }
 ```
 
-Tipos: `user` → `/app/access/users/:id/edit`, `tenant` → `/app/access/tenants/:id/edit`, `setting` → `/app/settings/{ai|email|third-party|logs}`.
+Types: `user` → `/app/access/users/:id/edit`, `tenant` → `/app/access/tenants/:id/edit`, `setting` → `/app/settings/{ai|email|third-party|logs}`.
 
 ## Dashboard
 
@@ -198,11 +198,17 @@ Tipos: `user` → `/app/access/users/:id/edit`, `tenant` → `/app/access/tenant
 curl -s http://localhost:4001/dashboardStats | jq
 ```
 
-## Erros
+## Errors
 
-| Status | Quando |
-|--------|--------|
-| 400 | Payload inválido / OTP incorreto |
-| 401 | Credenciais inválidas |
-| 404 | Recurso inexistente |
-| 409 | Email já cadastrado no signup |
+| Status | When |
+|--------|------|
+| 400 | Invalid payload / wrong OTP |
+| 401 | Invalid credentials |
+| 404 | Resource not found |
+| 409 | Email already registered on signup |
+
+## Next steps
+
+1. [API Reference](./reference/acp-admin-mock-api) — Try It in the browser against `http://localhost:4001`
+2. Back to [API Server](./server) for collections and auth routes
+3. In the UI: [Lists & tables](../components/lists-and-tables) / [DataTable](../components/data-table) consume these endpoints

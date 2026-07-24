@@ -9,6 +9,7 @@ export default defineConfig({
   use: {
     baseURL: 'http://127.0.0.1:5173',
     trace: 'on-first-retry',
+    video: 'on',
   },
   webServer: [
     {
@@ -24,5 +25,25 @@ export default defineConfig({
       timeout: 120_000,
     },
   ],
-  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
+  projects: [
+    {
+      name: 'Desktop Chrome',
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 720 },
+      },
+    },
+    {
+      // Chromium + iPhone 13–class viewport (375×667). Avoids requiring WebKit.
+      name: 'Mobile Chrome',
+      use: {
+        ...devices['Pixel 5'],
+        viewport: { width: 375, height: 667 },
+        deviceScaleFactor: 2,
+        isMobile: true,
+        hasTouch: true,
+        userAgent: devices['iPhone 13'].userAgent,
+      },
+    },
+  ],
 })

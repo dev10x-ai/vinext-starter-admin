@@ -36,7 +36,12 @@ export function NotificationsDrawer() {
             >
               Mark all read
             </Button>
-            <Button variant="ghost" size="sm" onClick={() => setNotificationsOpen(false)} aria-label="Close">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setNotificationsOpen(false)}
+              aria-label="Close notifications"
+            >
               <X size={16} />
             </Button>
           </div>

@@ -132,24 +132,29 @@ export function TenantsPage() {
         title={modalTitle}
         onClose={close}
         footer={
-          <Button
-            disabled={!canSubmit || createTenant.isPending || updateTenant.isPending}
-            onClick={form.handleSubmit(async (values) => {
-              if (mode === 'edit') {
-                if (!entityId) throw new Error('tenant id is required for update')
-                await updateTenant.mutateAsync({ id: entityId, body: values })
-              } else {
-                await createTenant.mutateAsync({
-                  ...values,
-                  usersCount: 0,
-                  createdAt: new Date().toISOString(),
-                })
-              }
-              close()
-            })}
-          >
-            Save
-          </Button>
+          <>
+            <Button variant="secondary" onClick={close}>
+              Cancel
+            </Button>
+            <Button
+              disabled={!canSubmit || createTenant.isPending || updateTenant.isPending}
+              onClick={form.handleSubmit(async (values) => {
+                if (mode === 'edit') {
+                  if (!entityId) throw new Error('tenant id is required for update')
+                  await updateTenant.mutateAsync({ id: entityId, body: values })
+                } else {
+                  await createTenant.mutateAsync({
+                    ...values,
+                    usersCount: 0,
+                    createdAt: new Date().toISOString(),
+                  })
+                }
+                close()
+              })}
+            >
+              Save
+            </Button>
+          </>
         }
       >
         {mode === 'edit' && isLoadingTenant ? (

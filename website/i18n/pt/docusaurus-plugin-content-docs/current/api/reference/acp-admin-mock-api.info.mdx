@@ -1,0 +1,65 @@
+---
+id: acp-admin-mock-api
+title: "ACP Admin Mock API"
+description: "OpenAPI do mock local **json-server** (`mock/server.mjs` + `mock/db.json`)."
+sidebar_label: Introdução
+sidebar_position: 0
+hide_title: true
+custom_edit_url: null
+---
+
+import ApiLogo from "@theme/ApiLogo";
+import Heading from "@theme/Heading";
+import SchemaTabs from "@theme/SchemaTabs";
+import TabItem from "@theme/TabItem";
+import Export from "@theme/ApiExplorer/Export";
+
+<span
+  className={"theme-doc-version-badge badge badge--secondary"}
+  children={"Versão: 0.1.0"}
+>
+</span>
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"ACP Admin Mock API"}
+>
+</Heading>
+
+OpenAPI do mock local **json-server** (`mock/server.mjs` + `mock/db.json`).
+
+**URL base:** `http://localhost:4001`
+
+Suba o mock com `make mock` ou `make dev` e use **Try It** nestes docs
+(ou os exemplos curl em [Exemplos REST](../rest-examples)).
+
+### Credenciais demo
+
+| Email | Password | Notas |
+|-------|----------|-------|
+| `admin@acp.local` | `Admin123!` | Owner, sem 2FA |
+| `sam@acp.local` | `Operator1!` | Operator, 2FA → OTP `123456` |
+| `jordan@acp.local` | `Viewer123!` | Viewer |
+
+OTP demo para login sem senha / 2FA: **`123456`**.
+
+Tokens de auth são retornados para a UI admin, mas **não são exigidos** pelo mock
+nas rotas de coleção (CRUD do json-server é aberto).
+
+:::note
+As páginas de operação abaixo (summaries / Try It) vêm do OpenAPI em inglês.
+Os guias [Servidor da API](../server) e [Exemplos REST](../rest-examples) estão em português.
+:::
+
+<div
+  style={{"display":"flex","flexDirection":"column","marginBottom":"var(--ifm-paragraph-margin-bottom)"}}
+>
+  <h3
+    style={{"marginBottom":"0.25rem"}}
+  >
+    Contato
+  </h3><span>
+    ACP Admin:
+  </span>
+</div>

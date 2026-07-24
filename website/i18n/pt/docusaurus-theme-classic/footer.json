@@ -1,0 +1,38 @@
+{
+  "link.title.Docs": {
+    "message": "Docs",
+    "description": "The title of the footer links column with title=Docs in the footer"
+  },
+  "link.title.App": {
+    "message": "App",
+    "description": "The title of the footer links column with title=App in the footer"
+  },
+  "link.item.label.Getting started": {
+    "message": "Primeiros passos",
+    "description": "The label of footer link with label=Getting started linking to /"
+  },
+  "link.item.label.Components": {
+    "message": "Componentes",
+    "description": "The label of footer link with label=Components linking to /components/overview"
+  },
+  "link.item.label.API Server": {
+    "message": "Servidor da API",
+    "description": "The label of footer link with label=API Server linking to /api/server"
+  },
+  "link.item.label.API Reference": {
+    "message": "Referência da API",
+    "description": "The label of footer link with label=API Reference linking to /api/reference/acp-admin-mock-api"
+  },
+  "link.item.label.Landing": {
+    "message": "Landing",
+    "description": "The label of footer link with label=Landing linking to http://localhost:5173"
+  },
+  "link.item.label.Mock API": {
+    "message": "API mock",
+    "description": "The label of footer link with label=Mock API linking to http://localhost:4001"
+  },
+  "copyright": {
+    "message": "Copyright © 2026 ACP Admin.",
+    "description": "The footer copyright"
+  }
+}

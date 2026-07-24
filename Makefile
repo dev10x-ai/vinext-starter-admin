@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-.PHONY: setup install dev mock docs docs-gen-api docs-build docs-serve test test-unit test-e2e typecheck build preview clean help
+.PHONY: setup install dev mock docs docs-gen-api docs-write-translations docs-build docs-serve test test-unit test-e2e typecheck build preview clean help
 
 help:
 	@echo "ACP Admin targets:"
@@ -9,7 +9,8 @@ help:
 	@echo "  make mock          Mock API only (json-server :4001)"
 	@echo "  make docs          Docusaurus dev server (:3000)"
 	@echo "  make docs-gen-api  Regenerate OpenAPI MDX from mock/openapi.yaml"
-	@echo "  make docs-build    Generate API docs + build documentation site"
+	@echo "  make docs-write-translations  Refresh i18n JSON stubs (locale=pt)"
+	@echo "  make docs-build    Generate API docs + build documentation site (en + pt)"
 	@echo "  make docs-serve    Serve built docs"
 	@echo "  make test          Unit tests"
 	@echo "  make test-e2e      Playwright e2e"
@@ -35,6 +36,9 @@ docs:
 
 docs-gen-api:
 	npm run docs:gen-api
+
+docs-write-translations:
+	npm --prefix website run write-translations -- --locale pt
 
 docs-build:
 	npm run docs:build

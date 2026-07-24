@@ -16,6 +16,8 @@ export const ROUTE_PAGE_TITLES: Record<string, string | null> = {
   '/app/access/tenants': 'Tenants',
   '/app/access/tenants/new': 'New tenant',
   '/app/profile': 'Profile',
+  '/app/design-system/forms': 'Forms',
+  '/app/design-system/typography': 'Typography',
   '/app/settings': 'Settings',
   '/app/settings/ai': 'AI settings',
   '/app/settings/email': 'Email settings',

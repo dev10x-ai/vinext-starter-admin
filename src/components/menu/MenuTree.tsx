@@ -21,6 +21,7 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { ChevronDown, ChevronRight, GripVertical } from 'lucide-react'
+import { MenuIcon } from '@/components/menu/MenuIcon'
 import { cn } from '@/lib/cn'
 import {
   INDENTATION_WIDTH,
@@ -262,7 +263,7 @@ function SortableMenuRow({
         <button
           type="button"
           className={cn(
-            'inline-flex h-7 w-7 shrink-0 items-center justify-center rounded text-[var(--color-text-muted)]',
+            'inline-flex h-11 w-11 shrink-0 items-center justify-center rounded text-[var(--color-text-muted)]',
             'cursor-grab touch-none hover:bg-[var(--color-accent)] active:cursor-grabbing',
             disabled && 'cursor-not-allowed opacity-40',
           )}
@@ -271,35 +272,36 @@ function SortableMenuRow({
           {...attributes}
           {...listeners}
         >
-          <GripVertical size={14} />
+          <GripVertical size={16} />
         </button>
         {hasChildren ? (
           <button
             type="button"
-            className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded text-[var(--color-text-muted)] hover:bg-[var(--color-accent)]"
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded text-[var(--color-text-muted)] hover:bg-[var(--color-accent)]"
             aria-label={collapsed ? `Expand ${item.label}` : `Collapse ${item.label}`}
             onClick={onToggle}
           >
-            {collapsed ? <ChevronRight size={14} /> : <ChevronDown size={14} />}
+            {collapsed ? <ChevronRight size={16} /> : <ChevronDown size={16} />}
           </button>
         ) : (
-          <span className="inline-flex h-7 w-7 shrink-0" aria-hidden />
+          <span className="inline-flex h-11 w-11 shrink-0" aria-hidden />
         )}
         <button
           type="button"
           className={cn(
-            'flex min-w-0 flex-1 items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm',
-            'hover:bg-[var(--color-accent)]',
-            selected && 'bg-[var(--color-accent)] font-medium',
+            'flex min-h-11 min-w-0 flex-1 items-center gap-2 rounded-md px-2 py-2 text-left text-sm',
+            'text-[var(--color-text)] hover:bg-[var(--color-accent)]',
+            selected && 'bg-[var(--color-accent)] font-medium text-[var(--color-primary)]',
           )}
           onClick={onSelect}
         >
+          <MenuIcon name={item.icon} size={16} active={selected} />
           <span className="truncate">{item.label}</span>
           {!item.enabled ? (
             <span className="shrink-0 text-xs text-[var(--color-warning)]">disabled</span>
           ) : null}
           {item.path ? (
-            <span className="ml-auto truncate text-xs text-[var(--color-text-muted)]">
+            <span className="ml-auto hidden max-w-[40%] truncate text-xs text-[var(--color-text-muted)] sm:inline">
               {item.path}
             </span>
           ) : null}
@@ -321,10 +323,13 @@ function MenuRowPreview({
       className="flex items-center gap-1 rounded-md border border-[var(--color-primary)] bg-[var(--color-card)] px-1 py-0.5 shadow-md"
       style={{ paddingLeft: `${depth * INDENTATION_WIDTH}px` }}
     >
-      <span className="inline-flex h-7 w-7 items-center justify-center text-[var(--color-text-muted)]">
-        <GripVertical size={14} />
+      <span className="inline-flex h-11 w-11 items-center justify-center text-[var(--color-text-muted)]">
+        <GripVertical size={16} />
       </span>
-      <span className="px-2 py-1.5 text-sm font-medium">{item.label}</span>
+      <span className="flex min-h-11 items-center gap-2 px-2 py-2 text-sm font-medium text-[var(--color-text)]">
+        <MenuIcon name={item.icon} size={16} active />
+        {item.label}
+      </span>
     </div>
   )
 }

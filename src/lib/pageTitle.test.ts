@@ -37,6 +37,8 @@ describe('resolvePageTitle', () => {
     expect(resolvePageTitle('/app/access/tenants/new')).toBe('New tenant · ACP Admin')
     expect(resolvePageTitle('/app/access/tenants/2/edit')).toBe('Edit tenant · ACP Admin')
     expect(resolvePageTitle('/app/profile')).toBe('Profile · ACP Admin')
+    expect(resolvePageTitle('/app/design-system/forms')).toBe('Forms · ACP Admin')
+    expect(resolvePageTitle('/app/design-system/typography')).toBe('Typography · ACP Admin')
     expect(resolvePageTitle('/app/settings/ai')).toBe('AI settings · ACP Admin')
     expect(resolvePageTitle('/app/settings/email')).toBe('Email settings · ACP Admin')
     expect(resolvePageTitle('/app/settings/third-party')).toBe('Third-party · ACP Admin')

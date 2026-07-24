@@ -1,17 +1,18 @@
 import { useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Input } from '@/components/ui/Input'
+import { InputOTP } from '@/components/ui/InputOTP'
 import { Button } from '@/components/ui/Button'
 import { useAuthStore } from '@/store/auth'
+
+const OTP_LENGTH = 6
 
 const schema = z.object({
   code: z
     .string()
-    .min(4, 'Enter the code from your email')
-    .max(12, 'Code is too long')
+    .length(OTP_LENGTH, `Enter the ${OTP_LENGTH}-digit code from your email`)
     .regex(/^\d+$/, 'Code must be numeric'),
 })
 
@@ -25,10 +26,13 @@ export function OtpPage() {
   const [error, setError] = useState('')
   const navigate = useNavigate()
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<Form>({ resolver: zodResolver(schema) })
+  } = useForm<Form>({
+    resolver: zodResolver(schema),
+    defaultValues: { code: '' },
+  })
 
   if (!pendingEmail) return <Navigate to="/login" replace />
 
@@ -54,12 +58,22 @@ export function OtpPage() {
         {subtitle} Demo code: <strong>123456</strong>
       </p>
       <form className="mt-6 space-y-4" onSubmit={onSubmit}>
-        <Input
-          label="One-time code"
-          inputMode="numeric"
-          autoComplete="one-time-code"
-          error={errors.code?.message}
-          {...register('code')}
+        <Controller
+          name="code"
+          control={control}
+          render={({ field }) => (
+            <InputOTP
+              label="One-time code"
+              length={OTP_LENGTH}
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              name={field.name}
+              autoFocus
+              error={errors.code?.message}
+              hint={`${OTP_LENGTH} digits`}
+            />
+          )}
         />
         {error ? <p className="text-sm text-[var(--color-danger)]">{error}</p> : null}
         <Button type="submit" className="w-full" disabled={isSubmitting}>

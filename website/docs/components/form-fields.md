@@ -5,7 +5,9 @@ title: Form fields
 
 # Form fields
 
-Primitives live in `src/components/ui/`. They are thin styled wrappers around native HTML controls — no separate RHF field components (`FormField`, `Controller` wrappers) are exported.
+Primitives live in `src/components/ui/` and are re-exported from `src/components/ui/index.ts`. They are thin styled wrappers around native HTML controls — no separate RHF field components (`FormField` wrappers) are exported. All fields use theme CSS variables (`--color-*`) so Default / Ruby / Emerald + light/dark stay consistent.
+
+**Showcase:** `/app/design-system/forms` (sidebar → **Design System → Forms**) — live Checkbox, Switch, Textarea, DatePicker, FileUpload, InputOTP.
 
 ## Input
 
@@ -71,45 +73,6 @@ export function ProfileFields() {
 }
 ```
 
-### Copy-paste: OTP code (no dedicated OTP component)
-
-There is **no** multi-digit OTP widget. Use a single `Input` (see `OtpPage`):
-
-```tsx
-import { Input } from '@/components/ui/Input'
-import { Button } from '@/components/ui/Button'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-
-const schema = z.object({
-  code: z
-    .string()
-    .min(4, 'Enter the code from your email')
-    .max(12, 'Code is too long')
-    .regex(/^\d+$/, 'Code must be numeric'),
-})
-
-type Form = z.infer<typeof schema>
-
-export function OtpFieldExample() {
-  const form = useForm<Form>({ resolver: zodResolver(schema) })
-
-  return (
-    <form className="space-y-4" onSubmit={form.handleSubmit(console.log)}>
-      <Input
-        label="One-time code"
-        inputMode="numeric"
-        autoComplete="one-time-code"
-        error={form.formState.errors.code?.message}
-        {...form.register('code')}
-      />
-      <Button type="submit">Verify</Button>
-    </form>
-  )
-}
-```
-
 ### Copy-paste: number field
 
 ```tsx
@@ -135,71 +98,181 @@ Native `<select>` with options array.
 |------|------|---------|-------------|
 | `label` | `string` | — | Label text |
 | `error` | `string` | — | Error message |
-| `options` | `Option[]` | **required** | List of value/label objects (see example below) |
+| `options` | `Option[]` | **required** | List of value/label objects |
 | `id` | `string` | `name` | Label association |
 | `…rest` | `SelectHTMLAttributes` | — | `value`, `onChange`, `disabled`, etc. |
 
-### Copy-paste: with RHF `register`
-
 ```tsx
 import { Select } from '@/components/ui/Select'
-import { useForm } from 'react-hook-form'
+
+<Select
+  label="Role"
+  options={[
+    { value: 'owner', label: 'Owner' },
+    { value: 'operator', label: 'Operator' },
+    { value: 'viewer', label: 'Viewer' },
+  ]}
+  error={form.formState.errors.role?.message}
+  {...form.register('role')}
+/>
+```
+
+---
+
+## Checkbox
+
+**Path:** `src/components/ui/Checkbox.tsx`
+
+Labeled checkbox (control beside label). Works with `register` or controlled `checked` / `onChange`.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | — | Text beside the control |
+| `error` | `string` | — | Error under the field |
+| `hint` | `string` | — | Helper when no error |
+| `size` | `'sm' \| 'md'` | `'md'` | Control size |
+| `…rest` | checkbox input attrs | — | `name`, `disabled`, `checked`, etc. |
+
+```tsx
+import { Checkbox } from '@/components/ui/Checkbox'
+
+<Checkbox label="Enabled" {...form.register('enabled')} />
+
+{/* Controlled (Roles permissions) */}
+<Checkbox
+  label="Read users"
+  checked={watched.includes('users.read')}
+  onChange={() => togglePerm('users.read')}
+/>
+```
+
+---
+
+## Switch
+
+**Path:** `src/components/ui/Switch.tsx` (+ `Switch.module.css`)
+
+Accessible toggle (`role="switch"`) built on a native checkbox so `register` still works.
+
+```tsx
+import { Switch } from '@/components/ui/Switch'
+
+<Switch label="Allow log export" {...form.register('exportEnabled')} />
+
+{/* Immediate toggle (Profile 2FA) */}
+<Switch
+  label="2FA on"
+  checked={user.twoFactorEnabled}
+  onChange={(e) => void toggleTwoFactor(e.target.checked)}
+/>
+```
+
+---
+
+## Textarea
+
+**Path:** `src/components/ui/Textarea.tsx`
+
+```tsx
+import { Textarea } from '@/components/ui/Textarea'
+
+<Textarea
+  label="Description"
+  hint="Shown when assigning this role"
+  error={form.formState.errors.description?.message}
+  {...form.register('description')}
+/>
+```
+
+---
+
+## DatePicker
+
+**Path:** `src/components/ui/DatePicker.tsx`
+
+Native `type="date"` with the same label / error / hint pattern as `Input`.
+
+```tsx
+import { DatePicker } from '@/components/ui/DatePicker'
+
+<DatePicker
+  label="Purge logs before"
+  hint="Optional cutoff for retention jobs"
+  {...form.register('purgeBefore')}
+/>
+```
+
+---
+
+## FileUpload
+
+**Path:** `src/components/ui/FileUpload.tsx`
+
+Styled file input with selected-filename summary. For RHF, set a string filename (or `File`) via `setValue` / `Controller`.
+
+```tsx
+import { FileUpload } from '@/components/ui/FileUpload'
+
+<FileUpload
+  label="Import filter config"
+  accept=".json,.txt,application/json"
+  hint="Mocked — only the filename is stored"
+  onChange={(e) => {
+    const file = e.target.files?.[0]
+    form.setValue('importConfigName', file?.name ?? '', { shouldDirty: true })
+  }}
+/>
+```
+
+---
+
+## InputOTP
+
+**Path:** `src/components/ui/InputOTP.tsx`
+
+Multi-digit OTP group. **Controller-friendly**: `value` / `onChange(string)`. Used on `OtpPage`.
+
+```tsx
+import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { InputOTP } from '@/components/ui/InputOTP'
+import { Button } from '@/components/ui/Button'
 
 const schema = z.object({
-  status: z.enum(['active', 'inactive']),
-  role: z.string().min(1),
+  code: z.string().length(6).regex(/^\d+$/, 'Code must be numeric'),
 })
 
 type Form = z.infer<typeof schema>
 
-export function SelectExample() {
+export function OtpFieldExample() {
   const form = useForm<Form>({
     resolver: zodResolver(schema),
-    defaultValues: { status: 'active', role: 'operator' },
+    defaultValues: { code: '' },
   })
 
   return (
-    <form className="space-y-3" onSubmit={form.handleSubmit(console.log)}>
-      <Select
-        label="Role"
-        options={[
-          { value: 'owner', label: 'Owner' },
-          { value: 'operator', label: 'Operator' },
-          { value: 'viewer', label: 'Viewer' },
-        ]}
-        error={form.formState.errors.role?.message}
-        {...form.register('role')}
+    <form className="space-y-4" onSubmit={form.handleSubmit(console.log)}>
+      <Controller
+        name="code"
+        control={form.control}
+        render={({ field, fieldState }) => (
+          <InputOTP
+            label="One-time code"
+            length={6}
+            value={field.value}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+            error={fieldState.error?.message}
+          />
+        )}
       />
-      <Select
-        label="Status"
-        options={[
-          { value: 'active', label: 'Active' },
-          { value: 'inactive', label: 'Inactive' },
-        ]}
-        {...form.register('status')}
-      />
+      <Button type="submit">Verify</Button>
     </form>
   )
 }
-```
-
-### Copy-paste: controlled (`watch` + `setValue`)
-
-Used in settings when the select must stay in sync after `form.reset`:
-
-```tsx
-<Select
-  label="Provider"
-  value={form.watch('provider')}
-  onChange={(e) => form.setValue('provider', e.target.value, { shouldDirty: true })}
-  options={[
-    { value: 'openai', label: 'OpenAI' },
-    { value: 'anthropic', label: 'Anthropic' },
-    { value: 'azure', label: 'Azure OpenAI' },
-  ]}
-/>
 ```
 
 ---
@@ -208,14 +281,10 @@ Used in settings when the select must stay in sync after `form.reset`:
 
 **Path:** `src/components/ui/Button.tsx`
 
-### Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'primary' \| 'secondary' \| 'ghost' \| 'danger'` | `'primary'` | Visual style |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Padding / font size |
-| `type` | button types | `'button'` | Use `type="submit"` in forms |
-| `…rest` | `ButtonHTMLAttributes` | — | `disabled`, `onClick`, etc. |
+| Prop | Type | Default |
+|------|------|---------|
+| `variant` | `'primary' \| 'secondary' \| 'ghost' \| 'danger'` | `'primary'` |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` |
 
 ```tsx
 import { Button } from '@/components/ui/Button'
@@ -224,7 +293,6 @@ import { Button } from '@/components/ui/Button'
   <Button type="submit">Save</Button>
   <Button type="button" variant="secondary">Cancel</Button>
   <Button type="button" variant="danger" size="sm">Delete</Button>
-  <Button type="button" variant="ghost" size="sm">Edit</Button>
 </>
 ```
 
@@ -235,14 +303,6 @@ import { Button } from '@/components/ui/Button'
 ### Modal
 
 **Path:** `src/components/ui/Modal.tsx`
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `open` | `boolean` | Visibility |
-| `title` | `string` | Header title |
-| `onClose` | `() => void` | Close handler |
-| `children` | `ReactNode` | Body (usually a `<form>`) |
-| `footer` | `ReactNode` | Optional action row |
 
 ```tsx
 import { Modal } from '@/components/ui/Modal'
@@ -269,46 +329,19 @@ import { Input } from '@/components/ui/Input'
 ### Card / PageHeader / Badge
 
 ```tsx
-import { Card } from '@/components/ui/Card'
-import { PageHeader } from '@/components/ui/PageHeader'
-import { Badge } from '@/components/ui/Badge'
+import { Card, PageHeader, Badge } from '@/components/ui'
 
-<PageHeader
-  title="My profile"
-  description="Edit profile and manage 2FA."
-  actions={<Button>Secondary action</Button>}
-/>
-
-<Card className="space-y-3">
-  {/* form fields */}
-</Card>
-
+<PageHeader title="My profile" description="Edit profile and manage 2FA." />
+<Card className="space-y-3">{/* fields */}</Card>
 <Badge tone="success">active</Badge>
-{/* tone: 'neutral' | 'success' | 'warning' | 'danger' */}
 ```
 
----
+## Not provided as DS wrappers
 
-## Native checkbox (no `Checkbox` export)
+RHF wrappers like `<FormField name="…">` are still not exported — compose with `register` / `Controller` as above.
 
-Settings and Menu use a labeled native checkbox with RHF:
+## Next steps
 
-```tsx
-<label className="flex items-center gap-2 text-sm">
-  <input type="checkbox" {...form.register('enabled')} />
-  Enabled
-</label>
-```
-
-Schema: `enabled: z.boolean()`.
-
-For multi-select permission lists, see [Form patterns](./form-patterns#checkbox-array-roles).
-
-## Not available yet
-
-These are **planned / not in the design system** — do not import them:
-
-- `Checkbox`, `Switch`, `Textarea`, `DatePicker`, `FileUpload`, `InputOTP`
-- RHF wrappers like `<FormField name="…">`
-
-Use native HTML + the patterns above until wrappers exist.
+- [Form patterns](./form-patterns) — full-screen recipes  
+- [Typography](./typography) — `Prose` for long-form HTML  
+- Back to [Forms](./forms) for stack conventions

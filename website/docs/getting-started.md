@@ -59,8 +59,11 @@ Password login + 2FA still uses the same OTP screen when `twoFactorEnabled` is t
 1. Open the [landing page](http://localhost:5173/)
 2. Sign in to the console
 3. Explore Users, Tenants, Roles, and Platform settings
-4. Read the component docs:
+4. Read docs in order:
+   - [Concepts](./concepts) — Zustand, Query, themes, layouts
    - [Components overview](./components/overview)
-   - [Forms](./components/forms) · [Form fields](./components/form-fields) · [Form patterns](./components/form-patterns)
-   - [DataTable](./components/data-table) (filters, columns, export)
-5. Read [API Server](./api/server) and the interactive [API Reference](/api/reference/acp-admin-mock-api) (Try It → `http://localhost:4001`)
+   - Forms → [Lists & tables](./components/lists-and-tables) → [DataTable](./components/data-table)
+   - [Menu tree](./components/menu-tree) · [Layout & chrome](./components/layout)
+5. Read [API Server](./api/server) and the interactive [API Reference](./api/reference/acp-admin-mock-api) (Try It → `http://localhost:4001`)
+
+Use the **language switcher** (navbar) for Português. Getting started and the API section are translated; component docs are English for now.

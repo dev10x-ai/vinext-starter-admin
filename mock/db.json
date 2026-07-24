@@ -172,8 +172,8 @@
       "label": "Access",
       "path": null,
       "icon": "Shield",
-      "parentId": null,
-      "order": 2,
+      "parentId": "1",
+      "order": 1,
       "enabled": true
     },
     {
@@ -200,7 +200,7 @@
       "path": "/app/access/menu",
       "icon": "ListTree",
       "parentId": "2",
-      "order": 3,
+      "order": 4,
       "enabled": true
     },
     {
@@ -209,7 +209,7 @@
       "path": "/app/access/tenants",
       "icon": "Building2",
       "parentId": "2",
-      "order": 4,
+      "order": 3,
       "enabled": true
     },
     {
@@ -245,7 +245,7 @@
       "path": null,
       "icon": "BarChart3",
       "parentId": null,
-      "order": 3,
+      "order": 2,
       "enabled": true
     },
     {
@@ -290,7 +290,7 @@
       "path": null,
       "icon": "Settings",
       "parentId": null,
-      "order": 4,
+      "order": 3,
       "enabled": true
     },
     {
@@ -308,6 +308,33 @@
       "path": "/app/settings/integrations",
       "icon": "Plug",
       "parentId": "7",
+      "order": 2,
+      "enabled": true
+    },
+    {
+      "id": "18",
+      "label": "Design System",
+      "path": null,
+      "icon": "Palette",
+      "parentId": null,
+      "order": 4,
+      "enabled": true
+    },
+    {
+      "id": "19",
+      "label": "Typography",
+      "path": "/app/design-system/typography",
+      "icon": "Type",
+      "parentId": "18",
+      "order": 1,
+      "enabled": true
+    },
+    {
+      "id": "20",
+      "label": "Forms",
+      "path": "/app/design-system/forms",
+      "icon": "FormInput",
+      "parentId": "18",
       "order": 2,
       "enabled": true
     }
@@ -364,7 +391,9 @@
       "category": "logs",
       "retentionDays": 30,
       "level": "info",
-      "exportEnabled": true
+      "exportEnabled": true,
+      "purgeBefore": "2026-01-01",
+      "importConfigName": ""
     }
   ],
   "dashboardStats": [

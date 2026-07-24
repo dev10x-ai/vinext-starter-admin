@@ -17,7 +17,26 @@ npm install
 npm start
 ```
 
-Opens **http://localhost:3000** with ACP Admin documentation (Getting started, Components, API Server, REST examples, **API Reference**).
+Opens **http://127.0.0.1:3000** with ACP Admin documentation (Getting started, Concepts, Components, API).
+
+### Locales (i18n)
+
+- Default: **English** (`en`) at `/…`
+- Alternate: **Português** (`pt`, `htmlLang: pt-BR`) at `/pt/…`
+- Switcher: navbar globe → English / Português
+
+| Page | EN | PT |
+|------|----|----|
+| REST examples | http://127.0.0.1:3000/api/rest-examples | http://127.0.0.1:3000/pt/api/rest-examples |
+| API Server | http://127.0.0.1:3000/api/server | http://127.0.0.1:3000/pt/api/server |
+
+Hand-written API docs + Getting started are fully translated. Component docs stay English until translated. OpenAPI **operation** pages (Try It) keep English summaries from `mock/openapi.yaml`; intro/tag pages have PT copies under `i18n/pt/`.
+
+```bash
+make docs-write-translations   # refresh i18n JSON stubs for pt
+```
+
+Default content lives in `docs/`. Translations: `i18n/pt/docusaurus-plugin-content-docs/current/`.
 
 ## OpenAPI / API Reference
 

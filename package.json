@@ -18,6 +18,7 @@
     "typecheck": "tsc -b --pretty false",
     "docs": "npm --prefix website start",
     "docs:gen-api": "npm --prefix website run gen-api-docs",
+    "docs:write-translations": "npm --prefix website run write-translations -- --locale pt",
     "docs:build": "npm --prefix website run build",
     "docs:serve": "npm --prefix website run serve"
   },

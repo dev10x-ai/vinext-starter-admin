@@ -28,6 +28,7 @@ references/
 coverage/
 playwright-report/
 test-results/
+artifacts/
 .vite/
 .wrangler/
 *.tsbuildinfo

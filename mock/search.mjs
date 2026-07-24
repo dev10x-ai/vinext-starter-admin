@@ -29,6 +29,13 @@ export const SETTINGS_ENTRIES = [
     url: '/app/settings/logs',
     keywords: ['logs', 'observability', 'tracing', 'diagnostics'],
   },
+  {
+    id: 'typography',
+    title: 'Typography',
+    subtitle: 'Design system text elements',
+    url: '/app/design-system/typography',
+    keywords: ['typography', 'prose', 'headings', 'design system', 'text'],
+  },
 ]
 
 const TYPE_ORDER = { user: 0, tenant: 1, setting: 2 }

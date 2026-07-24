@@ -1,11 +1,15 @@
 ---
-sidebar_position: 5
+sidebar_position: 6
 title: DataTable
 ---
 
 # DataTable (search & list)
 
-Filament-inspired research table at `src/components/table/DataTable.tsx`. Used on **Users** and **Tenants** list pages.
+Part of **[Lists & tables](./lists-and-tables)** — the Filament-inspired research table at `src/components/table/DataTable.tsx`. Used on **Users** and **Tenants** list pages after you have forms for create/edit.
+
+:::tip Reading order
+[Forms](./forms) → [Form patterns](./form-patterns) → [Lists & tables](./lists-and-tables) → **this page** → [Menu tree](./menu-tree)
+:::
 
 ## Features (actual)
 
@@ -384,8 +388,10 @@ Users can re-enable hidden columns from the **Columns** dropdown.
 | CSV export helper | Call sites implement `onExport` (JSON blob is the common pattern) |
 | Row selection / bulk actions | Not implemented |
 
-## Related
+## Next steps
 
-- [Forms](./forms) — modal forms used beside tables
-- [Form patterns](./form-patterns#modal-crud-users) — create/edit modal recipe
-- Live pages: `src/pages/access/UsersPage.tsx`, `TenantsPage.tsx`
+1. [Menu tree](./menu-tree) — hierarchical DnD editor (Access → Menu)  
+2. [Layout & chrome](./layout) — header search / command palette  
+3. [API Server](../api/server) — REST behind list CRUD and search  
+
+Related: [Form patterns → Modal CRUD](./form-patterns#modal-crud-users). Live pages: `src/pages/access/UsersPage.tsx`, `TenantsPage.tsx`.

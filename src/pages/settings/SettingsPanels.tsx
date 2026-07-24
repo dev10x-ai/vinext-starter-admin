@@ -6,6 +6,10 @@ import { Card } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
 import { Button } from '@/components/ui/Button'
+import { Checkbox } from '@/components/ui/Checkbox'
+import { Switch } from '@/components/ui/Switch'
+import { DatePicker } from '@/components/ui/DatePicker'
+import { FileUpload } from '@/components/ui/FileUpload'
 import { useSettingQuery, useUpdateSettingMutation } from '@/queries'
 
 const aiSchema = z.object({
@@ -34,6 +38,8 @@ const logsSchema = z.object({
   retentionDays: z.number().int().min(1).max(3650),
   level: z.enum(['debug', 'info', 'warn', 'error']),
   exportEnabled: z.boolean(),
+  purgeBefore: z.string().optional(),
+  importConfigName: z.string().optional(),
 })
 type LogsForm = z.infer<typeof logsSchema>
 
@@ -82,10 +88,7 @@ export function AiSettingsPage() {
         />
         <Input label="Model" {...form.register('model')} />
         <Input label="API key" {...form.register('apiKey')} />
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" {...form.register('enabled')} />
-          Enabled
-        </label>
+        <Checkbox label="Enabled" {...form.register('enabled')} />
         <Button type="submit" disabled={updateSetting.isPending || form.formState.isSubmitting}>
           Save
         </Button>
@@ -187,10 +190,7 @@ export function ThirdPartySettingsPage() {
       >
         <Input label="Stripe publishable key" {...form.register('stripeKey')} />
         <Input label="Slack webhook" {...form.register('slackWebhook')} />
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" {...form.register('enabled')} />
-          Integrations enabled
-        </label>
+        <Checkbox label="Integrations enabled" {...form.register('enabled')} />
         <Button type="submit" disabled={updateSetting.isPending || form.formState.isSubmitting}>
           Save
         </Button>
@@ -206,7 +206,13 @@ export function LogsSettingsPage() {
   const [saved, setSaved] = useState(false)
   const form = useForm<LogsForm>({
     resolver: zodResolver(logsSchema),
-    defaultValues: { retentionDays: 30, level: 'info', exportEnabled: true },
+    defaultValues: {
+      retentionDays: 30,
+      level: 'info',
+      exportEnabled: true,
+      purgeBefore: '',
+      importConfigName: '',
+    },
   })
 
   useEffect(() => {
@@ -218,6 +224,8 @@ export function LogsSettingsPage() {
         ? level
         : 'info') as LogsForm['level'],
       exportEnabled: Boolean(setting.exportEnabled),
+      purgeBefore: String(setting.purgeBefore ?? ''),
+      importConfigName: String(setting.importConfigName ?? ''),
     })
   }, [setting, form])
 
@@ -252,10 +260,32 @@ export function LogsSettingsPage() {
             { value: 'error', label: 'Error' },
           ]}
         />
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" {...form.register('exportEnabled')} />
-          Allow log export
-        </label>
+        <Switch
+          label="Allow log export"
+          hint="When off, export actions are hidden in log views"
+          {...form.register('exportEnabled')}
+        />
+        <DatePicker
+          label="Purge logs before"
+          hint="Optional cutoff date for retention jobs"
+          error={form.formState.errors.purgeBefore?.message}
+          {...form.register('purgeBefore')}
+        />
+        <FileUpload
+          label="Import filter config"
+          accept=".json,.txt,application/json,text/plain"
+          hint="Mocked — only the filename is stored"
+          error={form.formState.errors.importConfigName?.message}
+          onChange={(event) => {
+            const file = event.target.files?.[0]
+            form.setValue('importConfigName', file?.name ?? '', { shouldDirty: true })
+          }}
+        />
+        {form.watch('importConfigName') ? (
+          <p className="text-xs text-[var(--color-text-muted)]">
+            Selected: {form.watch('importConfigName')}
+          </p>
+        ) : null}
         <Button type="submit" disabled={updateSetting.isPending || form.formState.isSubmitting}>
           Save
         </Button>

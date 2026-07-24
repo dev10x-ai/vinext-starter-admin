@@ -1,11 +1,11 @@
 ---
-sidebar_position: 5
+sidebar_position: 7
 title: Menu tree
 ---
 
 # Menu tree (Access → Menu)
 
-The Access **Menu** page (`/app/access/menu`) edits the hierarchical navigation model with drag-and-drop.
+After flat list pages ([DataTable](./data-table)), the Access **Menu** page (`/app/access/menu`) edits the hierarchical navigation model with drag-and-drop.
 
 ## Libraries
 
@@ -53,3 +53,9 @@ There is no separate `sortOrder` field — use **`order`**.
 - [ ] Sibling reorder persists after refresh
 - [ ] Nesting updates `parentId` in the edit panel
 - [ ] Saving label/path still works after a drag
+
+## Next steps
+
+- [Layout & chrome](./layout) — app header and command palette  
+- [API Server](../api/server) — `GET/PATCH /menu`, `POST /menu/reorder`  
+- Or return to [Components overview](./overview)
