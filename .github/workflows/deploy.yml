@@ -1,13 +1,10 @@
-# Deploy admin SPA to Cloudflare Workers (static assets).
-# Adapted from gambaLabs/frontend CF publish path, but:
-#   - Workers only (wrangler-action), not Cloudflare Pages
-#   - No review gate / AI approval job
-#   - No multi-env ENV_* secret files or force-deploy bypass
+# Production deploy: admin SPA + Docusaurus docs → Cloudflare Workers custom domains.
+# Triggers only on version tags (and manual dispatch). Branch pushes use preview.yml.
 name: Deploy
 
 on:
   push:
-    branches: [main]
+    tags: ['v*']
   workflow_dispatch:
 
 concurrency:
@@ -29,10 +26,15 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-          cache-dependency-path: package-lock.json
+          cache-dependency-path: |
+            package-lock.json
+            website/package-lock.json
 
-      - name: Install dependencies
+      - name: Install app dependencies
         run: npm ci
+
+      - name: Install docs dependencies
+        run: npm ci --prefix website
 
       - name: Typecheck
         run: make typecheck
@@ -43,6 +45,9 @@ jobs:
       - name: Build admin
         run: make build
 
+      - name: Build docs
+        run: make docs-build
+
       - name: Upload admin dist
         uses: actions/upload-artifact@v4
         with:
@@ -50,11 +55,18 @@ jobs:
           path: dist
           retention-days: 1
 
+      - name: Upload docs build
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-build
+          path: website/build
+          retention-days: 1
+
   deploy:
-    name: Deploy to Cloudflare Workers
+    name: Deploy to Cloudflare Workers (production)
     needs: ci
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     environment: production
 
     steps:
@@ -67,9 +79,22 @@ jobs:
           name: admin-dist
           path: dist
 
-      - name: Deploy with Wrangler
+      - name: Download docs build
+        uses: actions/download-artifact@v4
+        with:
+          name: docs-build
+          path: website/build
+
+      - name: Deploy admin Worker
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy
+
+      - name: Deploy docs Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --config wrangler.docs.toml

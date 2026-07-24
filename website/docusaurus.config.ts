@@ -12,7 +12,7 @@ const config: Config = {
     v4: true,
   },
 
-  url: 'https://acp-admin.local',
+  url: 'https://vinext-starter-admin-docs.dev10x.ai',
   baseUrl: '/',
 
   organizationName: 'acp',
@@ -20,9 +20,47 @@ const config: Config = {
 
   onBrokenLinks: 'throw',
 
+  // Same Google font stack as admin `index.html` (DM Sans + Source Serif 4).
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://fonts.googleapis.com',
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossorigin: 'anonymous',
+      },
+    },
+    // Apply brand pack before first paint (avoids flash vs Default).
+    {
+      tagName: 'script',
+      attributes: {},
+      innerHTML: `(function(){try{var b=localStorage.getItem('acp-docs-brand');if(b==='default'||b==='ruby'||b==='emerald'){document.documentElement.setAttribute('data-brand',b);}else{document.documentElement.setAttribute('data-brand','default');}}catch(e){document.documentElement.setAttribute('data-brand','default');}})();`,
+    },
+  ],
+  stylesheets: [
+    'https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap',
+  ],
+
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'pt'],
+    localeConfigs: {
+      en: {
+        label: 'English',
+        htmlLang: 'en',
+      },
+      pt: {
+        label: 'Português',
+        htmlLang: 'pt-BR',
+      },
+    },
   },
 
   presets: [
@@ -67,7 +105,7 @@ const config: Config = {
   themes: ['docusaurus-theme-openapi-docs'],
 
   themeConfig: {
-    image: 'img/acp-logo.svg',
+    image: 'img/acp-shield.svg',
     colorMode: {
       defaultMode: 'light',
       respectPrefersColorScheme: true,
@@ -80,7 +118,8 @@ const config: Config = {
       title: 'ACP Docs',
       logo: {
         alt: 'ACP',
-        src: 'img/acp-mark.svg',
+        src: 'img/acp-shield-mark.svg',
+        srcDark: 'img/acp-shield-mark.svg',
       },
       items: [
         {
@@ -88,6 +127,14 @@ const config: Config = {
           sidebarId: 'docs',
           position: 'left',
           label: 'Documentation',
+        },
+        {
+          type: 'custom-brandSwitcher',
+          position: 'right',
+        },
+        {
+          type: 'localeDropdown',
+          position: 'right',
         },
         {
           href: 'http://localhost:5173',

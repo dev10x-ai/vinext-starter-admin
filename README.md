@@ -1,49 +1,208 @@
-# vinext-starter-admin
+<p align="center">
+  <img src="public/branding/acp-shield.svg" alt="ACP Admin" width="72" />
+</p>
 
-Reusable **Vite + React** admin starter kit (demo brand: **ACP Admin**). Fork this repo to bootstrap a new multi-tenant admin product — for example `slot-battle-acp`.
+<h1 align="center">vinext-starter-admin</h1>
 
-Mocked multi-tenant admin frontend with a UI/UX shell patterned after **Macro Wallets**, gap fill from **Xip Cash admin**, plus a public landing page and Docusaurus docs.
+<p align="center">
+  <strong>Fork-ready Vite + React admin starter</strong> for multi-tenant operations consoles.<br />
+  Demo brand: <strong>ACP Admin</strong> — Macro-inspired shell, Xip-filled gaps, landing + docs included.
+</p>
+
+<p align="center">
+  <a href="https://vinext-starter-admin.dev10x.ai"><strong>Demo</strong></a> ·
+  <a href="https://vinext-starter-admin-docs.dev10x.ai"><strong>Docs</strong></a> ·
+  <a href="docs/ci-cd.md">CI/CD</a> ·
+  <a href="docs/comparison-xip-vs-macro.md">Xip vs Macro</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/raphaelcangucu/vinext-starter-admin/stargazers"><img src="https://img.shields.io/github/stars/raphaelcangucu/vinext-starter-admin?style=flat-square&color=1B4F8A" alt="Stars" /></a>
+  <a href="https://github.com/raphaelcangucu/vinext-starter-admin/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/raphaelcangucu/vinext-starter-admin/ci.yml?branch=main&style=flat-square&label=CI" alt="CI" /></a>
+  <a href="https://github.com/raphaelcangucu/vinext-starter-admin/actions/workflows/deploy.yml"><img src="https://img.shields.io/github/actions/workflow/status/raphaelcangucu/vinext-starter-admin/deploy.yml?branch=main&style=flat-square&label=Deploy" alt="Deploy" /></a>
+  <img src="https://img.shields.io/badge/coverage-69%25-yellowgreen?style=flat-square" alt="Line coverage ~69%" />
+  <img src="https://img.shields.io/badge/node-%E2%89%A522-brightgreen?style=flat-square" alt="Node >= 22" />
+  <img src="https://img.shields.io/badge/Cloudflare-Workers-F38020?style=flat-square" alt="Cloudflare Workers" />
+</p>
+
+---
+
+## Tour
+
+Desktop walkthrough (GIF). MP4 sources live under [`docs/media/`](docs/media/).
+
+![ACP Admin desktop tour](docs/media/admin-tour-desktop.gif)
+
+| Desktop | Mobile |
+|---------|--------|
+| [admin-tour-desktop.mp4](docs/media/admin-tour-desktop.mp4) | [admin-tour-mobile.mp4](docs/media/admin-tour-mobile.mp4) |
+
+---
+
+## Why this starter
+
+Clone once, rename the brand, ship an admin product. You get:
+
+- Authenticated **app shell** (sidebar, header, tenant switcher, command palette)
+- **Mock API** with auth, OTP, RBAC-shaped resources, and hybrid search
+- **Design-system pages** + reusable form / table primitives
+- **Theme packs** (Default / Ruby / Emerald) with light & dark
+- **Docusaurus docs** (EN + PT) with OpenAPI reference
+- **CI + Cloudflare Workers** publish (tag → production, branch → preview)
+
+Fork example: `slot-battle-acp` or any multi-tenant ops console.
+
+---
 
 ## Quick start
 
 ```bash
-make setup          # install app + docs + Playwright Chromium
-make dev            # landing/admin :5173 + mock API :4001
+make setup          # app + docs deps + Playwright Chromium
+make dev            # admin :5173 + mock API :4001
 make docs           # Docusaurus :3000
 ```
 
-Demo login: `admin@acp.local` / `Admin123!`  
-OTP demo (user with 2FA): `sam@acp.local` / `Operator1!` → code `123456`
+| Demo user | Password | Notes |
+|-----------|----------|--------|
+| `admin@acp.local` | `Admin123!` | Full access |
+| `sam@acp.local` | `Operator1!` | OTP `123456` |
 
-## Makefile
+```bash
+make test           # Vitest unit tests
+make test-e2e       # Playwright
+make build          # Admin production build
+make docs-build     # Docs production build
+```
+
+---
+
+## Live links
+
+| | URL |
+|--|-----|
+| **Admin (production)** | https://vinext-starter-admin.dev10x.ai |
+| **Docs (production)** | https://vinext-starter-admin-docs.dev10x.ai |
+| **Actions** | https://github.com/raphaelcangucu/vinext-starter-admin/actions |
+
+Production updates on **`v*` git tags**. Branch pushes publish **Workers preview URLs** only (see [`docs/ci-cd.md`](docs/ci-cd.md)).
+
+---
+
+## Features
+
+- Multi-tenant shell with tenant switcher and role-aware menu tree
+- Global search + keyboard command palette
+- Users / roles / tenants / menu CRUD patterns (modal routes)
+- Notifications drawer, profile, settings panels
+- Data table with filtering patterns; form kit (RHF + Zod)
+- OTP login path and auth layouts
+- Public landing page
+- i18n-ready docs site (English + Português)
+
+## Themes
+
+Switch from the user menu — tokens apply instantly (persisted).
+
+| Pack | Feel |
+|------|------|
+| **Default** | Navy / steel operations blue |
+| **Ruby** | High-contrast red & black |
+| **Emerald** | Green growth accent |
+
+Each pack ships light and dark modes.
+
+## Stack
+
+| Layer | Choice |
+|-------|--------|
+| UI | React 19, Vite 8, Tailwind CSS 4 |
+| State | Zustand |
+| Server state | TanStack Query |
+| Forms | React Hook Form + Zod |
+| Routing | React Router 7 |
+| Charts | Recharts |
+| Unit tests | Vitest + Testing Library |
+| E2E | Playwright |
+| Docs | Docusaurus 3 (+ OpenAPI plugin) |
+| Mock API | json-server |
+| Hosting | Cloudflare Workers (static assets) |
+
+---
+
+## Test coverage
+
+Latest local Vitest run (v8):
+
+| Metric | Coverage |
+|--------|----------|
+| Statements | **67.7%** |
+| Branches | **69.8%** |
+| Functions | **57.5%** |
+| Lines | **69.1%** |
+
+```bash
+npm test -- --coverage
+```
+
+---
+
+## Project layout
+
+```
+src/          React app (landing, auth, console, design-system)
+mock/         json-server + auth + OpenAPI
+website/      Docusaurus documentation
+docs/         Engineering notes + media for README
+e2e/          Playwright specs
+.github/      CI, preview, and production deploy workflows
+```
+
+---
+
+## Deploy model
+
+| Event | Result |
+|-------|--------|
+| Push to a **branch** | Preview versions for admin + docs (`wrangler versions upload`) |
+| Push tag **`v*`** | Production deploy to both custom domains |
+| PR / branch push | CI: typecheck, lint, unit tests, builds |
+
+Secrets (never commit): `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`.
+
+Details: [`docs/ci-cd.md`](docs/ci-cd.md).
+
+---
+
+## Collaborators
+
+Thanks to everyone contributing to this starter.
+
+<p align="center">
+  <a href="https://github.com/raphaelcangucu/vinext-starter-admin/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=raphaelcangucu/vinext-starter-admin" alt="Contributors" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/raphaelcangucu"><img src="https://img.shields.io/badge/maintainer-raphaelcangucu-1B4F8A?style=flat-square&logo=github" alt="Maintainer" /></a>
+</p>
+
+---
+
+## Makefile cheatsheet
 
 | Target | Description |
 |--------|-------------|
 | `make setup` | Install everything |
 | `make dev` | Vite + mock API |
-| `make mock` | json-server only |
 | `make docs` | Docs dev server |
-| `make docs-gen-api` | Regenerate API Reference from `mock/openapi.yaml` |
-| `make docs-build` | Generate OpenAPI MDX + build docs |
-| `make test` | Vitest unit tests |
-| `make test-e2e` | Playwright |
-| `make build` | Production admin build |
+| `make docs-gen-api` | Regenerate API Reference MDX |
+| `make docs-build` | Build docs (en + pt) |
+| `make test` / `make test-e2e` | Unit / Playwright |
+| `make build` | Admin production build |
 
-## Structure
+---
 
-- `src/` — React app (landing, auth, dashboard, access, settings)
-- `mock/` — json-server + auth routes
-- `website/` — Docusaurus documentation
-- `docs/` — engineering comparison & design specs
-- `mock/openapi.yaml` — OpenAPI for the mock API (Docusaurus API Reference)
-- `references/` — optional local clones of reference apps (gitignored; do not commit)
-
-## CI/CD
-
-GitHub Actions runs typecheck, unit tests, and builds on PRs; pushes to `main` deploy the admin `dist/` to **Cloudflare Workers**.
-
-See [`docs/ci-cd.md`](docs/ci-cd.md) for secrets (`CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`) and what was adapted from the reference frontend pipeline.
-
-## Comparison
-
-See [`docs/comparison-xip-vs-macro.md`](docs/comparison-xip-vs-macro.md).
+<p align="center">
+  <sub>Built as a reusable kit — fork it, rebrand it, ship it.</sub>
+</p>

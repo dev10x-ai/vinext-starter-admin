@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 48" fill="none" role="img" aria-label="ACP">
+  <!-- Static default-theme wordmark for OG/docs. App chrome uses <AcpLogo /> with CSS vars. -->
+  <path d="M20 2.5c3.2 0 9.6 2.2 13.2 4.1.7.4 1.1 1.1 1.1 1.9v10c0 8.2-5.6 14.2-13.4 17.3a2.2 2.2 0 0 1-1.8 0C11.3 32.7 5.7 26.7 5.7 18.5v-10c0-.8.4-1.5 1.1-1.9C10.4 4.7 16.8 2.5 20 2.5Z" transform="translate(0 4)" fill="#1B4F8A"/>
+  <path d="M20 5.2c2.6 0 7.8 1.7 10.6 3.2.3.2.5.5.5.8v9.3c0 6.6-4.4 11.5-10.6 14.1a1 1 0 0 1-.9 0C13.3 29.9 8.9 25 8.9 18.5V9.2c0-.3.2-.6.5-.8C12.2 6.9 17.4 5.2 20 5.2Z" transform="translate(0 4)" fill="#F4F7FB" opacity=".16"/>
+  <path d="M20 11.2a3.6 3.6 0 0 0-1.9 6.7l-.7 8.6h5.2l-.7-8.6A3.6 3.6 0 0 0 20 11.2Zm0 2.2a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8Z" transform="translate(0 4)" fill="#F4F7FB"/>
+  <text x="52" y="32" font-family="Georgia, 'Source Serif 4', 'Times New Roman', serif" font-size="26" font-weight="700" fill="#1B4F8A" letter-spacing="0.5">ACP</text>
+</svg>

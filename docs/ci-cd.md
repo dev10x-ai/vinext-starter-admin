@@ -1,62 +1,74 @@
 # CI/CD
 
-GitHub Actions for **vinext-starter-admin**, adapted from [gambaLabs/frontend](https://github.com/gambaLabs/frontend) with a narrower surface: no review gate, Cloudflare Workers only.
+GitHub Actions for **vinext-starter-admin**: Cloudflare Workers for the admin SPA and Docusaurus docs. No review gate; Workers only (not Pages).
 
 ## Workflows
 
 | Workflow | Path | When | What |
 |----------|------|------|------|
-| **CI** | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) | Pull requests | `make typecheck`, `oxlint`, `make test`, `make build`, `make docs-build` |
-| **Deploy** | [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) | Push to `main` (and manual `workflow_dispatch`) | Typecheck, unit tests, admin build, then deploy `dist/` to Cloudflare Workers |
+| **CI** | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) | Pull requests and branch pushes | `make typecheck`, `oxlint`, `make test`, `make build`, `make docs-build` |
+| **Preview** | [`.github/workflows/preview.yml`](../.github/workflows/preview.yml) | Push to any branch | Build admin + docs, then `wrangler versions upload` for **both** workers (no production traffic) |
+| **Deploy** | [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) | Tags matching `v*` (and `workflow_dispatch`) | Build admin + docs, then `wrangler deploy` for **both** workers |
 
-Playwright e2e (`make test-e2e`) is **not** run in CI (browser install cost). Run it locally after `make setup`.
+Playwright e2e (`make test-e2e`) is **not** run in CI. Run locally after `make setup`.
 
-`references/` is gitignored and never used in CI.
+## Production URLs
 
-## Deploy target
+| Surface | Worker | Config | URL |
+|---------|--------|--------|-----|
+| Admin SPA | `vinext-starter-admin` | [`wrangler.toml`](../wrangler.toml) | `https://vinext-starter-admin.dev10x.ai` |
+| Docs | `vinext-starter-admin-docs` | [`wrangler.docs.toml`](../wrangler.docs.toml) | `https://vinext-starter-admin-docs.dev10x.ai` |
 
-Production admin UI is published as a **Cloudflare Worker** with [Workers static assets](https://developers.cloudflare.com/workers/static-assets/) pointing at Vite’s `dist/`. Config: [`wrangler.toml`](../wrangler.toml).
+Each worker also keeps a `*.workers.dev` URL. Custom domains require the `dev10x.ai` zone on the same Cloudflare account with **active Cloudflare nameservers**.
 
-- SPA fallback: `not_found_handling = "single-page-application"` (React Router client routes).
-- Docs (`website/`) are built in CI for regression checks only; they are **not** deployed by the Worker workflow.
+Admin SPA uses `not_found_handling = "single-page-application"`. Docs use `not_found_handling = "404-page"` (Docusaurus `404.html`).
+
+## Preview URL pattern
+
+Branch previews use [Workers Preview URLs](https://developers.cloudflare.com/workers/configuration/previews/):
+
+1. Branch name → sanitized preview alias (lowercase, hyphens).
+2. `wrangler versions upload --preview-alias <alias>` (admin) and the same with `--config wrangler.docs.toml` (docs).
+3. Typical shapes (exact URL in job log):
+
+   - Admin: `https://<alias>-vinext-starter-admin.<account-subdomain>.workers.dev`
+   - Docs: `https://<alias>-vinext-starter-admin-docs.<account-subdomain>.workers.dev`
+   - Versioned: `https://<version-id>-<worker-name>.<account-subdomain>.workers.dev`
+
+Preview uploads **do not** change the production custom domains.
 
 ## Required GitHub secrets
 
-Set these under **Settings → Secrets and variables → Actions** (repository or the `production` environment):
-
 | Secret | Purpose |
 |--------|---------|
-| `CLOUDFLARE_API_TOKEN` | API token with permission to edit Workers (and account read as needed) |
-| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account ID used by `cloudflare/wrangler-action` |
+| `CLOUDFLARE_API_TOKEN` | Edit Workers (+ zone DNS as needed for custom domains) |
+| `CLOUDFLARE_ACCOUNT_ID` | Account ID for `cloudflare/wrangler-action` |
 
-Do **not** commit tokens, `.env` files, or account credentials. The deploy job reads secrets only at runtime.
+Set as **repository secrets** and optionally on the `production` environment. Do **not** commit tokens.
 
-Optional: create a GitHub Environment named `production` (referenced by the deploy job) for environment-scoped secrets or protection rules. Protection rules are optional — there is **no** AI/review-gate job.
-
-## Local deploy (optional)
+## Production release
 
 ```bash
-npm ci
-make build
-npx wrangler deploy
+git tag v0.1.0
+git push origin v0.1.0
 ```
 
-Requires Wrangler authenticated (`npx wrangler login`) or `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` in the environment.
+Runs **Deploy** and updates both production domains.
 
-## Omitted from gambaLabs/frontend
+## Local deploy
 
-Intentionally **not** copied:
+```bash
+npm ci && npm ci --prefix website
+make build && make docs-build
+export CLOUDFLARE_ACCOUNT_ID=…   # do not commit
+export CLOUDFLARE_API_TOKEN=…    # do not commit
+npx wrangler deploy
+npx wrangler deploy --config wrangler.docs.toml
+# preview only:
+npx wrangler versions upload --preview-alias my-branch
+npx wrangler versions upload --config wrangler.docs.toml --preview-alias my-branch
+```
 
-- `review-gate.yml` / Claude AI review blocking deploy
-- `claude-review.yml`, `code_review.yml`
-- Cloudflare **Pages** publish (`cloudflare/pages-action`)
-- Multi-env `ENV_DEV` / `ENV_PROD*` secret file injection
-- `development` branch deploy, production-preview, force-deploy bypass
-- Yarn / Nuxt (`nuxi prepare`) specific steps
-- Self-hosted `8-core` runners
-
-## Actions tab
-
-After the first push that includes these workflows:
+## Actions
 
 https://github.com/raphaelcangucu/vinext-starter-admin/actions
