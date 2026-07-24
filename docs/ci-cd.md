@@ -20,7 +20,7 @@ Playwright e2e (`make test-e2e`) is **not** run in CI. Run locally after `make s
 | Mock API | `/api/*` | same | same | https://vinext-starter-admin.dev10x.ai/api/… |
 | Docs | `/docs/*` | same | same | https://vinext-starter-admin.dev10x.ai/docs |
 
-There is **no** separate docs Worker or `*-docs.dev10x.ai` hostname. Docs are built with `baseUrl: '/docs/'` and copied into the admin deploy artifact (`website/build` → `dist/docs`).
+There is **no** separate docs Worker or `*-docs.dev10x.ai` hostname. Docs are built with `baseUrl: '/docs/'` and copied into the vinext client asset tree (`website/build` → `dist/client/docs`). Wrangler serves assets from `dist/client`.
 
 The Worker also keeps a `*.workers.dev` URL. Custom domains require the `dev10x.ai` zone on the same Cloudflare account with **active Cloudflare nameservers**.
 
@@ -30,13 +30,13 @@ With `run_worker_first = true` and `not_found_handling = "none"`:
 
 1. `/api` + `/api/*` → mock API
 2. `/docs` → redirect to `/docs/`; `/docs/*` → static assets, missing paths → `/docs/404.html`
-3. Everything else → admin assets, missing paths → `/index.html` (SPA)
+3. Everything else → vinext App Router SSR (`vinext/server/app-router-entry`)
 
 ### Build merge
 
 ```bash
-make build        # vinext → dist/
-make docs-build   # docusaurus → website/build, then cp -R → dist/docs
+make build        # vinext → dist/client + dist/server
+make docs-build   # docusaurus → website/build, then cp -R → dist/client/docs
 ```
 
 CI always runs both in that order before upload/deploy.
@@ -80,11 +80,13 @@ npm ci && npm ci --prefix website
 make build && make docs-build
 export CLOUDFLARE_ACCOUNT_ID=…   # do not commit
 export CLOUDFLARE_API_TOKEN=…    # do not commit
-npx wrangler deploy --config wrangler.admin.toml
+# Deploy the Vite/@cloudflare plugin output (not wrangler.admin.toml directly):
+npx wrangler deploy --config dist/server/wrangler.json
 # preview only:
-npx wrangler versions upload --config wrangler.admin.toml --preview-alias my-branch
+npx wrangler versions upload --config dist/server/wrangler.json --preview-alias my-branch
 ```
 
+`wrangler.admin.toml` is the source config consumed by `@cloudflare/vite-plugin` during `make build`.
 ## Local docs DX
 
 ```bash

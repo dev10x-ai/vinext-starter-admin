@@ -42,10 +42,10 @@ jobs:
       - name: Unit tests
         run: make test
 
-      - name: Build admin
+      - name: Build admin (Workers SSR bundle)
         run: make build
 
-      - name: Build docs into dist/docs
+      - name: Build docs into dist/client/docs
         run: make docs-build
 
       - name: Sanitize preview alias
@@ -64,9 +64,8 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          # Wrangler 3 lacks --preview-alias; action defaults to 3.x when wrangler is not a local dep.
           wranglerVersion: '4'
-          command: versions upload --config wrangler.admin.toml --preview-alias ${{ steps.alias.outputs.value }}
+          command: versions upload --config dist/server/wrangler.json --preview-alias ${{ steps.alias.outputs.value }}
 
       - name: Preview URL hint
         run: |

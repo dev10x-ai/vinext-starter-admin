@@ -66,11 +66,11 @@ With the admin app running (`make dev`), use **Send API Request** on reference p
 
 ```bash
 # from repo root — after `make build` for a full Worker artifact
-make docs-build   # gen-api-docs + docusaurus build → website/build, then copy to dist/docs
+make docs-build   # gen-api-docs + docusaurus build → website/build, then copy to dist/client/docs
 make docs-serve   # serve website/build standalone (still under /docs/ baseUrl)
 ```
 
-CI and production deploy one Worker: admin assets in `dist/` plus docs in `dist/docs/`. See [`../docs/ci-cd.md`](../docs/ci-cd.md).
+CI and production deploy one Worker: vinext client assets in `dist/client/` plus docs in `dist/client/docs/`. See [`../docs/ci-cd.md`](../docs/ci-cd.md).
 
 ## Notes
 

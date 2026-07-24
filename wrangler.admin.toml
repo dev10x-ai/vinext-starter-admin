@@ -1,8 +1,5 @@
-# Cloudflare Worker — vinext client assets + in-Worker mock API (/api/*)
-# + Docusaurus docs under /docs/* (copied into dist/docs by `make docs-build`).
-# Local Node SSR: `vinext start` (preferred for App Router HTML).
-# CI tag/preview deploys use this config so `/api` and `/docs` keep working.
-# Full vinext Workers SSR (RSC in workerd): `npm run deploy` → `vinext deploy`.
+# Cloudflare Worker — vinext App Router SSR + mock API (/api/*)
+# + Docusaurus docs under /docs/* (copied into dist/client/docs by `make docs-build`).
 #
 # Required GitHub secrets (do not commit tokens):
 #   CLOUDFLARE_API_TOKEN
@@ -20,14 +17,9 @@ pattern = "vinext-starter-admin.dev10x.ai"
 custom_domain = true
 
 [assets]
-# Node vinext build puts public assets + client bundles under dist/.
-# `make docs-build` merges website/build → dist/docs (baseUrl /docs/).
-# Prefer `vinext deploy` for full App Router SSR on Workers.
-directory = "./dist"
+# vinext emits browser assets to dist/client; docs are merged at dist/client/docs.
+directory = "./dist/client"
 binding = "ASSETS"
-# Worker runs first so /api and /docs get custom handling; admin uses SPA fallback in worker.
 run_worker_first = true
-# Disable binding-level SPA/404 so the Worker can distinguish missing assets
-# (docs → /docs/404.html, admin → /index.html).
 not_found_handling = "none"
 html_handling = "auto-trailing-slash"

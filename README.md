@@ -170,7 +170,7 @@ e2e/          Playwright specs
 | Push tag **`v*`** | Production deploy to `vinext-starter-admin.dev10x.ai` (app + `/api` + `/docs`) |
 | PR / branch push | CI: typecheck, lint, unit tests, builds |
 
-Build order for deploy: `make build && make docs-build` (merges `website/build` → `dist/docs`).
+Build order for deploy: `make build && make docs-build` (merges `website/build` → `dist/client/docs`).
 
 Secrets (never commit): `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`.
 
@@ -202,9 +202,9 @@ Thanks to everyone contributing to this starter.
 | `make dev` | Vite + mock API |
 | `make docs` | Docs dev server (`:3000/docs/`) |
 | `make docs-gen-api` | Regenerate API Reference MDX |
-| `make docs-build` | Build docs (en + pt) → `dist/docs` |
+| `make docs-build` | Build docs (en + pt) → `dist/client/docs` |
 | `make test` / `make test-e2e` | Unit / Playwright |
-| `make build` | Admin production build (`dist/`) |
+| `make build` | Admin production build (`dist/client` + `dist/server`) |
 
 ---
 

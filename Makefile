@@ -10,7 +10,7 @@ help:
 	@echo "  make docs          Docusaurus dev server (:3000/docs/) — production path is /docs"
 	@echo "  make docs-gen-api  Regenerate OpenAPI MDX from mock/openapi.yaml"
 	@echo "  make docs-write-translations  Refresh i18n JSON stubs (locale=pt)"
-	@echo "  make docs-build    Build docs (en + pt) and merge into dist/docs"
+	@echo "  make docs-build    Build docs (en + pt) and merge into dist/client/docs"
 	@echo "  make docs-serve    Serve built docs (standalone :3000)"
 	@echo "  make test          Unit tests"
 	@echo "  make test-e2e      Playwright e2e"
@@ -42,13 +42,13 @@ docs-gen-api:
 docs-write-translations:
 	npm --prefix website run write-translations -- --locale pt
 
-# Build Docusaurus with baseUrl /docs/, then merge into the admin deploy artifact.
+# Build Docusaurus with baseUrl /docs/, then merge into the vinext client asset tree.
 # Order for production/CI: `make build && make docs-build` then wrangler deploy.
 docs-build:
 	npm run docs:build
-	rm -rf dist/docs
-	mkdir -p dist
-	cp -R website/build dist/docs
+	rm -rf dist/client/docs
+	mkdir -p dist/client
+	cp -R website/build dist/client/docs
 
 docs-serve:
 	npm run docs:serve

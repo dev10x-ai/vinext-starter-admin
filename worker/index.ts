@@ -1,3 +1,4 @@
+import handler from 'vinext/server/app-router-entry'
 import { handleApiRequest } from './api'
 
 export interface Env {
@@ -11,17 +12,13 @@ async function fetchAsset(env: Env, request: Request, pathname: string): Promise
 }
 
 /**
- * Single Worker entry:
- * - `/api/*` → mock API
- * - `/docs` + `/docs/*` → Docusaurus static assets (404.html fallback)
- * - everything else → admin app assets (SPA fallback)
- *
- * Prefer vinext App Router handlers at `app/api/[[...path]]/route.ts`
- * with `vinext deploy` / `vinext start`. This entry remains for
- * `wrangler deploy --config wrangler.admin.toml` (CI tag/preview).
+ * Single Worker:
+ * - `/api/*` → in-Worker mock API (also available via App Router handlers)
+ * - `/docs` + `/docs/*` → Docusaurus static assets under dist/client/docs
+ * - everything else → vinext App Router (RSC/SSR)
  */
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url)
     const { pathname } = url
 
@@ -49,11 +46,6 @@ export default {
       })
     }
 
-    const assetResponse = await env.ASSETS.fetch(request)
-    if (assetResponse.status !== 404) {
-      return assetResponse
-    }
-
-    return fetchAsset(env, request, '/index.html')
+    return handler.fetch(request, env, ctx)
   },
 }
