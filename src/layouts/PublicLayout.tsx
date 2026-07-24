@@ -21,7 +21,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
             <a href="#platform" className="hover:text-[var(--color-text)]">
               Platform
             </a>
-            <a href="http://localhost:3000" className="hover:text-[var(--color-text)]">
+            <a href="/docs/" className="hover:text-[var(--color-text)]">
               Docs
             </a>
           </nav>
@@ -43,7 +43,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
           <AcpShieldMark className="h-7 w-7" title="" />
           <p>© {new Date().getFullYear()} ACP Admin. Mocked demo frontend.</p>
           <div className="flex gap-4">
-            <a href="http://localhost:3000">Documentation</a>
+            <a href="/docs/">Documentation</a>
             <Link href="/login">Console</Link>
           </div>
         </div>

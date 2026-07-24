@@ -1,4 +1,4 @@
-# Production deploy: admin SPA + Docusaurus docs → Cloudflare Workers custom domains.
+# Production deploy: admin + docs (merged into dist/docs) → single Cloudflare Worker.
 # Triggers only on version tags (and manual dispatch). Branch pushes use preview.yml.
 name: Deploy
 
@@ -45,21 +45,14 @@ jobs:
       - name: Build admin
         run: make build
 
-      - name: Build docs
+      - name: Build docs into dist/docs
         run: make docs-build
 
-      - name: Upload admin dist
+      - name: Upload deploy artifact
         uses: actions/upload-artifact@v4
         with:
           name: admin-dist
           path: dist
-          retention-days: 1
-
-      - name: Upload docs build
-        uses: actions/upload-artifact@v4
-        with:
-          name: docs-build
-          path: website/build
           retention-days: 1
 
   deploy:
@@ -73,33 +66,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download admin dist
+      - name: Download deploy artifact
         uses: actions/download-artifact@v4
         with:
           name: admin-dist
           path: dist
 
-      - name: Download docs build
-        uses: actions/download-artifact@v4
-        with:
-          name: docs-build
-          path: website/build
-
-      - name: Deploy admin Worker
+      - name: Deploy admin Worker (includes /docs)
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           # Keep in sync with Preview; action defaults to Wrangler 3.x without a local dep.
           wranglerVersion: '4'
-          # Worker mock API + vinext client assets (see wrangler.admin.toml).
-          # Full vinext Workers SSR: use `vinext deploy` locally / follow-up.
+          # Mock API + vinext client assets + Docusaurus at /docs (see wrangler.admin.toml).
           command: deploy --config wrangler.admin.toml
-
-      - name: Deploy docs Worker
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: '4'
-          command: deploy --config wrangler.docs.toml

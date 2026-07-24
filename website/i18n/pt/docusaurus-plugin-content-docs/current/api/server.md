@@ -39,12 +39,12 @@ A API mock é uma instância **json-server** com rotas customizadas de autentica
 | POST | `/auth/forgot-password` | `{ email }` | mensagem + OTP demo |
 | POST | `/auth/change-password` | `{ email, currentPassword, newPassword }` | mensagem de sucesso |
 
-Configure o client admin com `VITE_API_URL` (padrão `http://localhost:4001`).
+No Worker, o mock fica na mesma origem em `/api/*`. Localmente, `make dev` expõe `/api` no app vinext; mock standalone opcional: `make mock` em `:4001`.
 
 ## Docs com Try It
 
-1. Suba o mock: `make mock` (ou `make dev`)
-2. Abra a **[Referência da API](./reference/acp-admin-mock-api)** — use **Send API Request** / Try It contra `http://localhost:4001`
+1. Abra o app admin (`make dev`) ou o Worker de produção para ter `/api` disponível
+2. Abra a **[Referência da API](./reference/acp-admin-mock-api)** — use **Send API Request** / Try It contra `/api` na mesma origem (ou `http://localhost:4001` com `make mock`)
 3. Ou copie curl dos [Exemplos REST](./rest-examples)
 
 ### Regenerar após alterar o OpenAPI

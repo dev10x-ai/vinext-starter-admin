@@ -234,6 +234,12 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
+          id: "api/reference/reorder-menu",
+          label: "Bulk reorder / reparent menu items",
+          className: "api-method post",
+        },
+        {
+          type: "doc",
           id: "api/reference/get-menu-item",
           label: "Get menu item",
           className: "api-method get",

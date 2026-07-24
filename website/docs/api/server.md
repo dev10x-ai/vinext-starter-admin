@@ -39,12 +39,12 @@ The mock API is a **json-server** instance with custom auth routes.
 | POST | `/auth/forgot-password` | `{ email }` | message + demo OTP |
 | POST | `/auth/change-password` | `{ email, currentPassword, newPassword }` | success message |
 
-Configure the admin client with `VITE_API_URL` (defaults to `http://localhost:4001`).
+On the Worker, the mock is same-origin at `/api/*`. Locally, `make dev` exposes `/api` on the vinext app; optional standalone mock: `make mock` on `:4001`.
 
 ## Tryable docs
 
-1. Start the mock: `make mock` (or `make dev`)
-2. Open **[API Reference](./reference/acp-admin-mock-api)** — use **Send API Request** / Try It against `http://localhost:4001`
+1. Open the admin app (`make dev`) or production Worker so `/api` is available
+2. Open **[API Reference](./reference/acp-admin-mock-api)** — use **Send API Request** / Try It against same-origin `/api` (or `http://localhost:4001` with `make mock`)
 3. Or copy curl from [REST examples](./rest-examples)
 
 ### Regenerate after changing the OpenAPI file

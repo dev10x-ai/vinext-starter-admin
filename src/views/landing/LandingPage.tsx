@@ -96,7 +96,7 @@ export function LandingPage() {
             <h2 className="font-[family-name:var(--font-display)] text-3xl font-semibold">Read the docs</h2>
             <p className="mt-2 text-[var(--color-text-muted)]">Getting started, components, and REST API examples.</p>
           </div>
-          <a href="http://localhost:3000">
+          <a href="/docs/">
             <Button size="lg" variant="secondary">
               Open documentation
             </Button>

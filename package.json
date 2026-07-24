@@ -24,7 +24,8 @@
     "docs:gen-api": "npm --prefix website run gen-api-docs",
     "docs:write-translations": "npm --prefix website run write-translations -- --locale pt",
     "docs:build": "npm --prefix website run build",
-    "docs:serve": "npm --prefix website run serve"
+    "docs:serve": "npm --prefix website run serve",
+    "docs:merge": "rm -rf dist/docs && mkdir -p dist && cp -R website/build dist/docs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

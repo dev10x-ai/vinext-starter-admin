@@ -63,7 +63,7 @@ Use o **seletor de idioma** na barra superior (**English** / **Português**).
 
 ## Próximos passos
 
-1. Abra a [landing page](http://localhost:5173/)
+1. Abra a [landing page](pathname:///)
 2. Entre no console
 3. Explore Users, Tenants, Roles e Platform settings
 4. Leia a documentação na ordem:
@@ -71,4 +71,4 @@ Use o **seletor de idioma** na barra superior (**English** / **Português**).
    - [Components overview](./components/overview) (EN)
    - Forms → [Lists & tables](./components/lists-and-tables) → [DataTable](./components/data-table)
    - [Menu tree](./components/menu-tree) · [Layout & chrome](./components/layout)
-5. Leia [Servidor da API](./api/server) e a [Referência da API](./api/reference/acp-admin-mock-api) (Try It → `http://localhost:4001`)
+5. Leia [Servidor da API](./api/server) e a [Referência da API](./api/reference/acp-admin-mock-api) (Try It → mesma origem `/api`, ou mock local em `:4001`)

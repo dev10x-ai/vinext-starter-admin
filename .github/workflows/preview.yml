@@ -1,4 +1,4 @@
-# Preview deploy: upload Worker versions for admin + docs (no production traffic).
+# Preview deploy: upload a Worker version for the single admin Worker (includes /docs).
 # Runs on pushes to branches. Production domains update only on tag deploys.
 name: Preview
 
@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   preview:
-    name: Build and upload Workers previews
+    name: Build and upload Worker preview
     runs-on: ubuntu-latest
     timeout-minutes: 40
 
@@ -45,7 +45,7 @@ jobs:
       - name: Build admin
         run: make build
 
-      - name: Build docs
+      - name: Build docs into dist/docs
         run: make docs-build
 
       - name: Sanitize preview alias
@@ -68,14 +68,6 @@ jobs:
           wranglerVersion: '4'
           command: versions upload --config wrangler.admin.toml --preview-alias ${{ steps.alias.outputs.value }}
 
-      - name: Upload docs preview version
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: '4'
-          command: versions upload --config wrangler.docs.toml --preview-alias ${{ steps.alias.outputs.value }}
-
       - name: Preview URL hint
         run: |
           {
@@ -83,9 +75,9 @@ jobs:
             echo ""
             echo "- Branch: \`${{ github.ref_name }}\`"
             echo "- Preview alias: \`${{ steps.alias.outputs.value }}\`"
-            echo "- Admin pattern: \`https://<alias>-vinext-starter-admin.<account-subdomain>.workers.dev\`"
-            echo "- Docs pattern: \`https://<alias>-vinext-starter-admin-docs.<account-subdomain>.workers.dev\`"
+            echo "- Worker pattern: \`https://<alias>-vinext-starter-admin.<account-subdomain>.workers.dev\`"
+            echo "- Docs on same Worker: \`https://<alias>-vinext-starter-admin.<account-subdomain>.workers.dev/docs\`"
             echo ""
             echo "Exact URLs are printed in the Wrangler step logs."
-            echo "This does **not** update \`vinext-starter-admin.dev10x.ai\` or \`vinext-starter-admin-docs.dev10x.ai\`."
+            echo "This does **not** update \`vinext-starter-admin.dev10x.ai\`."
           } >> "$GITHUB_STEP_SUMMARY"

@@ -5,9 +5,7 @@ title: REST examples
 
 # REST examples
 
-Practical examples against the local mock (`http://localhost:4001`).
-
-Prerequisite: `make mock` or `make dev` (mock on port **4001**).
+Practical examples against the mock API. Curl below uses `http://localhost:4001` for the standalone mock (`make mock`). On the Worker / `make dev`, replace the host with same-origin `/api` (e.g. `https://vinext-starter-admin.dev10x.ai/api/...` or `http://127.0.0.1:5173/api/...`).
 
 For the full interactive reference with **Try It**, see [API Reference](./reference/acp-admin-mock-api) (generated from `mock/openapi.yaml`).
 

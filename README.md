@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="https://vinext-starter-admin.dev10x.ai"><strong>Demo</strong></a> ·
-  <a href="https://vinext-starter-admin-docs.dev10x.ai"><strong>Docs</strong></a> ·
+  <a href="https://vinext-starter-admin.dev10x.ai/docs"><strong>Docs</strong></a> ·
   <a href="docs/ci-cd.md">CI/CD</a>
 </p>
 
@@ -58,7 +58,7 @@ Fork example: `slot-battle-acp` or any multi-tenant ops console.
 ```bash
 make setup          # app + docs deps + Playwright Chromium
 make dev            # vinext App Router :5173 (in-app /api mock)
-make docs           # Docusaurus :3000
+make docs           # Docusaurus :3000/docs/ (local DX; production is /docs on the admin Worker)
 ```
 
 | Demo user | Password | Notes |
@@ -70,7 +70,7 @@ make docs           # Docusaurus :3000
 make test           # Vitest unit tests
 make test-e2e       # Playwright
 make build          # Admin production build
-make docs-build     # Docs production build
+make docs-build     # Docs → dist/docs (run after make build for deploy)
 ```
 
 ---
@@ -80,10 +80,10 @@ make docs-build     # Docs production build
 | | URL |
 |--|-----|
 | **Admin (production)** | https://vinext-starter-admin.dev10x.ai |
-| **Docs (production)** | https://vinext-starter-admin-docs.dev10x.ai |
+| **Docs (production)** | https://vinext-starter-admin.dev10x.ai/docs |
 | **Actions** | https://github.com/raphaelcangucu/vinext-starter-admin/actions |
 
-Production updates on **`v*` git tags**. Branch pushes publish **Workers preview URLs** only (see [`docs/ci-cd.md`](docs/ci-cd.md)).
+Docs ship on the **same Worker** at `/docs` (no separate docs hostname). Production updates on **`v*` git tags**. Branch pushes publish **Workers preview URLs** only (see [`docs/ci-cd.md`](docs/ci-cd.md)).
 
 ---
 
@@ -125,7 +125,7 @@ Each pack ships light and dark modes.
 | E2E | Playwright |
 | Docs | Docusaurus 3 (+ OpenAPI plugin) |
 | Mock API | App Router `/api/*` (reuses `worker/`); optional json-server |
-| Hosting | Cloudflare Workers via `vinext deploy` |
+| Hosting | Cloudflare Workers (`wrangler.admin.toml` / `vinext deploy`) — docs at `/docs` |
 
 ---
 
@@ -166,9 +166,11 @@ e2e/          Playwright specs
 
 | Event | Result |
 |-------|--------|
-| Push to a **branch** | Preview versions for admin + docs (`wrangler versions upload`) |
-| Push tag **`v*`** | Production deploy to both custom domains |
+| Push to a **branch** | Preview version of the single admin Worker (`wrangler versions upload`) — includes `/docs` |
+| Push tag **`v*`** | Production deploy to `vinext-starter-admin.dev10x.ai` (app + `/api` + `/docs`) |
 | PR / branch push | CI: typecheck, lint, unit tests, builds |
+
+Build order for deploy: `make build && make docs-build` (merges `website/build` → `dist/docs`).
 
 Secrets (never commit): `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`.
 
@@ -198,11 +200,11 @@ Thanks to everyone contributing to this starter.
 |--------|-------------|
 | `make setup` | Install everything |
 | `make dev` | Vite + mock API |
-| `make docs` | Docs dev server |
+| `make docs` | Docs dev server (`:3000/docs/`) |
 | `make docs-gen-api` | Regenerate API Reference MDX |
-| `make docs-build` | Build docs (en + pt) |
+| `make docs-build` | Build docs (en + pt) → `dist/docs` |
 | `make test` / `make test-e2e` | Unit / Playwright |
-| `make build` | Admin production build |
+| `make build` | Admin production build (`dist/`) |
 
 ---
 

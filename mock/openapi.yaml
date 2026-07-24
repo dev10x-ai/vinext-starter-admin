@@ -3,12 +3,13 @@ info:
   title: ACP Admin Mock API
   version: 0.1.0
   description: |
-    OpenAPI for the local **json-server** mock (`mock/server.mjs` + `mock/db.json`).
+    OpenAPI for the ACP Admin mock API (`worker/` + optional `mock/server.mjs`).
 
-    **Base URL:** `http://localhost:4001`
+    **Base URLs:**
+    - Production / Worker preview: same-origin `/api`
+    - Local standalone mock: `http://localhost:4001` (`make mock`)
 
-    Start the mock with `make mock` or `make dev`, then use **Try It** in the docs
-    (or the curl examples below).
+    Use **Try It** in the docs (or the curl examples below).
 
     ### Demo credentials
 
@@ -25,8 +26,10 @@ info:
   contact:
     name: ACP Admin
 servers:
+  - url: /api
+    description: Same-origin Worker mock API (production + `make dev`)
   - url: http://localhost:4001
-    description: Local mock API (`make mock` / `make dev`)
+    description: Local json-server mock (`make mock`)
 tags:
   - name: Auth
     description: Custom auth routes (not standard json-server CRUD)
