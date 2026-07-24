@@ -12,8 +12,7 @@
 <p align="center">
   <a href="https://vinext-starter-admin.dev10x.ai"><strong>Demo</strong></a> ·
   <a href="https://vinext-starter-admin-docs.dev10x.ai"><strong>Docs</strong></a> ·
-  <a href="docs/ci-cd.md">CI/CD</a> ·
-  <a href="docs/comparison-xip-vs-macro.md">Xip vs Macro</a>
+  <a href="docs/ci-cd.md">CI/CD</a>
 </p>
 
 <p align="center">
