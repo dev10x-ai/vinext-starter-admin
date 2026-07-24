@@ -5,6 +5,11 @@ export interface Env {
   ASSETS: { fetch: (request: Request) => Promise<Response> }
 }
 
+interface WorkerExecutionContext {
+  waitUntil(promise: Promise<unknown>): void
+  passThroughOnException(): void
+}
+
 async function fetchAsset(env: Env, request: Request, pathname: string): Promise<Response> {
   const url = new URL(request.url)
   url.pathname = pathname
@@ -18,7 +23,7 @@ async function fetchAsset(env: Env, request: Request, pathname: string): Promise
  * - everything else → vinext App Router (RSC/SSR)
  */
 export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx: WorkerExecutionContext): Promise<Response> {
     const url = new URL(request.url)
     const { pathname } = url
 
