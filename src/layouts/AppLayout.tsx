@@ -15,14 +15,21 @@ import { cn } from '@/lib/cn'
 import styles from './AppShell.module.css'
 
 function useAuthHydrated() {
-  const [hydrated, setHydrated] = useState(() => useAuthStore.persist.hasHydrated())
+  // Always start false so SSR and the first client paint match (Zustand persist
+  // is not available/hydrated during RSC/SSR).
+  const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
-    if (useAuthStore.persist.hasHydrated()) {
+    const persistApi = useAuthStore.persist
+    if (!persistApi?.hasHydrated || !persistApi.onFinishHydration) {
       setHydrated(true)
       return
     }
-    return useAuthStore.persist.onFinishHydration(() => setHydrated(true))
+    if (persistApi.hasHydrated()) {
+      setHydrated(true)
+      return
+    }
+    return persistApi.onFinishHydration(() => setHydrated(true))
   }, [])
 
   return hydrated

@@ -1,13 +1,15 @@
 import { handleApiRequest } from './api'
 
 export interface Env {
-  ASSETS: Fetcher
+  ASSETS: { fetch: (request: Request) => Promise<Response> }
 }
 
 /**
- * Cloudflare Worker entry:
- * - `/api/*` → in-Worker mock API (seeded from mock/db.json)
- * - everything else → Vite SPA static assets
+ * Legacy SPA Worker entry (assets + `/api/*`).
+ *
+ * Prefer vinext App Router handlers at `src/app/api/[[...path]]/route.ts`
+ * with `vinext deploy` / `vinext start`. Kept for `wrangler.dev` against a
+ * static asset build when needed.
  */
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {

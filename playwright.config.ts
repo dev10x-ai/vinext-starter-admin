@@ -13,16 +13,11 @@ export default defineConfig({
   },
   webServer: [
     {
-      command: 'npm run mock',
-      url: 'http://127.0.0.1:4001/users',
-      reuseExistingServer: !process.env.CI,
-      timeout: 120_000,
-    },
-    {
-      command: 'npm run dev -- --host 127.0.0.1 --port 5173',
+      // App Router mock API is served by vinext at /api/* (worker/ handlers).
+      command: 'npm run dev',
       url: 'http://127.0.0.1:5173',
       reuseExistingServer: !process.env.CI,
-      timeout: 120_000,
+      timeout: 180_000,
     },
   ],
   projects: [

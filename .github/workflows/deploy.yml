@@ -92,7 +92,9 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           # Keep in sync with Preview; action defaults to Wrangler 3.x without a local dep.
           wranglerVersion: '4'
-          command: deploy
+          # Worker mock API + vinext client assets (see wrangler.admin.toml).
+          # Full vinext Workers SSR: use `vinext deploy` locally / follow-up.
+          command: deploy --config wrangler.admin.toml
 
       - name: Deploy docs Worker
         uses: cloudflare/wrangler-action@v3

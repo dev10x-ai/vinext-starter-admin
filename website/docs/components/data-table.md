@@ -357,7 +357,7 @@ export function TenantsListPage({
 }
 ```
 
-Wire `onCreate` / `onUpdate` / `onDelete` to TanStack Query mutations (`useCreateTenantMutation`, etc.) as in `src/pages/access/TenantsPage.tsx`.
+Wire `onCreate` / `onUpdate` / `onDelete` to TanStack Query mutations (`useCreateTenantMutation`, etc.) as in `src/views/access/TenantsPage.tsx`.
 
 ## Sorting notes
 
@@ -394,4 +394,4 @@ Users can re-enable hidden columns from the **Columns** dropdown.
 2. [Layout & chrome](./layout) — header search / command palette  
 3. [API Server](../api/server) — REST behind list CRUD and search  
 
-Related: [Form patterns → Modal CRUD](./form-patterns#modal-crud-users). Live pages: `src/pages/access/UsersPage.tsx`, `TenantsPage.tsx`.
+Related: [Form patterns → Modal CRUD](./form-patterns#modal-crud-users). Live pages: `src/views/access/UsersPage.tsx`, `TenantsPage.tsx`.

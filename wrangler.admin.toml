@@ -1,5 +1,7 @@
-# Cloudflare Worker — Vite SPA (dist/) + in-Worker mock API (/api/*).
-# Deployed by .github/workflows/deploy.yml (tags → production).
+# Cloudflare Worker — vinext client assets + in-Worker mock API (/api/*).
+# Local Node SSR: `vinext start` (preferred for App Router HTML).
+# CI tag/preview deploys use this config so `/api` keeps working on Workers.
+# Full vinext Workers SSR (RSC in workerd): `npm run deploy` → `vinext deploy`.
 #
 # Required GitHub secrets (do not commit tokens):
 #   CLOUDFLARE_API_TOKEN
@@ -8,19 +10,19 @@
 name = "vinext-starter-admin"
 main = "worker/index.ts"
 compatibility_date = "2025-07-12"
+compatibility_flags = ["nodejs_compat"]
 workers_dev = true
 preview_urls = true
 
-# Production custom domain (zone: dev10x.ai on this Cloudflare account).
-# Requires the zone's nameservers to be active at Cloudflare for public DNS.
 [[routes]]
 pattern = "vinext-starter-admin.dev10x.ai"
 custom_domain = true
 
 [assets]
+# Node vinext build puts public assets + client bundles under dist/.
+# Prefer `vinext deploy` for full App Router SSR on Workers.
 directory = "./dist"
 binding = "ASSETS"
-# Run the Worker first for API; static SPA assets for everything else.
 run_worker_first = ["/api", "/api/*"]
 not_found_handling = "single-page-application"
 html_handling = "auto-trailing-slash"

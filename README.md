@@ -5,7 +5,7 @@
 <h1 align="center">vinext-starter-admin</h1>
 
 <p align="center">
-  <strong>Fork-ready Vite + React admin starter</strong> for multi-tenant operations consoles.<br />
+  <strong>Fork-ready vinext App Router admin starter</strong> for multi-tenant operations consoles.<br />
   Demo brand: <strong>ACP Admin</strong> — Macro-inspired shell, Xip-filled gaps, landing + docs included.
 </p>
 
@@ -57,7 +57,7 @@ Fork example: `slot-battle-acp` or any multi-tenant ops console.
 
 ```bash
 make setup          # app + docs deps + Playwright Chromium
-make dev            # admin :5173 + mock API :4001
+make dev            # vinext App Router :5173 (in-app /api mock)
 make docs           # Docusaurus :3000
 ```
 
@@ -115,16 +115,17 @@ Each pack ships light and dark modes.
 | Layer | Choice |
 |-------|--------|
 | UI | React 19, Vite 8, Tailwind CSS 4 |
+| Framework | vinext App Router (RSC-capable, Cloudflare-native) |
 | State | Zustand |
 | Server state | TanStack Query |
 | Forms | React Hook Form + Zod |
-| Routing | React Router 7 |
+| Routing | App Router (`app/`) |
 | Charts | Recharts |
 | Unit tests | Vitest + Testing Library |
 | E2E | Playwright |
 | Docs | Docusaurus 3 (+ OpenAPI plugin) |
-| Mock API | json-server locally; same-origin `/api` Worker mock in production |
-| Hosting | Cloudflare Workers (SPA assets + in-Worker API) |
+| Mock API | App Router `/api/*` (reuses `worker/`); optional json-server |
+| Hosting | Cloudflare Workers via `vinext deploy` |
 
 ---
 
@@ -148,9 +149,11 @@ npm test -- --coverage
 ## Project layout
 
 ```
-src/          React app (landing, auth, console, design-system)
-mock/         Local json-server + auth + OpenAPI
-worker/       Cloudflare Worker: /api mock + SPA asset fallthrough
+app/      vinext App Router (route groups, API handlers)
+src/views/    Client page views imported by thin server pages
+src/          Shared components, layouts, stores, queries
+mock/         Optional json-server + OpenAPI seed
+worker/       Shared mock API modules (used by App Router + legacy Worker)
 website/      Docusaurus documentation
 docs/         Engineering notes + media for README
 e2e/          Playwright specs

@@ -1,5 +1,4 @@
 import {
-  findById,
   getCollection,
   getDb,
   isCollection,

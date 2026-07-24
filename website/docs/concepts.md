@@ -14,7 +14,7 @@ How ACP Admin is wired: state, data fetching, themes, and route shells.
 | UI | React + Vite + Tailwind | `src/` |
 | Server state | **TanStack Query** | `src/queries/` |
 | Client / session UI | **Zustand** (+ persist) | `src/store/` |
-| Forms | React Hook Form + Zod | screens under `src/pages/` |
+| Forms | React Hook Form + Zod | screens under `src/views/` |
 | Routing | React Router | `src/App.tsx`, layouts in `src/layouts/` |
 | Mock API | json-server + custom auth | `mock/` |
 

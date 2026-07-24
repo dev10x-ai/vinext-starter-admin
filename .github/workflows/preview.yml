@@ -66,7 +66,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           # Wrangler 3 lacks --preview-alias; action defaults to 3.x when wrangler is not a local dep.
           wranglerVersion: '4'
-          command: versions upload --preview-alias ${{ steps.alias.outputs.value }}
+          command: versions upload --config wrangler.admin.toml --preview-alias ${{ steps.alias.outputs.value }}
 
       - name: Upload docs preview version
         uses: cloudflare/wrangler-action@v3

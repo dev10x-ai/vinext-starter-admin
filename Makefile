@@ -1,12 +1,12 @@
 SHELL := /bin/bash
-.PHONY: setup install dev mock docs docs-gen-api docs-write-translations docs-build docs-serve test test-unit test-e2e typecheck build preview clean help dev-worker
+.PHONY: setup install dev mock docs docs-gen-api docs-write-translations docs-build docs-serve test test-unit test-e2e typecheck build preview start clean help deploy
 
 help:
 	@echo "ACP Admin targets:"
 	@echo "  make setup         Install app + docs deps, Playwright browsers"
 	@echo "  make install       npm install (app)"
-	@echo "  make dev           Frontend + mock API (concurrent)"
-	@echo "  make mock          Mock API only (json-server :4001)"
+	@echo "  make dev           vinext App Router (:5173) + in-app /api mock"
+	@echo "  make mock          Standalone json-server mock API (:4001)"
 	@echo "  make docs          Docusaurus dev server (:3000)"
 	@echo "  make docs-gen-api  Regenerate OpenAPI MDX from mock/openapi.yaml"
 	@echo "  make docs-write-translations  Refresh i18n JSON stubs (locale=pt)"
@@ -15,9 +15,10 @@ help:
 	@echo "  make test          Unit tests"
 	@echo "  make test-e2e      Playwright e2e"
 	@echo "  make typecheck     TypeScript check"
-	@echo "  make build         Production build (admin)"
-	@echo "  make preview       Preview production build"
-	@echo "  make dev-worker    Build SPA + wrangler dev (Worker API + assets)"
+	@echo "  make build         Production build (vinext)"
+	@echo "  make start         Serve production build (vinext start)"
+	@echo "  make preview       Alias for make start"
+	@echo "  make deploy        vinext deploy (Cloudflare Workers)"
 
 setup: install
 	cd website && npm install
@@ -27,7 +28,7 @@ install:
 	npm install
 
 dev:
-	npm run dev:all
+	npm run dev
 
 mock:
 	npm run mock
@@ -59,11 +60,11 @@ typecheck:
 build:
 	npm run build
 
-preview:
-	npm run preview
+preview start:
+	npm run start
 
-dev-worker:
-	npm run dev:worker
+deploy:
+	npm run deploy
 
 clean:
-	rm -rf dist coverage playwright-report test-results website/build website/.docusaurus
+	rm -rf dist coverage playwright-report test-results website/build website/.docusaurus .next
