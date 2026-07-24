@@ -7,7 +7,7 @@ GitHub Actions for **vinext-starter-admin**: one Cloudflare Worker serves the ad
 | Workflow | Path | When | What |
 |----------|------|------|------|
 | **CI** | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) | Pull requests and branch pushes | `make typecheck`, `oxlint`, `make test`, `make build`, `make docs-build` |
-| **Preview** | [`.github/workflows/preview.yml`](../.github/workflows/preview.yml) | Push to any branch | Build admin + merge docs into `dist/docs`, then `wrangler versions upload` (no production traffic) |
+| **Preview** | [`.github/workflows/preview.yml`](../.github/workflows/preview.yml) | Push to any branch | Build admin + merge docs into `dist/client/docs`, then `wrangler versions upload` (no production traffic) |
 | **Deploy** | [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) | Tags matching `v*` (and `workflow_dispatch`) | Same build, then `wrangler deploy` for the single admin Worker |
 
 Playwright e2e (`make test-e2e`) is **not** run in CI. Run locally after `make setup`.
@@ -69,12 +69,16 @@ Set as **repository secrets** and optionally on the `production` environment. Do
 
 ## Production release
 
+Production deploys only from **`v*` tags** on the commit you want live (usually `main` HEAD after merge).
+
 ```bash
-git tag v0.1.3
-git push origin v0.1.3
+git checkout main
+git pull
+git tag -a v0.1.8 -m "Release: App Router merge + /assets ASSETS fix"
+git push origin v0.1.8
 ```
 
-Runs **Deploy** and updates `https://vinext-starter-admin.dev10x.ai` (including `/docs`).
+Runs **Deploy** and updates `https://vinext-starter-admin.dev10x.ai` (app + `/api` + `/assets` + `/docs`). Bump the patch (or minor) from the latest remote tag — do not retag an existing version.
 
 ## Local deploy
 

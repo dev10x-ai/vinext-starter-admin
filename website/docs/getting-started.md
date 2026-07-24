@@ -6,11 +6,13 @@ slug: /
 
 # Getting started
 
-ACP Admin is a mocked multi-tenant operations console. The UI shell follows **Macro Wallets** patterns; branding defaults to the **Default** sober-blue theme (also **Ruby** and **Emerald** packs).
+ACP Admin is a mocked multi-tenant operations console on **vinext App Router**. The UI shell follows **Macro Wallets** patterns; branding defaults to the **Default** sober-blue theme (also **Ruby** and **Emerald** packs).
+
+**Production:** [https://vinext-starter-admin.dev10x.ai](https://vinext-starter-admin.dev10x.ai) — one Cloudflare Worker serves the app, mock API (`/api`), Vite client assets (`/assets`), and these docs (`/docs`).
 
 ## Prerequisites
 
-- Node.js 20+
+- Node.js 22+
 - npm
 
 ## Install & run
@@ -19,18 +21,19 @@ From the repository root:
 
 ```bash
 make setup
-make dev        # admin UI :5173 + mock API :4001
-make docs       # documentation :3000
+make dev        # vinext App Router :5173 (in-app /api mock)
+make docs       # documentation :3000/docs/
 ```
 
 Or separately:
 
 ```bash
 npm install
-npm run mock    # json-server
-npm run dev     # Vite admin + landing
+npm run dev     # vinext admin + landing + /api
 cd website && npm install && npm start
 ```
+
+Optional standalone json-server mock (legacy DX): `make mock` on `:4001`. Prefer same-origin `/api` from `make dev`.
 
 ## Demo credentials
 
@@ -49,10 +52,13 @@ Password login + 2FA still uses the same OTP screen when `twoFactorEnabled` is t
 
 ## Project layout
 
-- `src/` — React admin + landing
-- `mock/` — json-server database + auth routes
+- `app/` — vinext App Router (route groups, `/api` handlers)
+- `src/views/` — client page views used by thin server pages
+- `src/` — shared components, layouts, stores, queries
+- `mock/` — optional json-server + OpenAPI seed
+- `worker/` — shared mock API modules (App Router + Worker)
 - `website/` — this Docusaurus site
-- `docs/` (repo root) — engineering comparison & design notes
+- `docs/` (repo root) — CI/CD notes + README media
 
 ## Next steps
 

@@ -70,7 +70,7 @@ make docs           # Docusaurus :3000/docs/ (local DX; production is /docs on t
 make test           # Vitest unit tests
 make test-e2e       # Playwright
 make build          # Admin production build
-make docs-build     # Docs → dist/docs (run after make build for deploy)
+make docs-build     # Docs → dist/client/docs (run after make build for deploy)
 ```
 
 ---
@@ -167,7 +167,7 @@ e2e/          Playwright specs
 | Event | Result |
 |-------|--------|
 | Push to a **branch** | Preview version of the single admin Worker (`wrangler versions upload`) — includes `/docs` |
-| Push tag **`v*`** | Production deploy to `vinext-starter-admin.dev10x.ai` (app + `/api` + `/docs`) |
+| Push tag **`v*`** | Production deploy to `vinext-starter-admin.dev10x.ai` (app + `/api` + `/docs` + `/assets`) |
 | PR / branch push | CI: typecheck, lint, unit tests, builds |
 
 Build order for deploy: `make build && make docs-build` (merges `website/build` → `dist/client/docs`).
@@ -199,7 +199,7 @@ Thanks to everyone contributing to this starter.
 | Target | Description |
 |--------|-------------|
 | `make setup` | Install everything |
-| `make dev` | Vite + mock API |
+| `make dev` | vinext App Router + in-app `/api` |
 | `make docs` | Docs dev server (`:3000/docs/`) |
 | `make docs-gen-api` | Regenerate API Reference MDX |
 | `make docs-build` | Build docs (en + pt) → `dist/client/docs` |

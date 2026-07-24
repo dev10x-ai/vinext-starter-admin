@@ -12,11 +12,12 @@ How ACP Admin is wired: state, data fetching, themes, and route shells.
 | Concern | Choice | Where |
 |---------|--------|--------|
 | UI | React + Vite + Tailwind | `src/` |
+| Framework | **vinext App Router** | `app/` |
 | Server state | **TanStack Query** | `src/queries/` |
 | Client / session UI | **Zustand** (+ persist) | `src/store/` |
 | Forms | React Hook Form + Zod | screens under `src/views/` |
-| Routing | React Router | `src/App.tsx`, layouts in `src/layouts/` |
-| Mock API | json-server + custom auth | `mock/` |
+| Routing | App Router | `app/` + thin pages importing `src/views/` |
+| Mock API | App Router `/api/*` (shared `worker/` modules); optional json-server | `app/api/`, `worker/`, `mock/` |
 
 **Rule of thumb:** fetch and mutate with Query; keep auth session, theme, tenant, and table prefs in Zustand.
 
@@ -32,7 +33,7 @@ Table page size for [DataTable](./components/data-table) survives reloads via `u
 
 ## TanStack Query
 
-Hooks under `src/queries/` wrap the mock REST API (`VITE_API_URL`, default `http://localhost:4001`). List pages (Users, Tenants) load rows with Query and pass them into DataTable; mutations invalidate the matching query keys.
+Hooks under `src/queries/` wrap the mock REST API. With `make dev` (and on the Worker), the client calls **same-origin `/api`**. Optional standalone mock: `make mock` on `:4001`. List pages (Users, Tenants) load rows with Query and pass them into DataTable; mutations invalidate the matching query keys.
 
 ## Themes
 
@@ -53,6 +54,19 @@ Each pack has light + night modes via CSS variables (`--color-*`). Switch from t
 | `AppLayout` | `/app/*` console | Sidebar + sticky header |
 
 Auth screens stay chrome-free so login/OTP feel like Macro-style auth, not an empty admin shell.
+
+Route files live under `app/`; interactive UI stays in `src/views/` and shared layout components under `src/layouts/` / `src/components/`.
+
+## Deploy surfaces (one Worker)
+
+| Path | Role |
+|------|------|
+| `/` | Admin app (SSR + client) |
+| `/api/*` | Mock API |
+| `/assets/*` | Vite hashed JS/CSS (served from Worker ASSETS before SSR) |
+| `/docs/*` | Docusaurus (merged into `dist/client/docs`) |
+
+See `docs/ci-cd.md` in the repository for tags, preview URLs, and the `/assets` Worker routing note.
 
 ## Next steps
 
