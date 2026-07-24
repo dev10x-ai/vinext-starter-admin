@@ -64,6 +64,8 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Wrangler 3 lacks --preview-alias; action defaults to 3.x when wrangler is not a local dep.
+          wranglerVersion: '4'
           command: versions upload --preview-alias ${{ steps.alias.outputs.value }}
 
       - name: Upload docs preview version
@@ -71,6 +73,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4'
           command: versions upload --config wrangler.docs.toml --preview-alias ${{ steps.alias.outputs.value }}
 
       - name: Preview URL hint
