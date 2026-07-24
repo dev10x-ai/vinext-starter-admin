@@ -26,11 +26,14 @@ The Worker also keeps a `*.workers.dev` URL. Custom domains require the `dev10x.
 
 ### Routing (`worker/index.ts`)
 
-With `run_worker_first = true` and `not_found_handling = "none"`:
+With `run_worker_first = true` and `not_found_handling = "none"`, Cloudflare does **not** auto-serve the ASSETS binding — the Worker must proxy static paths:
 
 1. `/api` + `/api/*` → mock API
-2. `/docs` → redirect to `/docs/`; `/docs/*` → static assets, missing paths → `/docs/404.html`
-3. Everything else → vinext App Router SSR (`vinext/server/app-router-entry`)
+2. `/assets/*` → Vite hashed client JS/CSS (`dist/client/assets`) via `ASSETS.fetch`
+3. `/docs` → redirect to `/docs/`; `/docs/*` → static assets, missing paths → `/docs/404.html`
+4. Everything else → vinext App Router SSR (`vinext/server/app-router-entry`); `public/` files (favicon, branding, …) still resolve through vinext’s ASSETS static-file signal
+
+Skipping step 2 makes the homepage HTML load while `/assets/*.js` / `/assets/*.css` return App Router HTML 404s.
 
 ### Build merge
 
