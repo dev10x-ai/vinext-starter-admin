@@ -1,25 +1,19 @@
-import { defineConfig, devices } from '@playwright/test'
+import { defineConfig, devices, type PlaywrightTestConfig } from '@playwright/test'
 
-export default defineConfig({
+const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:5173'
+const againstRemote = /^https?:\/\//.test(baseURL) && !/127\.0\.0\.1|localhost/.test(baseURL)
+
+const config: PlaywrightTestConfig = {
   testDir: './e2e',
-  timeout: 60_000,
+  timeout: againstRemote ? 120_000 : 60_000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   use: {
-    baseURL: 'http://127.0.0.1:5173',
+    baseURL,
     trace: 'on-first-retry',
     video: 'on',
   },
-  webServer: [
-    {
-      // App Router mock API is served by vinext at /api/* (worker/ handlers).
-      command: 'npm run dev',
-      url: 'http://127.0.0.1:5173',
-      reuseExistingServer: !process.env.CI,
-      timeout: 180_000,
-    },
-  ],
   projects: [
     {
       name: 'Desktop Chrome',
@@ -41,4 +35,18 @@ export default defineConfig({
       },
     },
   ],
-})
+}
+
+if (!againstRemote) {
+  config.webServer = [
+    {
+      // App Router mock API is served by vinext at /api/* (worker/ handlers).
+      command: 'npm run dev',
+      url: 'http://127.0.0.1:5173',
+      reuseExistingServer: !process.env.CI,
+      timeout: 180_000,
+    },
+  ]
+}
+
+export default defineConfig(config)
