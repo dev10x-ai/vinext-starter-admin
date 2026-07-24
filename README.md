@@ -123,8 +123,8 @@ Each pack ships light and dark modes.
 | Unit tests | Vitest + Testing Library |
 | E2E | Playwright |
 | Docs | Docusaurus 3 (+ OpenAPI plugin) |
-| Mock API | json-server |
-| Hosting | Cloudflare Workers (static assets) |
+| Mock API | json-server locally; same-origin `/api` Worker mock in production |
+| Hosting | Cloudflare Workers (SPA assets + in-Worker API) |
 
 ---
 
@@ -149,7 +149,8 @@ npm test -- --coverage
 
 ```
 src/          React app (landing, auth, console, design-system)
-mock/         json-server + auth + OpenAPI
+mock/         Local json-server + auth + OpenAPI
+worker/       Cloudflare Worker: /api mock + SPA asset fallthrough
 website/      Docusaurus documentation
 docs/         Engineering notes + media for README
 e2e/          Playwright specs

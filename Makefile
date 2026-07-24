@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-.PHONY: setup install dev mock docs docs-gen-api docs-write-translations docs-build docs-serve test test-unit test-e2e typecheck build preview clean help
+.PHONY: setup install dev mock docs docs-gen-api docs-write-translations docs-build docs-serve test test-unit test-e2e typecheck build preview clean help dev-worker
 
 help:
 	@echo "ACP Admin targets:"
@@ -17,6 +17,7 @@ help:
 	@echo "  make typecheck     TypeScript check"
 	@echo "  make build         Production build (admin)"
 	@echo "  make preview       Preview production build"
+	@echo "  make dev-worker    Build SPA + wrangler dev (Worker API + assets)"
 
 setup: install
 	cd website && npm install
@@ -60,6 +61,9 @@ build:
 
 preview:
 	npm run preview
+
+dev-worker:
+	npm run dev:worker
 
 clean:
 	rm -rf dist coverage playwright-report test-results website/build website/.docusaurus

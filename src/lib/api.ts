@@ -1,4 +1,12 @@
-const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:4001'
+/**
+ * Local: json-server on :4001 (make mock / make dev).
+ * Production: same-origin Worker mock at `/api` (see worker/).
+ * Override with VITE_API_URL when needed.
+ */
+const API_BASE =
+  import.meta.env.VITE_API_URL ??
+  (import.meta.env.PROD ? '/api' : 'http://localhost:4001')
+
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {

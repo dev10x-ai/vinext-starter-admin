@@ -21,7 +21,7 @@ Playwright e2e (`make test-e2e`) is **not** run in CI. Run locally after `make s
 
 Each worker also keeps a `*.workers.dev` URL. Custom domains require the `dev10x.ai` zone on the same Cloudflare account with **active Cloudflare nameservers**.
 
-Admin SPA uses `not_found_handling = "single-page-application"`. Docs use `not_found_handling = "404-page"` (Docusaurus `404.html`).
+Admin Worker (`worker/index.ts`) serves the Vite SPA from `dist/` and handles same-origin mock API at `/api/*` (`run_worker_first`). Docs use `not_found_handling = "404-page"` (Docusaurus `404.html`).
 
 ## Preview URL pattern
 

@@ -14,7 +14,16 @@ export default defineConfig({
   server: {
     host: '127.0.0.1',
     port: 5173,
+    // Optional same-origin pattern: set VITE_API_URL=/api and keep `make mock` running.
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:4001',
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/api/, ''),
+      },
+    },
   },
+
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
