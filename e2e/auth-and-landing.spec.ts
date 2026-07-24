@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { signIn } from './helpers/auth'
+import { fillOtp, signIn } from './helpers/auth'
 
 test.describe('landing + auth', () => {
   test('landing is brand-first and links to auth', async ({ page }) => {
@@ -45,7 +45,7 @@ test.describe('landing + auth', () => {
     await page.getByLabel('Email').fill('admin@acp.local')
     await page.getByRole('button', { name: /send otp code/i }).click()
     await expect(page).toHaveURL(/\/otp/)
-    await page.getByLabel('One-time code').fill('123456')
+    await fillOtp(page, '123456')
     await page.getByRole('button', { name: /verify/i }).click()
     await expect(page).toHaveURL(/\/app/)
     await expect(page.getByRole('heading', { name: /dashboard/i })).toBeVisible()

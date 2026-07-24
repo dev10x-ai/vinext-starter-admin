@@ -30,7 +30,7 @@ export function ForgotPasswordPage() {
     <div>
       <h1 className="text-xl font-semibold">Forgot password</h1>
       <p className="mt-1 text-sm text-[var(--color-text-muted)]">We will send a mocked reset code.</p>
-      <form className="mt-6 space-y-4" onSubmit={onSubmit}>
+      <form className="mt-6 space-y-4" method="post" onSubmit={onSubmit}>
         <Input label="Email" type="email" error={errors.email?.message} {...register('email')} />
         {message ? <p className="text-sm text-[var(--color-success)]">{message}</p> : null}
         <Button type="submit" className="w-full" disabled={isSubmitting}>

@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -31,6 +31,11 @@ export function LoginPage() {
   const router = useRouter()
   const [mode, setMode] = useState<LoginMode>('password')
   const [error, setError] = useState('')
+  const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    setReady(true)
+  }, [])
 
   const passwordForm = useForm<PasswordForm>({ resolver: zodResolver(passwordSchema) })
   const otpForm = useForm<OtpRequestForm>({ resolver: zodResolver(otpRequestSchema) })
@@ -56,7 +61,7 @@ export function LoginPage() {
   })
 
   return (
-    <div>
+    <div data-testid="login-form" data-ready={ready ? 'true' : 'false'}>
       <h1 className="text-xl font-semibold">Sign in</h1>
       <p className="mt-1 text-sm text-[var(--color-text-muted)]">
         Password: admin@acp.local / Admin123! · OTP login uses code 123456
@@ -96,7 +101,7 @@ export function LoginPage() {
       </div>
 
       {mode === 'password' ? (
-        <form className="mt-6 space-y-4" onSubmit={onPasswordSubmit}>
+        <form className="mt-6 space-y-4" method="post" onSubmit={onPasswordSubmit}>
           <Input
             label="Email"
             type="email"
@@ -115,7 +120,7 @@ export function LoginPage() {
           </Button>
         </form>
       ) : (
-        <form className="mt-6 space-y-4" onSubmit={onOtpRequestSubmit}>
+        <form className="mt-6 space-y-4" method="post" onSubmit={onOtpRequestSubmit}>
           <Input
             label="Email"
             type="email"

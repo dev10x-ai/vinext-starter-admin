@@ -59,7 +59,7 @@ test.describe('console pages smoke', () => {
     await page.goto('/app/profile')
     await expect(page.getByRole('heading', { name: /my profile/i })).toBeVisible()
     await expect(page.getByRole('heading', { name: /two-factor authentication/i })).toBeVisible()
-    await expect(page.getByRole('button', { name: /activate 2fa|disable 2fa/i })).toBeVisible()
+    await expect(page.getByRole('switch', { name: /2fa/i })).toBeVisible()
     await expect(page.getByRole('link', { name: /change password/i })).toBeVisible()
   })
 
