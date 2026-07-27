@@ -106,4 +106,4 @@ Production path is always **`/docs`** on the admin Worker.
 
 ## Actions
 
-https://github.com/raphaelcangucu/vinext-starter-admin/actions
+https://github.com/dev10x-ai/vinext-starter-admin/actions

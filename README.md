@@ -16,9 +16,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/raphaelcangucu/vinext-starter-admin/stargazers"><img src="https://img.shields.io/github/stars/raphaelcangucu/vinext-starter-admin?style=flat-square&color=1B4F8A" alt="Stars" /></a>
-  <a href="https://github.com/raphaelcangucu/vinext-starter-admin/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/raphaelcangucu/vinext-starter-admin/ci.yml?branch=main&style=flat-square&label=CI" alt="CI" /></a>
-  <a href="https://github.com/raphaelcangucu/vinext-starter-admin/actions/workflows/deploy.yml"><img src="https://img.shields.io/github/actions/workflow/status/raphaelcangucu/vinext-starter-admin/deploy.yml?branch=main&style=flat-square&label=Deploy" alt="Deploy" /></a>
+  <a href="https://github.com/dev10x-ai/vinext-starter-admin/stargazers"><img src="https://img.shields.io/github/stars/dev10x-ai/vinext-starter-admin?style=flat-square&color=1B4F8A" alt="Stars" /></a>
+  <a href="https://github.com/dev10x-ai/vinext-starter-admin/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/dev10x-ai/vinext-starter-admin/ci.yml?branch=main&style=flat-square&label=CI" alt="CI" /></a>
+  <a href="https://github.com/dev10x-ai/vinext-starter-admin/actions/workflows/deploy.yml"><img src="https://img.shields.io/github/actions/workflow/status/dev10x-ai/vinext-starter-admin/deploy.yml?branch=main&style=flat-square&label=Deploy" alt="Deploy" /></a>
   <img src="https://img.shields.io/badge/coverage-69%25-yellowgreen?style=flat-square" alt="Line coverage ~69%" />
   <img src="https://img.shields.io/badge/node-%E2%89%A522-brightgreen?style=flat-square" alt="Node >= 22" />
   <img src="https://img.shields.io/badge/Cloudflare-Workers-F38020?style=flat-square" alt="Cloudflare Workers" />
@@ -81,7 +81,7 @@ make docs-build     # Docs → dist/client/docs (run after make build for deploy
 |--|-----|
 | **Admin (production)** | https://vinext-starter-admin.dev10x.ai |
 | **Docs (production)** | https://vinext-starter-admin.dev10x.ai/docs |
-| **Actions** | https://github.com/raphaelcangucu/vinext-starter-admin/actions |
+| **Actions** | https://github.com/dev10x-ai/vinext-starter-admin/actions |
 
 Docs ship on the **same Worker** at `/docs` (no separate docs hostname). Production updates on **`v*` git tags**. Branch pushes publish **Workers preview URLs** only (see [`docs/ci-cd.md`](docs/ci-cd.md)).
 
@@ -183,8 +183,8 @@ Details: [`docs/ci-cd.md`](docs/ci-cd.md).
 Thanks to everyone contributing to this starter.
 
 <p align="center">
-  <a href="https://github.com/raphaelcangucu/vinext-starter-admin/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=raphaelcangucu/vinext-starter-admin" alt="Contributors" />
+  <a href="https://github.com/dev10x-ai/vinext-starter-admin/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=dev10x-ai/vinext-starter-admin" alt="Contributors" />
   </a>
 </p>
 
