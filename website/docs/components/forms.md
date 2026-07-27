@@ -5,7 +5,7 @@ title: Forms
 
 # Forms
 
-Auth and CRUD screens in ACP Admin use **React Hook Form** + **Zod** (`zodResolver`). Field UI comes from thin wrappers under `src/components/ui/` (also re-exported from `src/components/ui/index.ts`).
+Auth and CRUD screens in ACP Admin use **React Hook Form** + **Zod** (`zodResolver`). Field UI comes from thin wrappers under `components/ui/` (also re-exported from `components/ui/index.ts`).
 
 **Showcase:** `/app/design-system/forms` (sidebar → **Design System → Forms**)
 
@@ -23,7 +23,7 @@ Auth and CRUD screens in ACP Admin use **React Hook Form** + **Zod** (`zodResolv
 | Dialogs | `@/components/ui/Modal` |
 | Sections | `@/components/ui/Card`, `@/components/ui/PageHeader` |
 
-Server reads/writes use **TanStack Query** hooks under `src/queries/`. Session and UI prefs live in **Zustand**.
+Server reads/writes use **TanStack Query** hooks under `queries/`. Session and UI prefs live in **Zustand**.
 
 ## Control inventory
 

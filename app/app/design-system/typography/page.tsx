@@ -1,5 +1,5 @@
-import { TypographyPage } from '@/views/design-system/TypographyPage'
+import { TypographyView } from './_components/typography-view'
 
 export default function Page() {
-  return <TypographyPage />
+  return <TypographyView />
 }

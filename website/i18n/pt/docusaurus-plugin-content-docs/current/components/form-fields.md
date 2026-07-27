@@ -5,7 +5,7 @@ title: Campos de formulário
 
 # Campos de formulário
 
-Primitivos em `src/components/ui/`, reexportados de `src/components/ui/index.ts`. São wrappers finos em cima de controles HTML nativos — não há `FormField` separado. Todos usam variáveis CSS do tema (`--color-*`).
+Primitivos em `components/ui/`, reexportados de `components/ui/index.ts`. São wrappers finos em cima de controles HTML nativos — não há `FormField` separado. Todos usam variáveis CSS do tema (`--color-*`).
 
 **Showcase:** `/app/design-system/forms` (sidebar → **Design System → Forms**) — Checkbox, Switch, Textarea, DatePicker, FileUpload, InputOTP ao vivo.
 
@@ -13,14 +13,14 @@ Primitivos em `src/components/ui/`, reexportados de `src/components/ui/index.ts`
 
 | Componente | Caminho |
 |------------|---------|
-| `Input` | `src/components/ui/Input.tsx` |
-| `Select` | `src/components/ui/Select.tsx` |
-| `Checkbox` | `src/components/ui/Checkbox.tsx` |
-| `Switch` | `src/components/ui/Switch.tsx` |
-| `Textarea` | `src/components/ui/Textarea.tsx` |
-| `DatePicker` | `src/components/ui/DatePicker.tsx` |
-| `FileUpload` | `src/components/ui/FileUpload.tsx` |
-| `InputOTP` | `src/components/ui/InputOTP.tsx` |
+| `Input` | `components/ui/Input.tsx` |
+| `Select` | `components/ui/Select.tsx` |
+| `Checkbox` | `components/ui/Checkbox.tsx` |
+| `Switch` | `components/ui/Switch.tsx` |
+| `Textarea` | `components/ui/Textarea.tsx` |
+| `DatePicker` | `components/ui/DatePicker.tsx` |
+| `FileUpload` | `components/ui/FileUpload.tsx` |
+| `InputOTP` | `components/ui/InputOTP.tsx` |
 
 Props comuns na maioria dos campos: `label`, `error`, `hint`, mais atributos nativos (`name`, `disabled`, etc.).
 

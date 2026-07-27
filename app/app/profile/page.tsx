@@ -1,5 +1,5 @@
-import { ProfilePage } from '@/views/profile/ProfilePage'
+import { ProfileView } from './_components/profile-view'
 
 export default function Page() {
-  return <ProfilePage />
+  return <ProfileView />
 }

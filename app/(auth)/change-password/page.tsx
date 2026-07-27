@@ -1,5 +1,5 @@
-import { ChangePasswordPage } from '@/views/auth/ChangePasswordPage'
+import { ChangePasswordView } from './_components/change-password-view'
 
 export default function Page() {
-  return <ChangePasswordPage />
+  return <ChangePasswordView />
 }

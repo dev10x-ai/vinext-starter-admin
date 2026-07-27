@@ -11,15 +11,15 @@ Shell pieces that wrap console pages: layouts, sticky header, and the command pa
 
 | Component | Path | Purpose |
 |-----------|------|---------|
-| `PublicLayout` | `src/layouts/PublicLayout.tsx` | Landing + public nav |
-| `AuthLayout` | `src/layouts/AuthLayout.tsx` | Login / Signup / OTP — **no** app header |
-| `AppLayout` | `src/layouts/AppLayout.tsx` | Sidebar + sticky header for `/app/*` |
+| `PublicLayout` | `layouts/PublicLayout.tsx` | Landing + public nav |
+| `AuthLayout` | `layouts/AuthLayout.tsx` | Login / Signup / OTP — **no** app header |
+| `AppLayout` | `layouts/AppLayout.tsx` | Sidebar + sticky header for `/app/*` |
 
 See [Concepts](../concepts#routing--layouts) for when each shell applies.
 
 ## App header
 
-**Path:** `src/components/layout/AppHeader.tsx`
+**Path:** `components/layout/AppHeader.tsx`
 
 Sticky bar inside `AppLayout`:
 
@@ -30,7 +30,7 @@ Sticky bar inside `AppLayout`:
 
 ## Command palette
 
-**Paths:** `src/components/search/GlobalSearch.tsx`, `CommandPalette.tsx`
+**Paths:** `components/search/GlobalSearch.tsx`, `CommandPalette.tsx`
 
 - Header search field (and keyboard shortcut) opens a modal palette  
 - Queries `GET /search?q=` via TanStack Query (`useSearchQuery`)  

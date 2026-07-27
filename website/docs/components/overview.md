@@ -36,24 +36,24 @@ Details: [Layout & chrome](./layout).
 
 ## UI primitives
 
-Barrel: `src/components/ui/index.ts`.
+Barrel: `components/ui/index.ts`.
 
 | Component | Path |
 |-----------|------|
-| `Button` | `src/components/ui/Button.tsx` |
-| `Input` | `src/components/ui/Input.tsx` |
-| `Select` | `src/components/ui/Select.tsx` |
-| `Checkbox` | `src/components/ui/Checkbox.tsx` |
-| `Switch` | `src/components/ui/Switch.tsx` |
-| `Textarea` | `src/components/ui/Textarea.tsx` |
-| `DatePicker` | `src/components/ui/DatePicker.tsx` |
-| `FileUpload` | `src/components/ui/FileUpload.tsx` |
-| `InputOTP` | `src/components/ui/InputOTP.tsx` |
-| `Prose` | `src/components/ui/Prose.tsx` |
-| `Card` | `src/components/ui/Card.tsx` |
-| `Badge` | `src/components/ui/Badge.tsx` |
-| `Modal` | `src/components/ui/Modal.tsx` |
-| `PageHeader` | `src/components/ui/PageHeader.tsx` |
+| `Button` | `components/ui/Button.tsx` |
+| `Input` | `components/ui/Input.tsx` |
+| `Select` | `components/ui/Select.tsx` |
+| `Checkbox` | `components/ui/Checkbox.tsx` |
+| `Switch` | `components/ui/Switch.tsx` |
+| `Textarea` | `components/ui/Textarea.tsx` |
+| `DatePicker` | `components/ui/DatePicker.tsx` |
+| `FileUpload` | `components/ui/FileUpload.tsx` |
+| `InputOTP` | `components/ui/InputOTP.tsx` |
+| `Prose` | `components/ui/Prose.tsx` |
+| `Card` | `components/ui/Card.tsx` |
+| `Badge` | `components/ui/Badge.tsx` |
+| `Modal` | `components/ui/Modal.tsx` |
+| `PageHeader` | `components/ui/PageHeader.tsx` |
 
 In-app showcases (sidebar → **Design System**):
 
@@ -62,7 +62,7 @@ In-app showcases (sidebar → **Design System**):
 
 ## DataTable (Filament-inspired)
 
-Located at `src/components/table/DataTable.tsx`. Start with [Lists & tables](./lists-and-tables), then the full [DataTable](./data-table) reference.
+Located at `components/table/DataTable.tsx`. Start with [Lists & tables](./lists-and-tables), then the full [DataTable](./data-table) reference.
 
 Built-in tooling:
 
@@ -80,7 +80,7 @@ Built-in tooling:
 
 ## Themes
 
-Theme packs live in `src/config/themes`:
+Theme packs live in `config/themes`:
 
 - **Default** (sober blues)
 - **Ruby** (red + black)

@@ -1,5 +1,5 @@
-import { FormsPage } from '@/views/design-system/FormsPage'
+import { FormsView } from './_components/forms-view'
 
 export default function Page() {
-  return <FormsPage />
+  return <FormsView />
 }

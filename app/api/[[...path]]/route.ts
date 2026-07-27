@@ -1,4 +1,4 @@
-import { handleApiRequest } from '../../../worker/api'
+import { dispatchApiRequest } from '../../../worker/api'
 
 type RouteContext = {
   params: Promise<{ path?: string[] }>
@@ -6,7 +6,7 @@ type RouteContext = {
 
 async function handle(request: Request, _context: RouteContext): Promise<Response> {
   const url = new URL(request.url)
-  return handleApiRequest(request, url)
+  return dispatchApiRequest(request, url)
 }
 
 export const GET = handle

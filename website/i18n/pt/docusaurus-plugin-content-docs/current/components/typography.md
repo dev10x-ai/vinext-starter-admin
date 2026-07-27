@@ -9,7 +9,7 @@ Conteúdo longo e no estilo de documentação usa o wrapper **`Prose`**. Ele est
 
 ## Prose
 
-**Caminho:** `src/components/ui/Prose.tsx` (+ `Prose.module.css`)  
+**Caminho:** `components/ui/Prose.tsx` (+ `Prose.module.css`)  
 **Showcase:** `/app/design-system/typography` (sidebar → **Design System → Typography**)
 
 ### Props

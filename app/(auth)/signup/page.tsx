@@ -1,5 +1,5 @@
-import { SignupPage } from '@/views/auth/SignupPage'
+import { SignupView } from './_components/signup-view'
 
 export default function Page() {
-  return <SignupPage />
+  return <SignupView />
 }

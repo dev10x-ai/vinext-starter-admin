@@ -1,5 +1,5 @@
-import { UsersPage } from '@/views/access/UsersPage'
+import { UsersView } from '../../_components/users-view'
 
 export default function Page() {
-  return <UsersPage />
+  return <UsersView />
 }

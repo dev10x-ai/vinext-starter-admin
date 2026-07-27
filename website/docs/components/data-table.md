@@ -5,7 +5,7 @@ title: DataTable
 
 # DataTable (search & list)
 
-Part of **[Lists & tables](./lists-and-tables)** — the Filament-inspired research table at `src/components/table/DataTable.tsx`. Used on **Users** and **Tenants** list pages after you have forms for create/edit.
+Part of **[Lists & tables](./lists-and-tables)** — the Filament-inspired research table at `components/table/DataTable.tsx`. Used on **Users** and **Tenants** list pages after you have forms for create/edit.
 
 :::tip Reading order
 [Forms](./forms) → [Form patterns](./form-patterns) → [Lists & tables](./lists-and-tables) → **this page** → [Menu tree](./menu-tree)
@@ -66,7 +66,7 @@ export type Column<T> = {
 [ Showing X–Y of Z ] [ Rows per page ▾ ] [ Prev | Page x / y | Next ]
 ```
 
-Page size lives in the **footer** (Filament-style) and is stored in `src/store/ui.ts` (`tablePrefs.pageSize`); it survives reloads via Zustand persist.
+Page size lives in the **footer** (Filament-style) and is stored in `store/ui.ts` (`tablePrefs.pageSize`); it survives reloads via Zustand persist.
 
 ## Minimal example
 
@@ -357,7 +357,7 @@ export function TenantsListPage({
 }
 ```
 
-Wire `onCreate` / `onUpdate` / `onDelete` to TanStack Query mutations (`useCreateTenantMutation`, etc.) as in `src/views/access/TenantsPage.tsx`.
+Wire `onCreate` / `onUpdate` / `onDelete` to TanStack Query mutations (`useCreateTenantMutation`, etc.) as in `app/app/access/tenants/_components/tenants-view.tsx`.
 
 ## Sorting notes
 
@@ -394,4 +394,4 @@ Users can re-enable hidden columns from the **Columns** dropdown.
 2. [Layout & chrome](./layout) — header search / command palette  
 3. [API Server](../api/server) — REST behind list CRUD and search  
 
-Related: [Form patterns → Modal CRUD](./form-patterns#modal-crud-users). Live pages: `src/views/access/UsersPage.tsx`, `TenantsPage.tsx`.
+Related: [Form patterns → Modal CRUD](./form-patterns#modal-crud-users). Live pages: `app/app/access/users/_components/users-view.tsx`, `TenantsPage.tsx`.

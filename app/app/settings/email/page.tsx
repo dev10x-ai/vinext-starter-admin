@@ -1,5 +1,5 @@
-import { EmailSettingsPage } from '@/views/settings/SettingsPanels'
+import { EmailSettingsView } from '../_components/settings-panels'
 
 export default function Page() {
-  return <EmailSettingsPage />
+  return <EmailSettingsView />
 }

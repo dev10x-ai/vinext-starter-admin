@@ -20,9 +20,10 @@ export default defineConfig({
     tailwindcss(),
   ],
   resolve: {
-    alias: {
-      '@': path.resolve(rootDir, './src'),
-    },
+    alias: [
+      // Only `@/…` — bare `@` would steal Vite virtual ids (`@id/...`).
+      { find: /^@\//, replacement: `${rootDir}/` },
+    ],
   },
   server: {
     host: '127.0.0.1',

@@ -11,12 +11,12 @@ How ACP Admin is wired: state, data fetching, themes, and route shells.
 
 | Concern | Choice | Where |
 |---------|--------|--------|
-| UI | React + Vite + Tailwind | `src/` |
+| UI | React + Vite + Tailwind | `components/`, `layouts/`, `app/**/_components/` |
 | Framework | **vinext App Router** | `app/` |
-| Server state | **TanStack Query** | `src/queries/` |
-| Client / session UI | **Zustand** (+ persist) | `src/store/` |
-| Forms | React Hook Form + Zod | screens under `src/views/` |
-| Routing | App Router | `app/` + thin pages importing `src/views/` |
+| Server state | **TanStack Query** | `queries/` |
+| Client / session UI | **Zustand** (+ persist) | `store/` |
+| Forms | React Hook Form + Zod | screens under colocated `app/**/_components/` |
+| Routing | App Router | `app/` + thin pages importing `app/**/_components/` |
 | Mock API | App Router `/api/*` (shared `worker/` modules); optional json-server | `app/api/`, `worker/`, `mock/` |
 
 **Rule of thumb:** fetch and mutate with Query; keep auth session, theme, tenant, and table prefs in Zustand.
@@ -33,11 +33,11 @@ Table page size for [DataTable](./components/data-table) survives reloads via `u
 
 ## TanStack Query
 
-Hooks under `src/queries/` wrap the mock REST API. With `make dev` (and on the Worker), the client calls **same-origin `/api`**. Optional standalone mock: `make mock` on `:4001`. List pages (Users, Tenants) load rows with Query and pass them into DataTable; mutations invalidate the matching query keys.
+Hooks under `queries/` wrap the mock REST API. With `make dev` (and on the Worker), the client calls **same-origin `/api`**. Optional standalone mock: `make mock` on `:4001`. List pages (Users, Tenants) load rows with Query and pass them into DataTable; mutations invalidate the matching query keys.
 
 ## Themes
 
-Packs in `src/config/themes`:
+Packs in `config/themes`:
 
 - **Default** — sober blues (product default)
 - **Ruby** — red + black
@@ -55,7 +55,7 @@ Each pack has light + night modes via CSS variables (`--color-*`). Switch from t
 
 Auth screens stay chrome-free so login/OTP feel like Macro-style auth, not an empty admin shell.
 
-Route files live under `app/`; interactive UI stays in `src/views/` and shared layout components under `src/layouts/` / `src/components/`.
+Route files live under `app/`; interactive UI stays in `app/**/_components/` and shared layout components under `layouts/` / `components/`.
 
 ## Deploy surfaces (one Worker)
 

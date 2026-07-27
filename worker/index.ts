@@ -1,9 +1,11 @@
 import handler from 'vinext/server/app-router-entry'
-import { handleApiRequest } from './api'
+import { dispatchApiRequest } from './api'
 import { isViteClientAssetPath } from './staticPaths'
 
 export interface Env {
   ASSETS: { fetch: (request: Request) => Promise<Response> }
+  /** When set, `/api/*` proxies to this base URL instead of the in-worker mock. */
+  API_PROXY_TARGET?: string
 }
 
 interface WorkerExecutionContext {
@@ -19,7 +21,8 @@ async function fetchAsset(env: Env, request: Request, pathname: string): Promise
 
 /**
  * Single Worker (`run_worker_first = true` — ASSETS are not auto-served):
- * - `/api/*` → in-Worker mock API (also available via App Router handlers)
+ * - `/api/*` → upstream proxy when `API_PROXY_TARGET` is set; else in-Worker mock
+ *   (same dispatch as App Router `app/api/[[...path]]`)
  * - `/assets/*` → Vite hashed client JS/CSS from `dist/client/assets`
  * - `/docs` + `/docs/*` → Docusaurus under `dist/client/docs`
  * - everything else → vinext App Router (RSC/SSR); `public/` files still
@@ -31,7 +34,7 @@ export default {
     const { pathname } = url
 
     if (pathname === '/api' || pathname.startsWith('/api/')) {
-      return handleApiRequest(request, url)
+      return dispatchApiRequest(request, url, env)
     }
 
     // Vite client chunks are not in vinext's publicFiles set; with

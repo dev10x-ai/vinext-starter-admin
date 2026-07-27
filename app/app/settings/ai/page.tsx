@@ -1,5 +1,5 @@
-import { AiSettingsPage } from '@/views/settings/SettingsPanels'
+import { AiSettingsView } from '../_components/settings-panels'
 
 export default function Page() {
-  return <AiSettingsPage />
+  return <AiSettingsView />
 }

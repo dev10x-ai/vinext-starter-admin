@@ -7,7 +7,7 @@ title: Lists & tables
 
 Filament-inspired **list pages**: a page header, a research table (search, filters, columns, export, pagination), and optional create/edit forms in a modal.
 
-This is the pattern used on **Users** and **Tenants** (`src/views/access/`).
+This is the pattern used on **Users** and **Tenants** (`app/app/access/`).
 
 ## Why this section exists
 

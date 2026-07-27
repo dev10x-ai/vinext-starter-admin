@@ -15,17 +15,17 @@ phase. Routes cut over to `app/` file routes in one pass, preserving URLs.
 
 - Thin server `page.tsx` / `layout.tsx` when possible.
 - Interactive UI (custom DS, Zustand, TanStack Query, RHF) lives in `"use client"`
-  modules under colocated `_components/` or existing `src/views` / `src/layouts`
-  / `src/components`.
+  modules under colocated `app/**/_components/*-view.tsx` (xip style).
+- Shared UI / helpers live at repo root (`components/`, `layouts/`, `lib/`, …) — no top-level `src/`.
 - Do not import heavy client UI into server pages beyond the client view entry.
-- **Do not** put client views under `src/pages/` — vinext treats that as Pages Router.
+- **Do not** put client views under a Pages Router `pages/` tree — vinext would treat that as Pages Router.
 
 ## Pattern
 
 ```
-app/(group)/route/page.tsx              # server: metadata + <View />
-app/(group)/route/_components/*.tsx     # "use client" UI (optional)
-src/views/...                           # client page views (reused; not routable)
+app/(group)/route/page.tsx                 # thin server entry
+app/(group)/route/_components/*-view.tsx   # "use client" route UI
+components/ layouts/ lib/ …                # shared modules (not route-owned)
 ```
 
 ## Route map (React Router → App Router)
@@ -44,7 +44,7 @@ src/views/...                           # client page views (reused; not routabl
 
 - Zustand + TanStack Query + RHF + Zod
 - Themes, Cmd+K, menu tree, DataTable, DS pages
-- Mock API via App Router `app/api/[[...path]]` (reuses `worker/api`)
+- Mock API via App Router `app/api/[[...path]]` (reuses `worker/api`, or proxies upstream when configured)
 - Optional json-server (`make mock`, set `VITE_API_URL=http://localhost:4001`)
 - Docusaurus docs (`website/`) stay separate
 
