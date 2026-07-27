@@ -1,5 +1,5 @@
-import { LandingPage } from '@/views/landing/LandingPage'
+import { LandingView } from './_components/landing-view'
 
 export default function Page() {
-  return <LandingPage />
+  return <LandingView />
 }

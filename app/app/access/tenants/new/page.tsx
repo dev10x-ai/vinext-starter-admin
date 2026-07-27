@@ -1,5 +1,5 @@
-import { TenantsPage } from '@/views/access/TenantsPage'
+import { TenantsView } from '../_components/tenants-view'
 
 export default function Page() {
-  return <TenantsPage />
+  return <TenantsView />
 }

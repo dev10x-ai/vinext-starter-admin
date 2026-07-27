@@ -39,7 +39,7 @@ The mock API is a **json-server** instance with custom auth routes.
 | POST | `/auth/forgot-password` | `{ email }` | message + demo OTP |
 | POST | `/auth/change-password` | `{ email, currentPassword, newPassword }` | success message |
 
-On the Worker, the mock is same-origin at `/api/*`. Locally, `make dev` exposes `/api` on the vinext app; optional standalone mock: `make mock` on `:4001`.
+On the Worker / `make dev`, `/api/*` is same-origin. By default that is the in-worker mock. Set `API_PROXY_TARGET` (see repo `.env.example`) to forward to a real backend instead — method, auth headers, query, and body are preserved. Optional standalone mock: `make mock` on `:4001` with `VITE_API_URL=http://localhost:4001`.
 
 ## Tryable docs
 

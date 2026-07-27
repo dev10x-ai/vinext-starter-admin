@@ -26,10 +26,11 @@ test.describe('landing + auth', () => {
 
   test('forgot password smoke', async ({ page }) => {
     await page.goto('/forgot-password')
+    await expect(page.getByTestId('forgot-password-form')).toHaveAttribute('data-ready', 'true')
     await expect(page.getByRole('heading', { name: /forgot password/i })).toBeVisible()
     await page.getByLabel('Email').fill('admin@acp.local')
     await page.getByRole('button', { name: /send reset code/i }).click()
-    await expect(page.getByText(/demo otp/i)).toBeVisible()
+    await expect(page.getByText(/demo otp/i)).toBeVisible({ timeout: 15_000 })
   })
 
   test('login reaches dashboard', async ({ page }) => {
@@ -41,7 +42,9 @@ test.describe('landing + auth', () => {
 
   test('OTP login reaches dashboard', async ({ page }) => {
     await page.goto('/login')
+    await expect(page.getByTestId('login-form')).toHaveAttribute('data-ready', 'true')
     await page.getByRole('button', { name: /login with otp/i }).click()
+    await expect(page.getByRole('button', { name: /send otp code/i })).toBeVisible()
     await page.getByLabel('Email').fill('admin@acp.local')
     await page.getByRole('button', { name: /send otp code/i }).click()
     await expect(page).toHaveURL(/\/otp/)

@@ -1,5 +1,5 @@
-import { MenuPage } from '@/views/access/MenuPage'
+import { MenuView } from './_components/menu-view'
 
 export default function Page() {
-  return <MenuPage />
+  return <MenuView />
 }

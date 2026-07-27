@@ -13,7 +13,7 @@ After flat list pages ([DataTable](./data-table)), the Access **Menu** page (`/a
 - `@dnd-kit/sortable`
 - `@dnd-kit/utilities`
 
-Tree math lives in `src/lib/menuTree.ts`; the interactive list is `src/components/menu/MenuTree.tsx`.
+Tree math lives in `lib/menuTree.ts`; the interactive list is `components/menu/MenuTree.tsx`.
 
 ## Data shape
 

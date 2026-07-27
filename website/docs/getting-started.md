@@ -52,9 +52,8 @@ Password login + 2FA still uses the same OTP screen when `twoFactorEnabled` is t
 
 ## Project layout
 
-- `app/` — vinext App Router (route groups, `/api` handlers)
-- `src/views/` — client page views used by thin server pages
-- `src/` — shared components, layouts, stores, queries
+- `app/` — vinext App Router (route groups, `/api` handlers, colocated `_components/*-view.tsx`)
+- `components/` `layouts/` `lib/` `hooks/` `store/` `queries/` — shared modules (no top-level `src/`)
 - `mock/` — optional json-server + OpenAPI seed
 - `worker/` — shared mock API modules (App Router + Worker)
 - `website/` — this Docusaurus site

@@ -1,5 +1,5 @@
-import { LoginPage } from '@/views/auth/LoginPage'
+import { LoginView } from './_components/login-view'
 
 export default function Page() {
-  return <LoginPage />
+  return <LoginView />
 }

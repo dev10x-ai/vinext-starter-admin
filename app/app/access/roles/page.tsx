@@ -1,5 +1,5 @@
-import { RolesPage } from '@/views/access/RolesPage'
+import { RolesView } from './_components/roles-view'
 
 export default function Page() {
-  return <RolesPage />
+  return <RolesView />
 }

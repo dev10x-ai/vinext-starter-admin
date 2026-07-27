@@ -6,6 +6,7 @@ import {
   type CollectionName,
   type JsonRecord,
 } from './db'
+import { proxyApiRequest, resolveApiProxyTarget, type ApiProxyEnv } from './proxy'
 import { runHybridSearch } from './search'
 
 const DEMO_OTP = '123456'
@@ -247,6 +248,22 @@ function handleCollection(
 }
 
 /** Handle `/api/*` mock routes (json-server + custom auth/search/menu). */
+/**
+ * Entry for App Router + Worker `/api/*`.
+ * Proxies to `API_PROXY_TARGET` when set; otherwise serves the in-worker mock.
+ */
+export async function dispatchApiRequest(
+  request: Request,
+  url: URL,
+  env?: ApiProxyEnv,
+): Promise<Response> {
+  const target = resolveApiProxyTarget(env)
+  if (target) {
+    return proxyApiRequest(request, url, target)
+  }
+  return handleApiRequest(request, url)
+}
+
 export async function handleApiRequest(request: Request, url: URL): Promise<Response> {
   if (request.method === 'OPTIONS') {
     return new Response(null, {

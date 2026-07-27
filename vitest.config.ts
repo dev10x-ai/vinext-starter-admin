@@ -6,22 +6,38 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: 'jsdom',
-    setupFiles: ['./src/test/setup.ts'],
+    setupFiles: ['./test/setup.ts'],
     globals: true,
-    include: ['src/**/*.{test,spec}.{ts,tsx}', 'worker/**/*.{test,spec}.{ts,tsx}'],
+    include: ['app/**/*.{test,spec}.{ts,tsx}', 'components/**/*.{test,spec}.{ts,tsx}', 'lib/**/*.{test,spec}.{ts,tsx}', 'hooks/**/*.{test,spec}.{ts,tsx}', 'worker/**/*.{test,spec}.{ts,tsx}'],
     exclude: ['node_modules', 'references', 'website', 'e2e', 'dist'],
   },
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      'next/server': path.resolve(__dirname, './node_modules/vinext/dist/shims/server.js'),
-      'next/link': path.resolve(__dirname, './node_modules/vinext/dist/shims/link.js'),
-      'next/navigation': path.resolve(
-        __dirname,
-        './node_modules/vinext/dist/shims/navigation.js',
-      ),
-      'next/headers': path.resolve(__dirname, './node_modules/vinext/dist/shims/headers.js'),
-      'next/image': path.resolve(__dirname, './node_modules/vinext/dist/shims/image.js'),
-    },
+    alias: [
+      // Match `@/*` only — bare `@` would steal Vite virtual ids (`@id/...`).
+      { find: /^@\//, replacement: `${path.resolve(__dirname)}/` },
+      {
+        find: 'next/server',
+        replacement: path.resolve(__dirname, './node_modules/vinext/dist/shims/server.js'),
+      },
+      {
+        find: 'next/link',
+        replacement: path.resolve(__dirname, './node_modules/vinext/dist/shims/link.js'),
+      },
+      {
+        find: 'next/navigation',
+        replacement: path.resolve(
+          __dirname,
+          './node_modules/vinext/dist/shims/navigation.js',
+        ),
+      },
+      {
+        find: 'next/headers',
+        replacement: path.resolve(__dirname, './node_modules/vinext/dist/shims/headers.js'),
+      },
+      {
+        find: 'next/image',
+        replacement: path.resolve(__dirname, './node_modules/vinext/dist/shims/image.js'),
+      },
+    ],
   },
 })

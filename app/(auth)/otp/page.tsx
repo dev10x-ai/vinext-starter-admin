@@ -1,5 +1,5 @@
-import { OtpPage } from '@/views/auth/OtpPage'
+import { OtpView } from './_components/otp-view'
 
 export default function Page() {
-  return <OtpPage />
+  return <OtpView />
 }

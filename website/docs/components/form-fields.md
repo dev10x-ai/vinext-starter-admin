@@ -5,13 +5,13 @@ title: Form fields
 
 # Form fields
 
-Primitives live in `src/components/ui/` and are re-exported from `src/components/ui/index.ts`. They are thin styled wrappers around native HTML controls — no separate RHF field components (`FormField` wrappers) are exported. All fields use theme CSS variables (`--color-*`) so Default / Ruby / Emerald + light/dark stay consistent.
+Primitives live in `components/ui/` and are re-exported from `components/ui/index.ts`. They are thin styled wrappers around native HTML controls — no separate RHF field components (`FormField` wrappers) are exported. All fields use theme CSS variables (`--color-*`) so Default / Ruby / Emerald + light/dark stay consistent.
 
 **Showcase:** `/app/design-system/forms` (sidebar → **Design System → Forms**) — live Checkbox, Switch, Textarea, DatePicker, FileUpload, InputOTP.
 
 ## Input
 
-**Path:** `src/components/ui/Input.tsx`
+**Path:** `components/ui/Input.tsx`
 
 Extends native `<input>` attributes with label / error / hint.
 
@@ -88,7 +88,7 @@ export function ProfileFields() {
 
 ## Select
 
-**Path:** `src/components/ui/Select.tsx`
+**Path:** `components/ui/Select.tsx`
 
 Native `<select>` with options array.
 
@@ -121,7 +121,7 @@ import { Select } from '@/components/ui/Select'
 
 ## Checkbox
 
-**Path:** `src/components/ui/Checkbox.tsx`
+**Path:** `components/ui/Checkbox.tsx`
 
 Labeled checkbox (control beside label). Works with `register` or controlled `checked` / `onChange`.
 
@@ -152,7 +152,7 @@ import { Checkbox } from '@/components/ui/Checkbox'
 
 ## Switch
 
-**Path:** `src/components/ui/Switch.tsx` (+ `Switch.module.css`)
+**Path:** `components/ui/Switch.tsx` (+ `Switch.module.css`)
 
 Accessible toggle (`role="switch"`) built on a native checkbox so `register` still works.
 
@@ -173,7 +173,7 @@ import { Switch } from '@/components/ui/Switch'
 
 ## Textarea
 
-**Path:** `src/components/ui/Textarea.tsx`
+**Path:** `components/ui/Textarea.tsx`
 
 ```tsx
 import { Textarea } from '@/components/ui/Textarea'
@@ -190,7 +190,7 @@ import { Textarea } from '@/components/ui/Textarea'
 
 ## DatePicker
 
-**Path:** `src/components/ui/DatePicker.tsx`
+**Path:** `components/ui/DatePicker.tsx`
 
 Native `type="date"` with the same label / error / hint pattern as `Input`.
 
@@ -208,7 +208,7 @@ import { DatePicker } from '@/components/ui/DatePicker'
 
 ## FileUpload
 
-**Path:** `src/components/ui/FileUpload.tsx`
+**Path:** `components/ui/FileUpload.tsx`
 
 Styled file input with selected-filename summary. For RHF, set a string filename (or `File`) via `setValue` / `Controller`.
 
@@ -230,7 +230,7 @@ import { FileUpload } from '@/components/ui/FileUpload'
 
 ## InputOTP
 
-**Path:** `src/components/ui/InputOTP.tsx`
+**Path:** `components/ui/InputOTP.tsx`
 
 Multi-digit OTP group. **Controller-friendly**: `value` / `onChange(string)`. Used on `OtpPage`.
 
@@ -279,7 +279,7 @@ export function OtpFieldExample() {
 
 ## Button
 
-**Path:** `src/components/ui/Button.tsx`
+**Path:** `components/ui/Button.tsx`
 
 | Prop | Type | Default |
 |------|------|---------|
@@ -302,7 +302,7 @@ import { Button } from '@/components/ui/Button'
 
 ### Modal
 
-**Path:** `src/components/ui/Modal.tsx`
+**Path:** `components/ui/Modal.tsx`
 
 ```tsx
 import { Modal } from '@/components/ui/Modal'

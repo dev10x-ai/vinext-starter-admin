@@ -35,6 +35,7 @@ artifacts/
 *.tsbuildinfo
 .env
 .env.*
+!.env.example
 website/build/
 website/.docusaurus/
 website/node_modules/

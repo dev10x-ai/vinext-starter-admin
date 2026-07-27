@@ -5,7 +5,7 @@ title: Formulários
 
 # Formulários
 
-Telas de auth e CRUD no ACP Admin usam **React Hook Form** + **Zod** (`zodResolver`). A UI dos campos vem de wrappers em `src/components/ui/` (também reexportados de `src/components/ui/index.ts`).
+Telas de auth e CRUD no ACP Admin usam **React Hook Form** + **Zod** (`zodResolver`). A UI dos campos vem de wrappers em `components/ui/` (também reexportados de `components/ui/index.ts`).
 
 **Showcase:** `/app/design-system/forms` (sidebar → **Design System → Forms**)
 

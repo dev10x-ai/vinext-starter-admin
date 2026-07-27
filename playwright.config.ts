@@ -1,6 +1,8 @@
 import { defineConfig, devices, type PlaywrightTestConfig } from '@playwright/test'
 
-const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:5173'
+const host = '127.0.0.1'
+const port = process.env.PLAYWRIGHT_PORT ?? '5173'
+const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://${host}:${port}`
 const againstRemote = /^https?:\/\//.test(baseURL) && !/127\.0\.0\.1|localhost/.test(baseURL)
 
 const config: PlaywrightTestConfig = {
@@ -40,9 +42,14 @@ const config: PlaywrightTestConfig = {
 if (!againstRemote) {
   config.webServer = [
     {
-      // App Router mock API is served by vinext at /api/* (worker/ handlers).
-      command: 'npm run dev',
-      url: 'http://127.0.0.1:5173',
+      // Prefer production start for e2e: vinext dev + Cloudflare run_worker_first
+      // can race client hydration under parallel workers. Build is fast (~4s).
+      // Override with PLAYWRIGHT_WEB_SERVER=npm run dev for local DX.
+      // PLAYWRIGHT_PORT avoids clashes when another process already binds :5173.
+      command:
+        process.env.PLAYWRIGHT_WEB_SERVER ??
+        `npm run build && npm run start -- -H ${host} -p ${port}`,
+      url: baseURL,
       reuseExistingServer: !process.env.CI,
       timeout: 180_000,
     },

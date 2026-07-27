@@ -124,7 +124,7 @@ Each pack ships light and dark modes.
 | Unit tests | Vitest + Testing Library |
 | E2E | Playwright |
 | Docs | Docusaurus 3 (+ OpenAPI plugin) |
-| Mock API | App Router `/api/*` (reuses `worker/`); optional json-server |
+| Mock API | App Router `/api/*` (reuses `worker/`); optional upstream via `API_PROXY_TARGET`; optional json-server |
 | Hosting | Cloudflare Workers (`wrangler.admin.toml` / `vinext deploy`) — docs at `/docs` |
 
 ---
@@ -149,15 +149,16 @@ npm test -- --coverage
 ## Project layout
 
 ```
-app/      vinext App Router (route groups, API handlers)
-src/views/    Client page views imported by thin server pages
-src/          Shared components, layouts, stores, queries
-mock/         Optional json-server + OpenAPI seed
-worker/       Shared mock API modules (used by App Router + legacy Worker)
-website/      Docusaurus documentation
-docs/         Engineering notes + media for README
-e2e/          Playwright specs
-.github/      CI, preview, and production deploy workflows
+app/            vinext App Router (route groups, colocated _components/*-view.tsx)
+components/     Shared UI (table, forms, layout chrome, brand)
+layouts/        Auth / public / app shell layouts
+lib/ hooks/ store/ queries/ config/ types/ styles/
+mock/           Optional json-server + OpenAPI seed
+worker/         Shared mock API modules (App Router + Worker)
+website/        Docusaurus documentation
+docs/           Engineering notes + media for README
+e2e/            Playwright specs
+.github/        CI, preview, and production deploy workflows
 ```
 
 ---

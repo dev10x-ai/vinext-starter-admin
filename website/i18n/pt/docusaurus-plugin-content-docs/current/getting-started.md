@@ -52,9 +52,8 @@ Login com senha + 2FA também usa a mesma tela de OTP quando `twoFactorEnabled` 
 
 ## Layout do projeto
 
-- `app/` — vinext App Router (grupos de rotas, handlers `/api`)
-- `src/views/` — views client usadas por páginas server finas
-- `src/` — componentes, layouts, stores e queries compartilhados
+- `app/` — vinext App Router (grupos de rotas, handlers `/api`, `_components/*-view.tsx` colocados)
+- `components/` `layouts/` `lib/` `hooks/` `store/` `queries/` — módulos compartilhados (sem `src/` no topo)
 - `mock/` — json-server opcional + seed OpenAPI
 - `worker/` — módulos da API mock (App Router + Worker)
 - `website/` — este site Docusaurus
