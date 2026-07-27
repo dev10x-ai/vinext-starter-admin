@@ -40,8 +40,10 @@ const config: PlaywrightTestConfig = {
 if (!againstRemote) {
   config.webServer = [
     {
-      // App Router mock API is served by vinext at /api/* (worker/ handlers).
-      command: 'npm run dev',
+      // Prefer production start for e2e: vinext dev + Cloudflare run_worker_first
+      // can race client hydration under parallel workers. Build is fast (~4s).
+      // Override with PLAYWRIGHT_WEB_SERVER=npm run dev for local DX.
+      command: process.env.PLAYWRIGHT_WEB_SERVER ?? 'npm run build && npm run start -- -H 127.0.0.1 -p 5173',
       url: 'http://127.0.0.1:5173',
       reuseExistingServer: !process.env.CI,
       timeout: 180_000,

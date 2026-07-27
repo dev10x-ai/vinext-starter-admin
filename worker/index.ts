@@ -23,7 +23,7 @@ async function fetchAsset(env: Env, request: Request, pathname: string): Promise
  * Single Worker (`run_worker_first = true` — ASSETS are not auto-served):
  * - `/api/*` → upstream proxy when `API_PROXY_TARGET` is set; else in-Worker mock
  *   (same dispatch as App Router `app/api/[[...path]]`)
- * - `/assets/*` → Vite hashed client JS/CSS from `dist/client/assets`
+ * - `/assets/*` (+ Vite-dev `/@…`, source modules) → ASSETS / Vite transform
  * - `/docs` + `/docs/*` → Docusaurus under `dist/client/docs`
  * - everything else → vinext App Router (RSC/SSR); `public/` files still
  *   resolve via vinext's ASSETS static-file signal (favicon, branding, …)

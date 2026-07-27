@@ -24,6 +24,9 @@ export default defineConfig({
       // Only `@/…` — bare `@` would steal Vite virtual ids (`@id/...`).
       { find: /^@\//, replacement: `${rootDir}/` },
     ],
+    // Avoid dual React copies under vinext RSC + Cloudflare Vite plugin
+    // (Invalid hook call / useSyncExternalStore on null during hydration).
+    dedupe: ['react', 'react-dom'],
   },
   server: {
     host: '127.0.0.1',
@@ -34,6 +37,7 @@ export default defineConfig({
   // for @tanstack/react-query under RSC and explicitly recommends excluding
   // it from dep pre-bundling so its "use client" directives survive.
   optimizeDeps: {
+    include: ['react', 'react-dom', 'react/jsx-runtime'],
     exclude: ['@tanstack/react-query'],
   },
 })
