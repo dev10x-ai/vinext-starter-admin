@@ -1,7 +1,7 @@
 ---
 id: acp-admin-mock-api
 title: "ACP Admin Mock API"
-description: "OpenAPI da API mock padrão no Worker, em memória (`worker/db.ts`); json-server standalone opcional (`mock/server.mjs` + `mock/db.json`)."
+description: "OpenAPI da API de coleções padrão no Worker, em memória (`worker/db.ts`); json-server standalone opcional (`mock/server.mjs` + `mock/db.json`)."
 sidebar_label: Introdução
 sidebar_position: 0
 hide_title: true
@@ -27,7 +27,9 @@ import Export from "@theme/ApiExplorer/Export";
 >
 </Heading>
 
-OpenAPI da API mock do ACP Admin (`worker/` + `mock/server.mjs` opcional).
+OpenAPI da API de coleções do ACP Admin. Por padrão, o Worker e `make dev`
+usam o mock em memória em `worker/db.ts`; o json-server standalone via
+`mock/server.mjs` é opcional.
 
 **URLs base:**
 - Produção / preview no Worker: `/api` na mesma origem

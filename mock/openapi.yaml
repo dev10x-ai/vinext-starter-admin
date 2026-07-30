@@ -3,7 +3,9 @@ info:
   title: ACP Admin Mock API
   version: 0.1.0
   description: |
-    OpenAPI for the ACP Admin mock API (`worker/` + optional `mock/server.mjs`).
+    OpenAPI for the ACP Admin collection API. By default, the Worker and
+    `make dev` use the in-memory mock in `worker/db.ts`; standalone json-server
+    via `mock/server.mjs` is optional.
 
     **Base URLs:**
     - Production / Worker preview: same-origin `/api`

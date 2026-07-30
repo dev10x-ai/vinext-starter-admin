@@ -2,12 +2,14 @@
 
 ## Latest execution (2026-07-30)
 
-- **Command:** `npm run test:e2e` (attempted once)
-- **Outcome:** Blocked before Playwright could start any tests. The configured
-  web server could not bind `127.0.0.1:5173` in the sandbox (`listen EPERM`);
-  Wrangler also could not write its log (`EPERM`).
-- **Fallbacks:** None. There was no retry, alternate port or base URL, manually
-  started server, or other unmanaged workaround.
+- **Command:** `npm run test:e2e` (initial attempt, then one retry in the
+  current continuation)
+- **Outcome:** Both configured-command attempts were blocked before Playwright
+  could start any tests. The web server could not bind `127.0.0.1:5173` in the
+  sandbox (`listen EPERM`); Wrangler also could not write its log (`EPERM`).
+- **Fallbacks:** None. The one retry repeated the configured command only;
+  there was no alternate port or base URL, manually started server, or other
+  unmanaged workaround.
 - **Result:** No tests ran. This execution does not provide a passing e2e
   result or test counts.
 
