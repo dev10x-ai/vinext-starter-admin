@@ -124,7 +124,7 @@ Each pack ships light and dark modes.
 | Unit tests | Vitest + Testing Library |
 | E2E | Playwright |
 | Docs | Docusaurus 3 (+ OpenAPI plugin) |
-| Mock API | App Router `/api/*` (reuses `worker/`); optional upstream via `API_PROXY_TARGET`; optional json-server |
+| Mock API | App Router `/api/*` (reuses `worker/`); optional standalone json-server |
 | Hosting | Cloudflare Workers (`wrangler.admin.toml` / `vinext deploy`) — docs at `/docs` |
 
 ---

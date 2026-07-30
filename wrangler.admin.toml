@@ -16,11 +16,6 @@ preview_urls = true
 pattern = "vinext-starter-admin.dev10x.ai"
 custom_domain = true
 
-# Optional: proxy `/api/*` to a real backend (leave unset to use the in-worker mock).
-# Prefer a Worker secret in production: `wrangler secret put API_PROXY_TARGET`
-# [vars]
-# API_PROXY_TARGET = "https://api.example.com"
-
 [assets]
 # vinext emits browser assets to dist/client; docs are merged at dist/client/docs.
 directory = "./dist/client"

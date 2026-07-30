@@ -5,13 +5,14 @@ title: Servidor da API
 
 # Servidor da API
 
-A API mock é uma instância **json-server** com rotas customizadas de autenticação.
+A API mock tem dois modos locais, ambos com rotas customizadas de autenticação:
 
-- Entrada: `mock/server.mjs`
-- Dados: `mock/db.json`
+- **`make dev`**: o mock em memória de `worker/db.ts` atende `/api/*` na mesma
+  origem. Ele é inicializado com `mock/db.json`, mas não grava nesse arquivo.
+- **`make mock`** ou `npm run mock`: inicia o **json-server** standalone em
+  `:4001`, que persiste atualizações em `mock/db.json`. Para o app usar esse
+  servidor, defina `VITE_API_URL=http://localhost:4001`.
 - OpenAPI: `mock/openapi.yaml` (fonte da [Referência da API](./reference/acp-admin-mock-api))
-- Porta padrão: `4001`
-- Subir: `make mock` ou `npm run mock`
 
 ## Coleções
 
@@ -39,7 +40,9 @@ A API mock é uma instância **json-server** com rotas customizadas de autentica
 | POST | `/auth/forgot-password` | `{ email }` | mensagem + OTP demo |
 | POST | `/auth/change-password` | `{ email, currentPassword, newPassword }` | mensagem de sucesso |
 
-No Worker, o mock fica na mesma origem em `/api/*`. Localmente, `make dev` expõe `/api` no app vinext; mock standalone opcional: `make mock` em `:4001`.
+No Worker e com `make dev`, `/api/*` fica na mesma origem e é atendido pelo
+mock em memória. Para usar o json-server standalone, rode `make mock` em
+`:4001` e defina `VITE_API_URL=http://localhost:4001`.
 
 ## Docs com Try It
 

@@ -1,7 +1,7 @@
 ---
 id: acp-admin-mock-api
 title: "ACP Admin Mock API"
-description: "OpenAPI for the ACP Admin mock API (`worker/` + optional `mock/server.mjs`)."
+description: "OpenAPI for the ACP Admin collection API. By default, the Worker and `make dev` use the in-memory mock in `worker/db.ts`; standalone json-server via `mock/server.mjs` is optional."
 sidebar_label: Introduction
 sidebar_position: 0
 hide_title: true
@@ -29,7 +29,9 @@ import Export from "@theme/ApiExplorer/Export";
 
 
 
-OpenAPI for the ACP Admin mock API (`worker/` + optional `mock/server.mjs`).
+OpenAPI for the ACP Admin collection API. By default, the Worker and `make dev`
+use the in-memory mock in `worker/db.ts`; standalone json-server via
+`mock/server.mjs` is optional.
 
 **Base URLs:**
 - Production / Worker preview: same-origin `/api`
@@ -47,8 +49,8 @@ Use **Try It** in the docs (or the curl examples below).
 
 Demo OTP for passwordless login / 2FA: **`123456`**.
 
-Auth tokens are returned for the admin UI but are **not enforced** by the mock
-on collection routes (json-server CRUD is open).
+Auth tokens are returned for the admin UI but are **not enforced** on mock
+collection routes, which are open.
 
 
 <div
@@ -62,4 +64,3 @@ on collection routes (json-server CRUD is open).
     ACP Admin: 
   </span>
 </div>
-      

@@ -8,7 +8,15 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./test/setup.ts'],
     globals: true,
-    include: ['app/**/*.{test,spec}.{ts,tsx}', 'components/**/*.{test,spec}.{ts,tsx}', 'lib/**/*.{test,spec}.{ts,tsx}', 'hooks/**/*.{test,spec}.{ts,tsx}', 'worker/**/*.{test,spec}.{ts,tsx}'],
+    include: [
+      'app/**/*.{test,spec}.{ts,tsx}',
+      'components/**/*.{test,spec}.{ts,tsx}',
+      'config/**/*.{test,spec}.{ts,tsx}',
+      'store/**/*.{test,spec}.{ts,tsx}',
+      'lib/**/*.{test,spec}.{ts,tsx}',
+      'hooks/**/*.{test,spec}.{ts,tsx}',
+      'worker/**/*.{test,spec}.{ts,tsx}',
+    ],
     exclude: ['node_modules', 'references', 'website', 'e2e', 'dist'],
   },
   resolve: {

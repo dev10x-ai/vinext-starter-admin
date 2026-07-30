@@ -5,13 +5,15 @@ title: API Server
 
 # API Server
 
-The mock API is a **json-server** instance with custom auth routes.
+The mock API has two local modes, both with custom auth routes:
 
-- Entry: `mock/server.mjs`
-- Data: `mock/db.json`
+- **`make dev`**: the in-memory mock in `worker/db.ts` serves same-origin
+  `/api/*`. It is initialized from `mock/db.json`, but does not write to that
+  file.
+- **`make mock`** or `npm run mock`: starts standalone **json-server** from
+  `mock/server.mjs` on `:4001`, which persists updates to `mock/db.json`. Set
+  `VITE_API_URL=http://localhost:4001` for the app to use that server.
 - OpenAPI: `mock/openapi.yaml` (source of truth for [API Reference](./reference/acp-admin-mock-api))
-- Default port: `4001`
-- Start: `make mock` or `npm run mock`
 
 ## Collections
 
@@ -39,7 +41,7 @@ The mock API is a **json-server** instance with custom auth routes.
 | POST | `/auth/forgot-password` | `{ email }` | message + demo OTP |
 | POST | `/auth/change-password` | `{ email, currentPassword, newPassword }` | success message |
 
-On the Worker / `make dev`, `/api/*` is same-origin. By default that is the in-worker mock. Set `API_PROXY_TARGET` (see repo `.env.example`) to forward to a real backend instead — method, auth headers, query, and body are preserved. Optional standalone mock: `make mock` on `:4001` with `VITE_API_URL=http://localhost:4001`.
+On the Worker / `make dev`, `/api/*` is same-origin and always served by the in-worker local mock. For a standalone local json-server instead, run `make mock` on `:4001` and set `VITE_API_URL=http://localhost:4001`.
 
 ## Tryable docs
 
