@@ -1,5 +1,5 @@
 /**
- * Same-origin App Router `/api/*` (mock or upstream proxy — see `worker/` + `.env.example`).
+ * Same-origin App Router `/api/*` backed by the local mock (see `worker/`).
  * Override with `VITE_API_URL` when pointing at standalone json-server (`make mock`).
  */
 const API_BASE = import.meta.env.VITE_API_URL ?? '/api'

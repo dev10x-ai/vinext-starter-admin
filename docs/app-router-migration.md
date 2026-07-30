@@ -44,7 +44,7 @@ components/ layouts/ lib/ …                # shared modules (not route-owned)
 
 - Zustand + TanStack Query + RHF + Zod
 - Themes, Cmd+K, menu tree, DataTable, DS pages
-- Mock API via App Router `app/api/[[...path]]` (reuses `worker/api`, or proxies upstream when configured)
+- Local mock API via App Router `app/api/[[...path]]` (reuses `worker/api`)
 - Optional json-server (`make mock`, set `VITE_API_URL=http://localhost:4001`)
 - Docusaurus docs (`website/`) stay separate
 
