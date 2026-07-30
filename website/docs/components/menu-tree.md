@@ -45,7 +45,9 @@ There is no separate `sortOrder` field — use **`order`**.
 2. Sign in → **Access → Menu tree**
 3. Drag **Tenants** above **Users** (sibling reorder under Access)
 4. Drag **Alerts** right onto **Reports** to nest it
-5. Refresh — order should stick (mock `db.json` is updated by json-server)
+5. Refresh — order should stick during the current `make dev` run. This uses
+   the in-memory mock in `worker/db.ts`, not writes to `mock/db.json`; the
+   standalone `make mock` json-server persists updates to that file.
 
 ## Manual verification
 
