@@ -5,13 +5,15 @@ title: API Server
 
 # API Server
 
-The mock API is a **json-server** instance with custom auth routes.
+The mock API has two local modes, both with custom auth routes:
 
-- Entry: `mock/server.mjs`
-- Data: `mock/db.json`
+- **`make dev`**: the in-memory mock in `worker/db.ts` serves same-origin
+  `/api/*`. It is initialized from `mock/db.json`, but does not write to that
+  file.
+- **`make mock`** or `npm run mock`: starts standalone **json-server** from
+  `mock/server.mjs` on `:4001`, which persists updates to `mock/db.json`. Set
+  `VITE_API_URL=http://localhost:4001` for the app to use that server.
 - OpenAPI: `mock/openapi.yaml` (source of truth for [API Reference](./reference/acp-admin-mock-api))
-- Default port: `4001`
-- Start: `make mock` or `npm run mock`
 
 ## Collections
 
