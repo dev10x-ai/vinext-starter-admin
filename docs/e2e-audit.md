@@ -1,9 +1,22 @@
 # E2E audit — ACP Admin
 
+## Latest execution (2026-07-30)
+
+- **Command:** `npm run test:e2e` (attempted once)
+- **Outcome:** Blocked before Playwright could start any tests. The configured
+  web server could not bind `127.0.0.1:5173` in the sandbox (`listen EPERM`);
+  Wrangler also could not write its log (`EPERM`).
+- **Fallbacks:** None. There was no retry, alternate port or base URL, manually
+  started server, or other unmanaged workaround.
+- **Result:** No tests ran. This execution does not provide a passing e2e
+  result or test counts.
+
+## Historical audit record (2026-07-23)
+
 **Date:** 2026-07-23  
 **Projects:** Desktop Chrome `1280×720`, Mobile Chrome `375×667` (Chromium + touch)  
 **Command:** `npx playwright test` / `make test-e2e`  
-**Latest result:** **46 passed**, **2 skipped**, **0 failed** (~11s)
+**Recorded result:** **46 passed**, **2 skipped**, **0 failed** (~11s)
 
 ## Breakpoints (responsive shell)
 
