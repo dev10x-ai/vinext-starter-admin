@@ -28,26 +28,12 @@ The Worker also keeps a `*.workers.dev` URL. Custom domains require the `dev10x.
 
 With `run_worker_first = true` and `not_found_handling = "none"`, Cloudflare does **not** auto-serve the ASSETS binding — the Worker must proxy static paths:
 
-1. `/api` + `/api/*` → upstream proxy when `API_PROXY_TARGET` is set; otherwise mock API
+1. `/api` + `/api/*` → in-Worker mock API
 2. `/assets/*` → Vite hashed client JS/CSS (`dist/client/assets`) via `ASSETS.fetch`
 3. `/docs` → redirect to `/docs/`; `/docs/*` → static assets, missing paths → `/docs/404.html`
 4. Everything else → vinext App Router SSR (`vinext/server/app-router-entry`); `public/` files (favicon, branding, …) still resolve through vinext’s ASSETS static-file signal
 
 Skipping step 2 makes the homepage HTML load while `/assets/*.js` / `/assets/*.css` return App Router HTML 404s.
-
-### API proxy (`API_PROXY_TARGET`)
-
-Same catch-all used by `app/api/[[...path]]/route.ts` and `worker/index.ts`:
-
-| `API_PROXY_TARGET` | Behavior |
-|--------------------|----------|
-| unset / empty | In-worker mock (`worker/api.ts`) |
-| set (URL base) | Forward method, auth/content headers, query, and body to that upstream (30s timeout) |
-
-Local: copy [`.env.example`](../.env.example) → `.env` (gitignored) or export in the shell.  
-Cloudflare: `wrangler secret put API_PROXY_TARGET` (preferred) or uncomment `[vars]` in `wrangler.admin.toml` for non-secret targets.
-
-The browser still calls same-origin `/api`; only the Worker/App Router handler talks to the upstream.
 
 ### Build merge
 
