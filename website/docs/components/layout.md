@@ -46,7 +46,7 @@ Inside a route, prefer:
 - `PageHeader` — title, description, primary actions  
 - `Card` — form / settings sections  
 
-These are documented with forms under [Form fields](./form-fields#card--pageheader--badge).
+These are documented with forms under [Form fields](./form-fields).
 
 ## Next steps
 
