@@ -2,6 +2,7 @@ import { useId, useRef, type ClipboardEvent, type KeyboardEvent } from 'react'
 import { cn } from '@/lib/cn'
 
 const DEFAULT_LENGTH = 6
+const EMPTY_SLOT = ' '
 
 type Props = {
   label?: string
@@ -20,8 +21,15 @@ type Props = {
   className?: string
 }
 
-function normalizeDigits(raw: string, length: number): string {
-  return raw.replace(/\D/g, '').slice(0, length)
+function normalizeSlots(raw: string, length: number): string {
+  const slots: string[] = []
+  for (const char of raw) {
+    if (char === EMPTY_SLOT || /^\d$/.test(char)) {
+      slots.push(char)
+    }
+    if (slots.length === length) break
+  }
+  return slots.join('')
 }
 
 export function InputOTP({
@@ -47,10 +55,10 @@ export function InputOTP({
   const generatedId = useId()
   const groupId = id ?? name ?? generatedId
   const inputsRef = useRef<Array<HTMLInputElement | null>>([])
-  const digits = normalizeDigits(value, length).padEnd(length, ' ').slice(0, length).split('')
+  const slots = normalizeSlots(value, length).padEnd(length, EMPTY_SLOT).slice(0, length).split('')
 
   const emit = (next: string) => {
-    onChange?.(normalizeDigits(next, length))
+    onChange?.(normalizeSlots(next, length))
   }
 
   const focusAt = (index: number) => {
@@ -62,13 +70,13 @@ export function InputOTP({
   const handleDigitChange = (index: number, raw: string) => {
     const cleaned = raw.replace(/\D/g, '')
     if (!cleaned) {
-      const chars = normalizeDigits(value, length).split('')
-      chars[index] = ''
+      const chars = [...slots]
+      chars[index] = EMPTY_SLOT
       emit(chars.join(''))
       return
     }
 
-    const chars = normalizeDigits(value, length).padEnd(length, '').split('')
+    const chars = [...slots]
     const incoming = cleaned.split('')
     let cursor = index
     for (const digit of incoming) {
@@ -83,17 +91,16 @@ export function InputOTP({
 
   const handleKeyDown = (index: number, event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Backspace') {
-      const current = normalizeDigits(value, length)
-      if (current[index]) {
-        const chars = current.split('')
-        chars[index] = ''
+      event.preventDefault()
+      if (slots[index] !== EMPTY_SLOT) {
+        const chars = [...slots]
+        chars[index] = EMPTY_SLOT
         emit(chars.join(''))
         return
       }
       if (index > 0) {
-        event.preventDefault()
-        const chars = current.split('')
-        chars[index - 1] = ''
+        const chars = [...slots]
+        chars[index - 1] = EMPTY_SLOT
         emit(chars.join(''))
         focusAt(index - 1)
       }
@@ -128,7 +135,7 @@ export function InputOTP({
         className="flex flex-wrap gap-2"
       >
         {Array.from({ length }, (_, index) => {
-          const digit = digits[index]?.trim() ?? ''
+          const digit = slots[index] === EMPTY_SLOT ? '' : slots[index] ?? ''
           return (
             <input
               key={`${groupId}-${index}`}
