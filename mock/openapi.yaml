@@ -24,7 +24,7 @@ info:
     Demo OTP for passwordless login / 2FA: **`123456`**.
 
     Auth tokens are returned for the admin UI but are **not enforced** by the mock
-    on collection routes (json-server CRUD is open).
+    on mock collection routes, which are open.
   contact:
     name: ACP Admin
 servers:
